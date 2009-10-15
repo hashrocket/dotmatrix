@@ -197,6 +197,11 @@ stc() {
   )
 }
 
+twiki () {
+  say -v Zarvox 'beedee-beedee-beedee'
+  rake db:migrate && rake db:migrate:redo && rake db:test:prepare
+}
+
 alias sc='`rails_root`/script/console'
 alias ss='`rails_root`/script/server'
 alias sdbc='`rails_root`/script/dbconsole -p'
