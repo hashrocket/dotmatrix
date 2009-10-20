@@ -126,13 +126,20 @@ hpair() {
 [ -n "$GIT_AUTHOR_EMAIL" -o ! -f "$HOME/.hpairrc" -o -z "$PS1" ] || . "$HOME/.hpairrc"
 
 hclone() {
-  if [ ! -d "$HASHROCKET_DIR/$1" ]; then
-    git clone "git@github.com:hashrocket/$1.git" "$HASHROCKET_DIR/$1" || return 1
-    if [ -f "$HASHROCKET_DIR/$1/config/database.example.yml" ]; then
-      cp "$HASHROCKET_DIR/$1/config/database.example.yml" "$HASHROCKET_DIR/$1/config/database.yml"
+  local url basename
+  basename="`basename $1`"
+  if [ ! -d "$HASHROCKET_DIR/$basename" ]; then
+    case "$1" in
+      *://*) url="$1" ;;
+      */*)   url="git@github.com:$1.git" ;;
+      *)     url="git@github.com:hashrocket/$1.git" ;;
+    esac
+    git clone "$url" "$HASHROCKET_DIR/$basename" || return 1
+    if [ -f "$HASHROCKET_DIR/$basename/config/database.example.yml" ]; then
+        cp "$HASHROCKET_DIR/$basename/config/database.example.yml" "$HASHROCKET_DIR/$basename/config/database.yml"
     fi
   fi
-  hcd "$1"
+  hcd "$basename"
 }
 
 # Tab completion
