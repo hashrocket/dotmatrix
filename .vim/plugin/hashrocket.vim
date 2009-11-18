@@ -73,6 +73,7 @@ let g:NERDShutUp = 1
 let g:VCSCommandDisableMappings = 1
 
 let g:surround_{char2nr('s')} = " \r"
+let g:surround_{char2nr(':')} = ":\r"
 let g:surround_indent = 1
 
 command! -bar -nargs=0 SudoW   :setl nomod|silent exe 'write !sudo tee % >/dev/null'|let &mod = v:shell_error
