@@ -128,7 +128,7 @@ hpair() {
 
 hclone() {
   local url basename
-  basename="`basename $1`"
+  basename="`basename $1 .git`"
   if [ ! -d "$HASHROCKET_DIR/$basename" ]; then
     case "$1" in
       *://*) url="$1" ;;
