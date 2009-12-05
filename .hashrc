@@ -108,12 +108,12 @@ hpair() {
     *)
     if [ "" = "$name" ]; then
       if [ -u "$write" ]; then
-	unset GIT_AUTHOR_NAME GIT_AUTHOR_EMAIL
-	rm -f "$HOME/.hpairrc"
+        unset GIT_AUTHOR_NAME GIT_AUTHOR_EMAIL
+        rm -f "$HOME/.hpairrc"
       elif [ -n "$GIT_AUTHOR_NAME" ]; then
-	echo "$GIT_AUTHOR_NAME <$GIT_AUTHOR_EMAIL>"
+        echo "$GIT_AUTHOR_NAME <$GIT_AUTHOR_EMAIL>"
       else
-	return 1
+        return 1
       fi
     else
       export GIT_AUTHOR_NAME="$name" GIT_AUTHOR_EMAIL="$email"
