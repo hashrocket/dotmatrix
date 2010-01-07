@@ -70,7 +70,7 @@ hpair() {
       x-s) ret=setenv;   continue ;;
       x-u) ret=unsetenv; continue ;;
       x-w) write=1;      continue ;;
-      x-*) echo "Unknown option $arg" >&2; exit 1 ;;
+      x-*) echo "Unknown option $arg" >&2; return 1 ;;
       x*=*)
       initials="`echo "$arg"|sed -e s/=.*//`"
       author="`echo "$arg"|sed -e s/[^=]*=//|tr _ ' '`"
