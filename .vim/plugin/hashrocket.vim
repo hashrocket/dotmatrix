@@ -41,7 +41,6 @@ set display=lastline " When lines are cropped at the screen bottom, show as much
 if &grepprg ==# 'grep -n $* /dev/null'
   set grepprg=grep\ -rnH\ --exclude='.*.swp'\ --exclude='*~'\ --exclude='*.log'\ --exclude=tags\ $*\ /dev/null
 endif
-set hlsearch
 set incsearch
 set laststatus=2    " Always show status line
 set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
