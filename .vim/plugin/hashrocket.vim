@@ -1,7 +1,7 @@
 " hashrocket.vim
 " vim:set ft=vim et tw=78 sw=2:
 
-if $HASHROCKET_DIR == '' && expand('<sfile>') =~# '/ops/hashrocket\.vim$'
+if $HASHROCKET_DIR == '' && expand('<sfile>') =~# '/dotmatrix/\.vim/plugin/hashrocket\.vim$'
   let $HASHROCKET_DIR = expand('<sfile>')[0 : -20]
 endif
 if $HASHROCKET_DIR == '' && filereadable(expand('~/.bashrc'))
