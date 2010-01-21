@@ -147,4 +147,5 @@ augroup hashrocket
   autocmd User Rails nnoremap <buffer> <D-R> :<C-U>.Rake<CR>
   autocmd User Rails Rnavcommand blueprint spec/blueprints -suffix=_blueprint.rb -default=model()
   autocmd User Rails Rnavcommand factory spec/factories -suffix=_factory.rb -default=model()
+  autocmd User Fugitive command! -bang -bar -buffer -nargs=* Gpr :Git<bang> pull --rebase <args>
 augroup END
