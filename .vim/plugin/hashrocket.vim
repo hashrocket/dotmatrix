@@ -28,7 +28,7 @@ Hcommand split
 Hcommand saveas
 Hcommand tabedit
 
-command! -bar -nargs=* -complete=dir Terrarails :execute 'Rails --template='.system("ruby -rubygems -e 'print Gem.bin_path(%(hashrocket-terraformation))'") . ' ' . <q-args>
+command! -bar -nargs=* -complete=dir Terrarails :execute 'Rails --template='.system("ruby -rubygems -e 'print Gem.bin_path(%(terraformation))'") . ' ' . <q-args>
 
 command! -bar -range=% Trim :<line1>,<line2>s/\s\+$//e
 
