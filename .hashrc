@@ -137,6 +137,12 @@ hpair() {
 }
 [ -n "$GIT_AUTHOR_EMAIL" -o ! -f "$HOME/.hpairrc" -o -z "$PS1" ] || . "$HOME/.hpairrc"
 
+git() {
+  [ -f "$HOME/.hitch_export_authors" ] && . "$HOME/.hitch_export_authors"
+  [ -f "$HOME/.hpairrc" ] && . "$HOME/.hpairrc" >/dev/null
+  command git "$@"
+}
+
 hclone() {
   local url basename
   basename="`basename $1 .git`"
