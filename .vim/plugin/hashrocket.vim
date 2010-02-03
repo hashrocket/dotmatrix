@@ -32,6 +32,14 @@ command! -bar -nargs=* -complete=dir Terrarails :execute 'Rails --template='.sys
 
 command! -bar -range=% Trim :<line1>,<line2>s/\s\+$//e
 
+function! HTry(function, ...)
+  if exists('*'.a:function)
+    return call(a:function, a:000)
+  else
+    return ''
+  endif
+endfunction
+
 set nocompatible
 set autoindent
 set autoread
@@ -52,7 +60,7 @@ set showcmd
 set showmatch
 set smarttab
 if &statusline == ''
-  set statusline=[%n]\ %<%.99f\ %h%w%m%r%y%{exists('*SyntasticStatuslineFlag')?SyntasticStatuslineFlag():''}%=%-16(\ %l,%c-%v\ %)%P
+  set statusline=[%n]\ %<%.99f\ %h%w%m%r%{HTry('CapsLockStatusline')}%y%{HTry('rails#statusline')}%{HTry('fugitive#statusline')}%#ErrorMsg#%{HTry('SyntasticStatuslineFlag')}%*%=%-16(\ %l,%c-%v\ %)%P
 endif
 set ttimeoutlen=50  " Make Esc work faster
 set wildmenu
