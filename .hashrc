@@ -222,14 +222,25 @@ stc() {
   )
 }
 
+script_rails() {
+  if [ -f "`rails_root`/script/rails" ]; then
+    "`rails_root`/script/rails" "$@"
+  else
+    local name
+    name="$1"
+    shift
+    "`rails_root`/script/$name" "$@"
+  fi
+}
+
 twiki () {
   say -v Zarvox 'beedee-beedee-beedee'
   rake db:migrate && rake db:migrate:redo && rake db:test:prepare
 }
 
-alias sc='`rails_root`/script/console'
-alias ss='`rails_root`/script/server'
-alias sdbc='`rails_root`/script/dbconsole -p'
+alias sc='script_rails console'
+alias ss='script_rails server -u'
+alias sdbc='script_rails dbconsole -p'
 
 alias ll='ls -l'
 
