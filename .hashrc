@@ -4,6 +4,7 @@
 [ -e "$HASHROCKET_DIR" ] || HASHROCKET_DIR="$HOME/hashrocket"
 export HASHROCKET_DIR
 
+PATH="`echo "$PATH"|sed -e 's#:/usr/local/bin##'`"
 for dir in /opt/local/bin /usr/local/bin "$HOME/bin"; do
   case ":$PATH:" in
     *:"$dir":*) ;;
