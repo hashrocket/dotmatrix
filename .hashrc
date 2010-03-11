@@ -4,12 +4,11 @@
 [ -e "$HASHROCKET_DIR" ] || HASHROCKET_DIR="$HOME/hashrocket"
 export HASHROCKET_DIR
 
-PATH="`echo "$PATH"|sed -e 's#:/usr/local/bin##'`"
 for dir in /opt/local/bin /usr/local/bin "$HOME/bin"; do
-  case ":$PATH:" in
-    *:"$dir":*) ;;
-    *) [ ! -d "$dir" ] || PATH="$dir:$PATH" ;;
+  case "$PATH:" in
+    *:"$dir":*) PATH="`echo "$PATH"|sed -e "s#:$dir##"`" ;;
   esac
+  [ ! -d "$dir" ] || PATH="$dir:$PATH"
 done
 for dir in /usr/local/sbin /opt/local/sbin; do
   case ":$PATH:" in
