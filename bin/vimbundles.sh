@@ -14,6 +14,7 @@ get_bundle() {
 	)
 }
 
+get_bundle leshill vim-json
 get_bundle pangloss vim-javascript
 get_bundle scrooloose nerdcommenter
 get_bundle therubymug vim-pyte
