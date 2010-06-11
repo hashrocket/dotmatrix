@@ -237,7 +237,6 @@ script_rails() {
 }
 
 twiki () {
-  say -v Zarvox 'beedee-beedee-beedee'
   rake db:migrate && rake db:migrate:redo && rake db:test:prepare
 }
 
