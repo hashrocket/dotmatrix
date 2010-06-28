@@ -100,6 +100,7 @@ inoremap     <C-X><C-@> <C-A>
 " Emacs style mappings
 inoremap          <C-A> <C-O>^
 cnoremap          <C-A> <Home>
+cnoremap     <C-X><C-A> <C-A>
 " If at end of a line of spaces, delete back to the previous line.
 " Otherwise, <Left>
 inoremap <silent> <C-B> <C-R>=getline('.')=~'^\s*$'&&col('.')>strlen(getline('.'))?"0\<Lt>C-D>\<Lt>Esc>kJs":"\<Lt>Left>"<CR>
