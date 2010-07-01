@@ -13,6 +13,8 @@ get_bundle() {
   )
 }
 
+get_bundle alowe vim-slurper
+get_bundle duff vim-bufonly
 get_bundle godlygeek tabular
 get_bundle leshill vim-json
 get_bundle mileszs ack.vim
