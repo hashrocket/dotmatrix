@@ -51,11 +51,7 @@ hpair() {
   local name email args initials author ret write
   name=""
   email="dev"
-  if [ -n "$ZSH_VERSION" ]; then
-    args=(${(i)@})
-  else
-    args="`for arg in "$@"; do echo "x$arg"|sed -e 's/^x//'|tr ' ' _; done|sort -f`"
-  fi
+  args="`for arg in "$@"; do echo "x$arg"|sed -e 's/^x//'|tr ' ' _; done|sort -f`"
   for arg in $args; do
     initials=
     author=
@@ -181,12 +177,12 @@ if [ -n "$BASH_VERSION" ]; then
 
     [ -r "$HASHROCKET_DIR" ] || return 0
 
-    COMPREPLY=()
+    eval 'COMPREPLY=()'
     cur=${COMP_WORDS[COMP_CWORD]}
     projects=$(\ls "$HASHROCKET_DIR")
 
     if [ $COMP_CWORD -eq 1 ]; then
-      COMPREPLY=( $(compgen -o filenames -W "$projects" $cur) )
+      eval 'COMPREPLY=( $(compgen -o filenames -W "$projects" $cur) )'
     fi
 
     return 0
