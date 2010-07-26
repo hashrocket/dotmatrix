@@ -156,7 +156,7 @@ augroup hashrocket
         \ " ".getline(3) =~? '<\%(!DOCTYPE \)\=html\>' | setf html | endif
 
   autocmd FileType javascript             setlocal et sw=2 sts=2 isk+=$
-  autocmd FileType html,xhtml,css         setlocal et sw=2 sts=2
+  autocmd FileType html,xhtml,css,scss    setlocal et sw=2 sts=2
   autocmd FileType eruby,yaml,ruby        setlocal et sw=2 sts=2
   autocmd FileType cucumber               setlocal et sw=2 sts=2
   autocmd FileType gitcommit              setlocal spell
