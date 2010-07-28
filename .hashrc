@@ -157,10 +157,21 @@ hclone() {
     esac
     git clone "$url" "$HASHROCKET_DIR/$basename" || return 1
     if [ -f "$HASHROCKET_DIR/$basename/config/database.example.yml" ]; then
-        cp "$HASHROCKET_DIR/$basename/config/database.example.yml" "$HASHROCKET_DIR/$basename/config/database.yml"
+      cp "$HASHROCKET_DIR/$basename/config/database.example.yml" "$HASHROCKET_DIR/$basename/config/database.yml"
     fi
   fi
   hcd "$basename"
+  if [ ! -f ".git/hooks/ctags" ]; then
+    echo '#!/bin/sh' > .git/hooks/ctags
+    echo 'ctags -f .git/tags --exclude=.git --languages=-javascript,sql -R' >> .git/hooks/ctags
+    chmod +x .git/hooks/ctags
+    for basename in post-checkout post-commit post-merge; do
+      echo '#!/bin/sh' > .git/hooks/$basename
+      echo '$GIT_DIR/hooks/ctags >/dev/null 2>&1 &' >> .git/hooks/$basename
+      chmod +x .git/hooks/$basename
+    done
+    .git/hooks/ctags
+  fi
 }
 
 # Tab completion
