@@ -30,6 +30,7 @@ get_bundle tpope vim-git
 get_bundle tpope vim-haml
 get_bundle tpope vim-markdown
 get_bundle tpope vim-pathogen
+get_bundle tpope vim-rake
 get_bundle tpope vim-ragtag
 get_bundle tpope vim-rails
 get_bundle vim-ruby vim-ruby
