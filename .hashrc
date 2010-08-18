@@ -51,7 +51,11 @@ hpair() {
   local name email args initials author ret write
   name=""
   email="dev"
-  args="`for arg in "$@"; do echo "x$arg"|sed -e 's/^x//'|tr ' ' _; done|sort -f`"
+  if [ -n "$ZSH_VERSION" ]; then
+    args=(${(i)@})
+  else
+    args="`for arg in "$@"; do echo "x$arg"|sed -e 's/^x//'|tr ' ' _; done|sort -f`"
+  fi
   for arg in $args; do
     initials=
     author=
