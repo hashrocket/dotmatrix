@@ -1,0 +1,54 @@
+#!/usr/bin/env ruby
+require 'fileutils'
+
+def cwd
+  @cwd ||= File.expand_path(File.dirname(__FILE__))
+end
+
+def home
+  @home ||= File.expand_path('~')
+end
+
+def destination(file,sub_directory)
+  File.join(*[home, sub_directory, File.basename(file)].compact)
+end
+
+def install(file,sub_directory=nil)
+  file  = File.expand_path(file)
+  if system("ln -nsf #{file} #{destination(file,sub_directory)}")
+    print "successfully installed "
+  else
+    print "failed to install "
+  end
+  puts file
+end
+
+def uninstall(file,sub_directory=nil)
+  file = destination(File.expand_path(file),sub_directory)
+  return puts "no file at #{file}" unless File.exist?(file)
+  if File.symlink?(file)
+    File.unlink(file)
+    puts "removed symlink at #{file}"
+  else
+    puts "could not remove non-symlink at #{file}"
+  end
+end
+
+def uninstall?
+  ARGV.include?('-u')
+end
+
+if ARGV.include?('-h')
+  script = File.basename(__FILE__)
+  puts %[
+  "#{script}" symlinks the files in dotmatrix into your home directory.
+  options:
+      -h  Get this help
+      -u  Remove symlinks to files in dotmatrix
+  ]
+  exit 0
+end
+
+Dir[File.join(cwd,'..','.[a-z]*')].reject{|f| f =~ /\.git$/}.each do |file|
+  uninstall? ? uninstall(file) : install(file)
+end
