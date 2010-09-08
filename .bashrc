@@ -15,6 +15,9 @@ export LSCOLORS=gxgxcxdxbxegedabagacad
 
 export CLICOLOR LSCOLORS
 
+bind '"\ep": history-search-backward'
+bind '"\en": history-search-forward'
+
 function parse_git_deleted {
   [[ $(git status 2> /dev/null | grep deleted:) != "" ]] && echo "-"
 }
