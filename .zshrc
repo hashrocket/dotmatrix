@@ -77,10 +77,6 @@ alias spec='spec -c'
 # hashrocket dev env
 export HASHROCKET_DIR="$HOME/hashrocket"
 
-# import local zsh customizations, if present
-zrcl="$HOME/.zshrc.local"
-[[ -a $zrcl ]] && source $zrcl
-
 # import the hashrocket rc file, if present
 hrc="$HASHROCKET_DIR/dotmatrix/.hashrc"
 [[ -a $hrc ]] && source $hrc
@@ -93,3 +89,7 @@ export RUBYOPT='rubygems'
 
 # rvm-install added line:
 if [[ -s "$HOME/.rvm/scripts/rvm" ]] ; then source "$HOME/.rvm/scripts/rvm" ; fi
+
+# import local zsh customizations, if present
+zrcl="$HOME/.zshrc.local"
+[[ -a $zrcl ]] && source $zrcl
