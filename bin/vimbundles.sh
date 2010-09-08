@@ -24,7 +24,6 @@ get_bundle therubymug vim-pyte
 get_bundle tpope vim-abolish
 get_bundle tpope vim-cucumber
 get_bundle tpope vim-endwise
-get_bundle tpope vim-flatfoot
 get_bundle tpope vim-fugitive
 get_bundle tpope vim-git
 get_bundle tpope vim-haml
