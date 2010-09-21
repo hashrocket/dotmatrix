@@ -13,6 +13,12 @@ trap 'INT' do
   exit! 0
 end
 
+def run_db_test_prepare
+  start_fresh "Running db:test:prepare..."
+  system("rake db:test:prepare")
+  puts "Done!"
+end
+
 def run_spec(file)
   return unless file.include?(" ") || File.exist?(file)
   start_fresh "Running specs..."
@@ -37,6 +43,7 @@ def start_fresh(text=nil)
 end
 
 watch('^lib/(.*)\.rb') {|md| run_spec("spec/lib/#{md[1]}_spec.rb") }
+watch('^db/migrate/(.*)\.rb') {|md| run_db_test_prepare }
 watch('^app/models/(.*)\.rb') {|md| run_spec("spec/models/#{md[1]}_spec.rb") }
 watch('^app/mailers/(.*)\.rb') {|md| run_spec("spec/mailers/#{md[1]}_spec.rb") }
 watch('^app/controllers/(.*)\.rb') {|md| run_spec("spec/controllers/#{md[1]}_spec.rb") }
