@@ -2,7 +2,7 @@
 " vim:set ft=vim et tw=78 sw=2:
 
 if $HASHROCKET_DIR == '' && expand('<sfile>') =~# '/dotmatrix/\.vim/plugin/hashrocket\.vim$'
-  let $HASHROCKET_DIR = expand('<sfile>')[0 : -20]
+  let $HASHROCKET_DIR = expand('<sfile>')[0 : -38]
 endif
 if $HASHROCKET_DIR == '' && filereadable(expand('~/.bashrc'))
   let $HASHROCKET_DIR = expand(matchstr("\n".join(readfile(expand('~/.bashrc')),"\n")."\n",'\n\%(export\)\=\s*HASHROCKET_DIR="\=\zs.\{-\}\ze"\=\n'))
