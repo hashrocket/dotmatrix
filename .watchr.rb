@@ -4,24 +4,27 @@ else
   @spec = 'spec'
 end
 
+puts "Praise Veezus!" unless @veezus_is_praised
+@veezus_is_praised = 'Yeah-ya!'
+
 def all_specs
   "spec/models/ spec/lib/ spec/integration/"
 end
 
 trap 'INT' do
-  start_fresh "Done running tests."
+  start_fresh "Sins anulled."
   exit! 0
 end
 
 def run_db_test_prepare
-  start_fresh "Running db:test:prepare..."
+  start_fresh "Purging your demons!"
   system("rake db:test:prepare")
   puts "Done!"
 end
 
 def run_spec(file)
   return unless file.include?(" ") || File.exist?(file)
-  start_fresh "Running specs..."
+  start_fresh "Bearing fresh witness!"
   system("time #{@spec} -f nested -c #{file}")
 end
 
@@ -39,6 +42,8 @@ end
 
 def start_fresh(text=nil)
   print `clear`
+  voice = ENV['VOICE'] || "Good"
+  fork { exec "say -v #{voice} #{text}" } if ENV['SAYIT'] == 'loud'
   puts text if text
 end
 
