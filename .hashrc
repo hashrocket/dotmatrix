@@ -53,7 +53,7 @@ hpair() {
   local name email args initials author ret write
   name=""
   email="dev"
-  if [ -n "$ZSH_VERSION" -a -z "$BASH_VERSION" ]; then
+  if [ -n "$ZSH_VERSION" ]; then
     eval 'args=(${(i)@})'
   else
     args="`for arg in "$@"; do echo "x$arg"|sed -e 's/^x//'|tr ' ' _; done|sort -f`"
