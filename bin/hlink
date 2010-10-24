@@ -5,6 +5,10 @@ def cwd
   @cwd ||= File.expand_path(File.dirname(__FILE__))
 end
 
+def root
+  File.dirname(cwd)
+end
+
 def home
   @home ||= File.expand_path('~')
 end
@@ -14,8 +18,7 @@ def destination(file,sub_directory)
 end
 
 def install(file,sub_directory=nil)
-  file  = File.expand_path(file)
-  if system("ln -nsf #{file} #{destination(file,sub_directory)}")
+  if system("ln -nsf #{root}/#{file} #{home}/#{file}")
     print "successfully installed "
   else
     print "failed to install "
@@ -24,7 +27,7 @@ def install(file,sub_directory=nil)
 end
 
 def uninstall(file,sub_directory=nil)
-  file = destination(File.expand_path(file),sub_directory)
+  file = File.join(home, file)
   return puts "no file at #{file}" unless File.exist?(file)
   if File.symlink?(file)
     File.unlink(file)
@@ -49,6 +52,7 @@ if ARGV.include?('-h')
   exit 0
 end
 
-Dir[File.join(cwd,'..','.[a-z]*')].reject{|f| f =~ /\.git$/}.each do |file|
+(Dir.entries(root) - %w(bin . .. .git)).each do |file|
+  next if file =~ /~$/
   uninstall? ? uninstall(file) : install(file)
 end
