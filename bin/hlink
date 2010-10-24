@@ -52,7 +52,8 @@ if ARGV.include?('-h')
   exit 0
 end
 
-(Dir.entries(root) - %w(bin . .. .git)).each do |file|
+FileUtils.mkdir_p(File.join(home,'bin'))
+(Dir.entries(root) - %w(bin . .. .git) + ['bin/hr']).each do |file|
   next if file =~ /~$/
   uninstall? ? uninstall(file) : install(file)
 end
