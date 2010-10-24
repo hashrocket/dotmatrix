@@ -1,0 +1,35 @@
+[alias]
+	st = status
+	ci = commit
+	co = checkout
+	put = push origin head
+[branch]
+	autosetuprebase = always
+[color]
+	ui = auto
+[core]
+	excludesfile = ~/.cvsignore
+	editor = vim
+	whitespace = warn
+[help]
+	autocorrect = 10
+[merge]
+	summary = true
+[merge "bundlelock"]
+	name = bundle lock
+	driver = bundle lock
+[merge "railsschema"]
+	name = newer Rails schema version
+	driver = "ruby -e '\n\
+		system %(git), %(merge-file), %(--marker-size=%L), %(%A), %(%O), %(%B)\n\
+		b = File.read(%(%A))\n\
+		b.sub!(/^<+ .*\\nActiveRecord::Schema\\.define.:version => (\\d+). do\\n=+\\nActiveRecord::Schema\\.define.:version => (\\d+). do\\n>+ .*/) do\n\
+		  %(ActiveRecord::Schema.define(:version => #{[$1, $2].max}) do)\n\
+		end\n\
+		File.open(%(%A), %(w)) {|f| f.write(b)}\n\
+		exit 1 if b.include?(%(<)*%L)'"
+[push]
+	default = tracking
+[user]
+	email = dev@hashrocket.com
+	name = "Hashrocket Workstation"
