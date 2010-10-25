@@ -8,6 +8,7 @@ bindkey ^Z command
 defnonblock on
 defscrollback 1024
 defflow off
+termcapinfo xterm*|rxvt* hs:ts=\E]2;:fs=\007:ds=\E]2;8)\007
 windowlist string "%3n %{= dd}%?%h%:%t%?%=%f%{-}"
 caption    string "%?%F%{y}%?%3n %{= wk}%?%h%:%t%?%{-}"
 activity "Activity in window %n (%t)^G^G"
