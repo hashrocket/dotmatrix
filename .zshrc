@@ -38,10 +38,7 @@ git_prompt_info() {
 }
 
 # prompt
-PROMPT='%{$fg[yellow]%}%2c%{$reset_color%}$(git_prompt_info)%# '
-
-# if on a remote host, show host name
-[[ -n "$SSH_CLIENT" ]] && PROMPT="$HOST:$PROMPT"
+PROMPT='%{$fg_bold[green]%}%n@%m%{$reset_color%}:%{$fg_bold[cyan]%}%~%{$reset_color%}$(git_prompt_info)%# '
 
 # show non-success exit code in right prompt
 RPROMPT="%(?..{%{$fg[red]%}%?%{$reset_color%}})"
