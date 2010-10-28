@@ -32,6 +32,13 @@ command! -bar -nargs=* -complete=dir Terrarails :execute 'Rails --template='.sys
 
 command! -bar -range=% Trim :<line1>,<line2>s/\s\+$//e
 
+command! -bar -nargs=0 -bang -complete=file Remove :
+      \ let v:errmsg = ''|
+      \ bdelete<bang>|
+      \ if v:errmsg == ''|
+      \   call delete(expand('#'))|
+      \ endif
+
 function! HTry(function, ...)
   if exists('*'.a:function)
     return call(a:function, a:000)
