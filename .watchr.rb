@@ -22,7 +22,17 @@ end
 def run_spec(file)
   return unless file.include?(" ") || File.exist?(file)
   start_fresh "Bearing fresh witness to save your weary soul..."
-  system("time #{@spec} -f nested -c #{file}")
+  options = " -f nested -c"
+  options << " --tag focus" if supports_command_line_tags? && has_focus_tag?(file)
+  system("time #{@spec} #{options} #{file}")
+end
+
+def has_focus_tag?(file)
+  File.read(file) =~ /^\s*(describe|context|it).*:focus => true/
+end
+
+def supports_command_line_tags?
+  !!(@spec == 'rspec' && `gem list rspec` =~ /rspec-core \(2\.1/)
 end
 
 def run_test(type, file)
