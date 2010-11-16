@@ -4,15 +4,12 @@ else
   @spec = 'spec'
 end
 
-puts "Praise Veezus!" unless @veezus_is_praised
-@veezus_is_praised = 'Yeah-ya!'
-
 def all_specs
   "spec/models/ spec/lib/ spec/integration/"
 end
 
 trap 'INT' do
-  start_fresh "Sins anulled."
+  start_fresh "Your sins have been anulled, my child."
   exit! 0
 end
 
@@ -24,28 +21,31 @@ end
 
 def run_spec(file)
   return unless file.include?(" ") || File.exist?(file)
-  start_fresh "Bearing fresh witness!"
+  start_fresh "Bearing fresh witness to save your weary soul..."
   system("time #{@spec} -f nested -c #{file}")
 end
 
 def run_test(type, file)
   return unless file.include?(" ") || File.exist?(file)
-  start_fresh "Running tests..."
+  start_fresh "Invoking archaic rites of sacrifice..."
   system("time rake test#{':' + type if type} TEST=#{file}")
 end
 
 def run_feature(file)
   return unless file.include?(" ") || File.exist?(file)
-  start_fresh "Running feature..."
+  start_fresh "Soliciting your salvation from the mighty King Koopa, Browser..."
   system("time cucumber -f pretty #{file}")
 end
 
 def start_fresh(text=nil)
   print `clear`
-  voice = ENV['VOICE'] || "Good"
+  voice = ENV['VOICE'] || "Bad"
   fork { exec "say -v #{voice} #{text}" } if ENV['SAYIT'] == 'loud'
   puts text if text
 end
+
+start_fresh("Praise Veezus!") unless @veezus_is_praised
+@veezus_is_praised = 'Yeah-ya!'
 
 watch('^lib/(.*)\.rb') {|md| run_spec("spec/lib/#{md[1]}_spec.rb") }
 watch('^db/schema.rb') {|md| run_db_test_prepare }
