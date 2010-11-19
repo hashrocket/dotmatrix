@@ -5,7 +5,7 @@
 	put = push origin head
 	fixup = !sh -c 'git commit -m \"fixup! $(git log -1 --format='\\''%s'\\'' $@)\"' -
 	squash = !sh -c 'git commit -m \"squash! $(git log -1 --format='\\''%s'\\'' $@)\"' -
-	ri = rebase --interactive --autosquash
+	ri = rebase --interactive
 [branch]
 	autosetuprebase = always
 [color]
@@ -33,6 +33,8 @@
 		exit 1 if b.include?(%(<)*%L)'"
 [push]
 	default = tracking
+[rebase]
+	autosquash = true
 [user]
 	email = dev@hashrocket.com
 	name = "Hashrocket Workstation"
