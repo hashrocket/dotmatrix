@@ -28,7 +28,9 @@ def run_spec(file)
 end
 
 def has_focus_tag?(file)
-  File.read(file) =~ /^\s*(describe|context|it).*:focus => true/
+  contents = File.read(file)
+  contents =~ /^\s*(describe|context|it).*:focus => true/ ||
+    contents =~ /^\s*@focus/
 end
 
 def supports_command_line_tags?
@@ -44,7 +46,9 @@ end
 def run_feature(file)
   return unless file.include?(" ") || File.exist?(file)
   start_fresh "Soliciting your salvation from the mighty King Koopa, Browser..."
-  system("time cucumber -f pretty #{file}")
+  options = "-f pretty"
+  options << " --tags @focus:4" if has_focus_tag?(file)
+  system("time cucumber #{options} #{file}")
 end
 
 def start_fresh(text=nil)
