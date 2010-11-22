@@ -41,10 +41,12 @@ command! -bar -nargs=* -bang -complete=file Rename :
 
 command! -bar -nargs=0 -bang -complete=file Remove :
       \ let v:errmsg = ''|
+      \ let s:removable = expand('%:p')|
       \ bdelete<bang>|
       \ if v:errmsg == ''|
-      \   call delete(expand('#'))|
-      \ endif
+      \   call delete(s:removable)|
+      \ endif|
+      \ unlet s:removable
 
 function! HTry(function, ...)
   if exists('*'.a:function)
