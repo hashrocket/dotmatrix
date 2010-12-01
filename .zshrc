@@ -47,6 +47,8 @@ RPROMPT="%(?..{%{$fg[red]%}%?%{$reset_color%}})"
 HISTFILE=~/.zsh_history
 HISTSIZE=5000
 SAVEHIST=10000
+setopt APPEND_HISTORY
+setopt INC_APPEND_HISTORY
 
 # default apps
 (( ${+PAGER}   )) || export PAGER='less'
