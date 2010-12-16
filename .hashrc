@@ -119,15 +119,9 @@ hpair() {
       export GIT_AUTHOR_NAME="$name" GIT_AUTHOR_EMAIL="$email"
       echo "$GIT_AUTHOR_NAME <$GIT_AUTHOR_EMAIL>"
       rm -f "$HOME/.hpairrc"
-      printf 'hpair' > "$HOME/.hpairrc"
-      for arg in "$@"; do
-        case "$arg" in
-          -w) ;;
-          *" "*) printf " '$arg'" >> "$HOME/.hpairrc" ;;
-          *) printf " $arg" >> "$HOME/.hpairrc" ;;
-        esac
-      done
-      echo >> "$HOME/.hpairrc"
+      echo "export GIT_AUTHOR_NAME=\"$GIT_AUTHOR_NAME\"" > "$HOME/.hpairrc"
+      echo "export GIT_AUTHOR_EMAIL=\"$GIT_AUTHOR_EMAIL\"" >> "$HOME/.hpairrc"
+      echo hpair >> "$HOME/.hpairrc"
     fi ;;
   esac
 }
