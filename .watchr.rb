@@ -34,7 +34,7 @@ def has_focus_tag?(file)
 end
 
 def supports_command_line_tags?
-  !!(@spec == 'rspec' && `gem list rspec` =~ /rspec-core \(2\.1/)
+  !!(@spec == 'rspec' && `gem list rspec` =~ /rspec-core \(2\.[^0]/)
 end
 
 def run_test(type, file)
