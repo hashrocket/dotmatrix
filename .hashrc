@@ -135,7 +135,7 @@ git() {
 }
 
 hclone() {
-  local url basename
+  local url basename example
   basename="`basename $1 .git`"
   if [ ! -d "$HASHROCKET_DIR/$basename" ]; then
     case "$1" in
@@ -144,9 +144,9 @@ hclone() {
       *)   url="git@github.com:hashrocket/$1.git" ;;
     esac
     git clone "$url" "$HASHROCKET_DIR/$basename" || return 1
-    if [ -f "$HASHROCKET_DIR/$basename/config/database.example.yml" ]; then
-      cp "$HASHROCKET_DIR/$basename/config/database.example.yml" "$HASHROCKET_DIR/$basename/config/database.yml"
-    fi
+    for example in "$HASHROCKET_DIR/$basename"/config/*.example.yml; do
+      cp "$example" "${example%.example.yml}.yml"
+    done
   fi
   hcd "$basename"
   if [ ! -f ".git/hooks/ctags" ]; then
