@@ -72,6 +72,8 @@ alias rd='rmdir'
 alias cd..='cd ..'
 alias ..='cd ..'
 alias spec='spec -c'
+alias glod='git log --oneline --decorate'
+alias heroku='nocorrect heroku'
 
 # hashrocket dev env
 export HASHROCKET_DIR="$HOME/hashrocket"
@@ -88,6 +90,11 @@ export RUBYOPT='rubygems'
 
 # rvm-install added line:
 if [[ -s "$HOME/.rvm/scripts/rvm" ]] ; then source "$HOME/.rvm/scripts/rvm" ; fi
+
+cuke() {
+  cucumber "features/$1"
+}
+compctl -g '*.feature' -W features cuke
 
 # import local zsh customizations, if present
 zrcl="$HOME/.zshrc.local"
