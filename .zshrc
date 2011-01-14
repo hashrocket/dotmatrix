@@ -72,7 +72,6 @@ alias rd='rmdir'
 alias cd..='cd ..'
 alias ..='cd ..'
 alias spec='spec -c'
-alias glod='git log --oneline --decorate'
 alias heroku='nocorrect heroku'
 
 # hashrocket dev env
