@@ -13,7 +13,7 @@ get_bundle() {
   )
 }
 
-get_bundle alowe vim-slurper
+get_bundle adamlowe vim-slurper
 get_bundle duff vim-bufonly
 get_bundle godlygeek tabular
 get_bundle leshill vim-json
