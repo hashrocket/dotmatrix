@@ -178,6 +178,7 @@ augroup hashrocket
   autocmd FileType gitcommit              setlocal spell
   autocmd FileType gitconfig              setlocal noet sw=8
   autocmd FileType ruby                   setlocal comments=:#\  tw=79
+  autocmd FileType sh,csh,zsh             setlocal et sw=2 sts=2
   autocmd FileType vim                    setlocal et sw=2 sts=2 keywordprg=:help
 
   autocmd Syntax   css  syn sync minlines=50
