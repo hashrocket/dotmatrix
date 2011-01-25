@@ -31,10 +31,4 @@ bind '"\C-w": backward-kill-word'
 
 [ -z "$PS1" ] || export PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;36m\]\w\[\033[00m\]\$(git_prompt_info '(%s)')$ "
 
-git_completion='/usr/local/Cellar/git/1.7*/etc/bash_completion.d/git-completion.bash'
-
-if [ -f $git_completion ]; then
-  source $git_completion
-fi
-
 [ ! -f "$HOME/.bashrc.local" ] || . "$HOME/.bashrc.local"
