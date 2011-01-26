@@ -91,7 +91,9 @@ export RUBYOPT='rubygems'
 if [[ -s "$HOME/.rvm/scripts/rvm" ]] ; then source "$HOME/.rvm/scripts/rvm" ; fi
 
 cuke() {
-  cucumber "features/$1"
+  local file="$1"
+  shift
+  cucumber "features/$file" $@
 }
 compctl -g '*.feature' -W features cuke
 
