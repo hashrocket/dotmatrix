@@ -248,7 +248,7 @@ alias testify="watchr ~/.watchr.rb"
 
 alias ll='ls -l'
 
-alias newcumber="git status --porcelain | grep feature | sed 's/\??//' | xargs cucumber"
+alias newcumber="git status --porcelain | grep feature | sed 's/.* //' | xargs cucumber"
 
 # git_prompt_info accepts 0 or 1 arguments (i.e., format string)
 # returns text to add to bash PS1 prompt (includes branch name)
