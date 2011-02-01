@@ -147,7 +147,7 @@ hclone() {
     git clone "$url" "$HASHROCKET_DIR/$basename" || return 1
     for example in "$HASHROCKET_DIR/$basename"/config/*.example.yml; do
       cp "$example" "${example%.example.yml}.yml"
-    done
+    done 2>/dev/null
   fi
   hcd "$basename"
   if [ ! -f ".git/hooks/ctags" ]; then
