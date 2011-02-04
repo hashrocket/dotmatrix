@@ -149,8 +149,8 @@ hclone() {
     for example in "$HASHROCKET_DIR/$basename"/config/*.example.yml; do
       cp "$example" "${example%.example.yml}.yml"
     done 2>/dev/null
-    if [ -f "$HASHROCKET_DIR/$basename/.rvmrc" ] && command -v __rvm_trust_rvmrc >/dev/null; then
-      __rvm_trust_rvmrc "$HASHROCKET_DIR/$basename/.rvmrc"
+    if [ -f "$HASHROCKET_DIR/$basename/.rvmrc" ] && command -v rvm >/dev/null; then
+      rvm rvmrc trust "$HASHROCKET_DIR/$basename/.rvmrc"
     fi
   fi
   hcd "$basename"
