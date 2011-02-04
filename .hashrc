@@ -154,7 +154,7 @@ hclone() {
     echo '#!/bin/sh' > .git/hooks/ctags
     echo 'ctags --tag-relative -f .git/tags --exclude=.git --languages=-javascript,sql -R' >> .git/hooks/ctags
     chmod +x .git/hooks/ctags
-    for basename in post-checkout post-commit post-merge; do
+    for basename in post-checkout post-commit post-merge post-rewrite; do
       echo '#!/bin/sh' > .git/hooks/$basename
       echo '$GIT_DIR/hooks/ctags >/dev/null 2>&1 &' >> .git/hooks/$basename
       chmod +x .git/hooks/$basename
