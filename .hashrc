@@ -136,9 +136,10 @@ git() {
 }
 
 hclone() {
-  local url basename example
+  local url basename example new
   basename="`basename $1 .git`"
   if [ ! -d "$HASHROCKET_DIR/$basename" ]; then
+    new=1
     case "$1" in
       *:*) url="$1" ;;
       */*) url="git@github.com:$1.git" ;;
@@ -171,7 +172,10 @@ fi
 EOS
     chmod +x .git/hooks/bundle
     echo "git diff --name-only \$1 \$2 | grep '^Gemfile' >/dev/null && \$GIT_DIR/hooks/bundle" >> .git/hooks/post-checkout
-    .git/hooks/bundle
+    [ -z "$new" ] || .git/hooks/bundle
+  fi
+  if [ -n "$new" -a -x script/setup ]; then
+    script/setup
   fi
 }
 
