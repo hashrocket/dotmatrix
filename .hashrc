@@ -170,6 +170,10 @@ case "\$1" in
 esac
 EOS
   fi
+  if [ ! -f .git/hooks/pre-commit ]; then
+    echo '#!/bin/sh' > .git/hooks/pre-commit
+    echo 'git diff --exit-code --cached -- Gemfile >/dev/null || bundle check' >> .git/hooks/pre-commit
+  fi
   if [ ! -f .git/hooks/ctags ]; then
     echo '#!/bin/sh' > .git/hooks/ctags
     echo 'rm -f .git/tags' >> .git/hooks/ctags
