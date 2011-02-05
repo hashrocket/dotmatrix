@@ -189,6 +189,7 @@ EOS
   if [ ! -f .git/hooks/bundle ]; then
     cat > .git/hooks/bundle <<EOS
 #!/bin/sh
+unset GIT_DIR
 if [ -f Gemfile ] && command -v bundle >/dev/null; then
   echo 'Bundling...'
   bundle | grep -v 'Using' | grep -v 'complete' | sed '/^$/d'
