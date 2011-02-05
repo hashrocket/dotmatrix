@@ -137,6 +137,10 @@ git() {
 
 hclone() {
   local url basename example new
+  if [ x-f = "x$1" ]; then
+    shift
+    rm -rf "$HASHROCKET_DIR/`basename $1 .git`"
+  fi
   basename="`basename $1 .git`"
   if [ ! -d "$HASHROCKET_DIR/$basename" ]; then
     new=1
