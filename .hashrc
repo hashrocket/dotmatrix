@@ -196,7 +196,7 @@ if [ -f Gemfile ] && command -v bundle >/dev/null; then
 fi
 EOS
     chmod +x .git/hooks/bundle
-    echo "git diff --name-only \$1 \$2 | grep '^Gemfile' >/dev/null && \$GIT_DIR/hooks/bundle" >> .git/hooks/post-checkout
+    echo "git diff --name-only \$1 \$2 | egrep -q '^Gemfile|\\.gemspec\$' && \$GIT_DIR/hooks/bundle" >> .git/hooks/post-checkout
     [ -z "$new" ] || .git/hooks/bundle
   fi
   if [ -n "$new" -a -x script/setup ]; then
