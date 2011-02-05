@@ -168,6 +168,7 @@ EOS
   fi
   if [ ! -f .git/hooks/ctags ]; then
     echo '#!/bin/sh' > .git/hooks/ctags
+    echo 'rm -f .git/tags' >> .git/hooks/ctags
     echo 'ctags --tag-relative -f .git/tags --exclude=.git --languages=-javascript,sql -R' >> .git/hooks/ctags
     chmod +x .git/hooks/ctags
     for basename in post-checkout post-commit post-merge; do
