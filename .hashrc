@@ -192,7 +192,7 @@ EOS
 unset GIT_DIR
 if [ -f Gemfile ] && command -v bundle >/dev/null; then
   echo 'Bundling...'
-  bundle | grep -v 'Using' | grep -v 'complete' | sed '/^$/d'
+  bundle | grep -v '^Using ' | grep -v ' is complete'
 fi
 EOS
     chmod +x .git/hooks/bundle
