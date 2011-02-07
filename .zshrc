@@ -10,6 +10,13 @@ path=(
   /usr/X11/bin
 )
 
+# hashrocket dev env
+export HASHROCKET_DIR="$HOME/hashrocket"
+
+# import the hashrocket rc file, if present
+hrc="$HASHROCKET_DIR/dotmatrix/.hashrc"
+[[ -a $hrc ]] && source $hrc
+
 # color term
 export CLICOLOR=1
 export LSCOLORS=Dxfxcxdxbxegedabadacad
@@ -39,13 +46,8 @@ bindkey '\en' down-line-or-search
 bindkey '\ew' kill-region
 bindkey '^r' history-incremental-search-backward
 
-git_prompt_info() {
-  ref=$(git symbolic-ref HEAD 2> /dev/null) || return
-  echo "(${ref#refs/heads/})"
-}
-
 # prompt
-PROMPT='%{$fg_bold[green]%}%n@%m%{$reset_color%}:%{$fg_bold[cyan]%}%~%{$reset_color%}$(git_prompt_info)%# '
+PROMPT='%{$fg_bold[green]%}%n@%m%{$reset_color%}:%{$fg_bold[cyan]%}%~%{$reset_color%}$(git_prompt_info "(%s)")%# '
 
 # show non-success exit code in right prompt
 RPROMPT="%(?..{%{$fg[red]%}%?%{$reset_color%}})"
@@ -79,13 +81,6 @@ alias cd..='cd ..'
 alias ..='cd ..'
 alias spec='spec -c'
 alias heroku='nocorrect heroku'
-
-# hashrocket dev env
-export HASHROCKET_DIR="$HOME/hashrocket"
-
-# import the hashrocket rc file, if present
-hrc="$HASHROCKET_DIR/dotmatrix/.hashrc"
-[[ -a $hrc ]] && source $hrc
 
 # set cd autocompletion to commonly visited directories
 cdpath=(~ ~/src $DEV_DIR $HASHROCKET_DIR)
