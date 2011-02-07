@@ -27,10 +27,17 @@ autoload colors; colors
 # options
 setopt appendhistory autocd extendedglob histignoredups correctall nonomatch prompt_subst
 
+# Bindings
 # external editor support
 autoload edit-command-line
 zle -N edit-command-line
 bindkey '^x^e' edit-command-line
+
+# Partial word history completion
+bindkey '\ep' up-line-or-search
+bindkey '\en' down-line-or-search
+bindkey '\ew' kill-region
+bindkey '^r' history-incremental-search-backward
 
 git_prompt_info() {
   ref=$(git symbolic-ref HEAD 2> /dev/null) || return
