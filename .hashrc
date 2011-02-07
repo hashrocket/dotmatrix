@@ -193,10 +193,13 @@ unset GIT_DIR
 if [ -f Gemfile ] && command -v bundle >/dev/null; then
   echo 'Bundling...'
   bundle | grep -v '^Using ' | grep -v ' is complete'
+  true
 fi
 EOS
     chmod +x .git/hooks/bundle
-    echo "git diff --name-only \$1 \$2 | egrep -q '^Gemfile|\\.gemspec\$' && \$GIT_DIR/hooks/bundle" >> .git/hooks/post-checkout
+    echo "if git diff --name-only \$1 \$2 | egrep -q '^Gemfile|\\.gemspec\$'; then" >> .git/hooks/post-checkout
+    echo "  \$GIT_DIR/hooks/bundle" >> .git/hooks/post-checkout
+    echo "fi" >> .git/hooks/post-checkout
     [ -z "$new" ] || .git/hooks/bundle
   fi
   if [ -n "$new" -a -x script/setup ]; then
