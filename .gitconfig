@@ -22,6 +22,9 @@
 [merge "bundlelock"]
 	name = lock Gemfile
 	driver = bundle install
+[merge "bundle"]
+	name = bundle
+	driver = bundle
 [merge "railsschema"]
 	name = newer Rails schema version
 	driver = "ruby -e '\n\
