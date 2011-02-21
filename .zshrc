@@ -62,6 +62,7 @@ setopt INC_APPEND_HISTORY
 # default apps
 (( ${+PAGER}   )) || export PAGER='less'
 (( ${+EDITOR}  )) || export EDITOR='vim'
+export PSQL_EDITOR='vim -c"set syntax=sql"'
 
 # just say no to zle vim mode:
 bindkey -e
