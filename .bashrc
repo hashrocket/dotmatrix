@@ -14,8 +14,9 @@ VISUAL=vim
 EDITOR="$VISUAL"
 LESS="FRX"
 RI="--format ansi -T"
+PSQL_EDITOR='vim -c"set syntax=sql"'
 
-export VISUAL EDITOR LESS RI
+export VISUAL EDITOR LESS RI PSQL_EDITOR
 
 export CLICOLOR=1
 export LSCOLORS=gxgxcxdxbxegedabagacad
