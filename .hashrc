@@ -124,7 +124,11 @@ hpair() {
 git() {
   [ -f "$HOME/.hitch_export_authors" ] && . "$HOME/.hitch_export_authors"
   [ -f "$HOME/.hpairrc" ] && . "$HOME/.hpairrc" >/dev/null
-  command git "$@"
+  if command -v hub >/dev/null; then
+    command hub "$@"
+  else
+    command git "$@"
+  fi
 }
 
 hclone() {
