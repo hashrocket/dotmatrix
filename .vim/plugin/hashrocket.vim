@@ -112,9 +112,9 @@ inoremap <C-C> <Esc>`^
 cnoremap          <C-O> <Up>
 inoremap              ø <C-O>o
 inoremap          <M-o> <C-O>o
-inoremap     <C-X><C-@> <C-A>
 " Emacs style mappings
 inoremap          <C-A> <C-O>^
+inoremap     <C-X><C-@> <C-A>
 cnoremap          <C-A> <Home>
 cnoremap     <C-X><C-A> <C-A>
 " If at end of a line of spaces, delete back to the previous line.
