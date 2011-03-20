@@ -34,8 +34,16 @@ zstyle ':completion:*:*:*:*:processes' command "ps -u `whoami` -o pid,user,comm 
 
 # Load known hosts file for auto-completion with ssh and scp commands
 if [ -f ~/.ssh/known_hosts ]; then
-  zstyle ':completion:*' hosts $( sed 's/[, ].*$//' $HOME/.ssh/known_hosts )
-  zstyle ':completion:*:*:(ssh|scp):*:*' hosts `sed 's/^\([^ ,]*\).*$/\1/' ~/.ssh/known_hosts`
+  hostlist() {
+    local hosts=''
+    hosts+= cat $HOME/.ssh/config | grep '^Host [^\*]' | sed 's/^Host //'
+    hosts+= sed 's/[, ].*$//' $HOME/.ssh/known_hosts
+    return hosts
+  }
+  zstyle ':completion:*' hosts $(hostlist)
+  zstyle ':completion:*:*:(ssh|scp):*:*' hosts $(hostlist)
+  zstyle ':completion:*:ssh:*' tag-order hosts users
+  zstyle ':completion:*:ssh:*' group-order hosts-domain hosts-host users hosts-ipaddr
 fi
 
 # ignore completion functions (until the _ignored completer)
