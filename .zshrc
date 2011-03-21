@@ -112,9 +112,6 @@ alias heroku='nocorrect heroku'
 # set cd autocompletion to commonly visited directories
 cdpath=(~ ~/src $DEV_DIR $HASHROCKET_DIR)
 
-# load from Rubygems
-export RUBYOPT='rubygems'
-
 # rvm-install added line:
 if [[ -s "$HOME/.rvm/scripts/rvm" ]] ; then source "$HOME/.rvm/scripts/rvm" ; fi
 
