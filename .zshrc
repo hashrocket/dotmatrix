@@ -10,12 +10,7 @@ path=(
   /usr/X11/bin
 )
 
-# hashrocket dev env
-export HASHROCKET_DIR="$HOME/hashrocket"
-
-# import the hashrocket rc file, if present
-hrc="$HASHROCKET_DIR/dotmatrix/.hashrc"
-[[ -a $hrc ]] && source $hrc
+source "$HOME/.hashrc"
 
 # color term
 export CLICOLOR=1
