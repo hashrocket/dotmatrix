@@ -29,7 +29,7 @@ end
 
 def has_focus_tag?(file)
   contents = File.read(file)
-  contents =~ /^\s*(describe|context|it).*:focus => true/ ||
+  contents =~ /^\s*(describe|context|it).*focus(:)?( =>)? true/ ||
     contents =~ /^\s*@focus/
 end
 
