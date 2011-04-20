@@ -1,6 +1,6 @@
 " pathogen.vim - path option manipulation
 " Maintainer:   Tim Pope <vimNOSPAM@tpope.org>
-" Version:      1.2
+" Version:      1.3
 
 " Install in ~/.vim/autoload (or ~\vimfiles\autoload).
 "
@@ -133,10 +133,12 @@ let s:done_bundles = ''
 " Invoke :helptags on all non-$VIM doc directories in runtimepath.
 function! pathogen#helptags() " {{{1
   for dir in pathogen#split(&rtp)
-    if dir[0 : strlen($VIM)-1] !=# $VIM && isdirectory(dir.'/doc') && !empty(glob(dir.'/doc/*')) && (!filereadable(dir.'/doc/tags') || filewritable(dir.'/doc/tags'))
+    if dir[0 : strlen($VIMRUNTIME)-1] !=# $VIMRUNTIME && filewritable(dir.'/doc') == 2 && !empty(glob(dir.'/doc/*')) && (!filereadable(dir.'/doc/tags') || filewritable(dir.'/doc/tags'))
       helptags `=dir.'/doc'`
     endif
   endfor
 endfunction " }}}1
+
+command! -bar Helptags :call pathogen#helptags()
 
 " vim:set ft=vim ts=8 sw=2 sts=2:
