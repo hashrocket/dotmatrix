@@ -7,6 +7,10 @@
 	fixup = !sh -c 'git commit -m \"fixup! $(git log -1 --format='\\''%s'\\'' $@)\"' -
 	squash = !sh -c 'git commit -m \"squash! $(git log -1 --format='\\''%s'\\'' $@)\"' -
 	ri = rebase --interactive
+	br = branch
+	pruneremote = remote prune origin
+	tree = log --graph --oneline --decorate --color --all
+	tr = log --graph --oneline --decorate --color
 [branch]
 	autosetuprebase = always
 [color]
