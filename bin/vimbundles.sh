@@ -42,6 +42,6 @@ get_bundle wgibbs vim-irblack
 get_bundle vim-scripts bufkill.vim
 get_bundle jgdavey vim-blockle
 get_bundle jgdavey vim-railscasts
-get_bundle int3 vim-extradite
+get_bundle gregsexton gitv
 
 vim -c 'call pathogen#helptags()|q'
