@@ -172,7 +172,7 @@ function! s:BundleOpen(Gem) abort
 endfunction
 
 " :BO capybara
-:command! -nargs=1 BO :call s:BundleOpen(<q-args>)
+:command! -nargs=1 BundleOpen :call s:BundleOpen(<q-args>)
 
 augroup hashrocket
   autocmd!
