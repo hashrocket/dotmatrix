@@ -160,6 +160,20 @@ if !exists('g:syntax_on')
 endif
 filetype plugin indent on
 
+" Bundle Open command, from Bernerd Schaefer
+" Call with :BO <gemname>
+function! s:BundleOpen(Gem) abort
+  let path = system('bundle show '.a:Gem)
+  if v:shell_error != 0
+    echo 'failed to run command'
+  else
+    exe 'tabedit '.substitute(path, '\v\C\n$', '', '') | :lcd %
+  endif
+endfunction
+
+" :BO capybara
+:command! -nargs=1 BO :call s:BundleOpen(<q-args>)
+
 augroup hashrocket
   autocmd!
 
