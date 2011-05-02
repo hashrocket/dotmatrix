@@ -95,7 +95,7 @@ if [[ -s "$HOME/.rvm/scripts/rvm" ]] ; then source "$HOME/.rvm/scripts/rvm" ; fi
 cuke() {
   local file="$1"
   shift
-  cucumber "features/$file" $@
+  cucumber "features/$(basename $file)" $@
 }
 compctl -g '*.feature' -W features cuke
 
