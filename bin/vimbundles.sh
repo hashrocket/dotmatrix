@@ -13,10 +13,13 @@ get_bundle() {
   )
 }
 
-get_bundle kchmck vim-coffee-script
 get_bundle adamlowe vim-slurper
 get_bundle duff vim-bufonly
 get_bundle godlygeek tabular
+get_bundle gregsexton gitv
+get_bundle jgdavey vim-blockle
+get_bundle jgdavey vim-railscasts
+get_bundle kchmck vim-coffee-script
 get_bundle leshill vim-json
 get_bundle mileszs ack.vim
 get_bundle pangloss vim-javascript
@@ -30,19 +33,16 @@ get_bundle tpope vim-git
 get_bundle tpope vim-haml
 get_bundle tpope vim-markdown
 get_bundle tpope vim-pathogen
-get_bundle tpope vim-rake
 get_bundle tpope vim-ragtag
 get_bundle tpope vim-rails
+get_bundle tpope vim-rake
 get_bundle tpope vim-repeat
 get_bundle tpope vim-speeddating
 get_bundle tpope vim-surround
 get_bundle tpope vim-unimpaired
 get_bundle tpope vim-vividchalk
 get_bundle vim-ruby vim-ruby
-get_bundle wgibbs vim-irblack
 get_bundle vim-scripts bufkill.vim
-get_bundle jgdavey vim-blockle
-get_bundle jgdavey vim-railscasts
-get_bundle gregsexton gitv
+get_bundle wgibbs vim-irblack
 
 vim -c 'call pathogen#helptags()|q'
