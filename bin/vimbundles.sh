@@ -13,6 +13,7 @@ get_bundle() {
   )
 }
 
+get_bundle kchmck vim-coffee-script
 get_bundle adamlowe vim-slurper
 get_bundle duff vim-bufonly
 get_bundle godlygeek tabular
