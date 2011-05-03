@@ -16,6 +16,7 @@ get_bundle() {
 get_bundle adamlowe vim-slurper
 get_bundle duff vim-bufonly
 get_bundle godlygeek tabular
+get_bundle kchmck vim-coffee-script
 get_bundle leshill vim-json
 get_bundle mileszs ack.vim
 get_bundle pangloss vim-javascript
