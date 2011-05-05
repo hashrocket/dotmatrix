@@ -10,7 +10,7 @@ set visualbell
 
 augroup vimrc
   autocmd!
-  autocmd GuiEnter * set guifont=Monaco:h16 guioptions-=T columns=120 lines=70 number
+  autocmd GuiEnter * set guifont=Monaco:h16 guioptions-=T guioptions-=e columns=120 lines=70 number
 augroup END
 
 if filereadable(expand('~/.vimrc.local'))
