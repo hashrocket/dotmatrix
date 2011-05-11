@@ -101,4 +101,4 @@ compctl -g '*.feature' -W features cuke
 
 # import local zsh customizations, if present
 zrcl="$HOME/.zshrc.local"
-[[ -a $zrcl ]] && source $zrcl
+[[ ! -a $zrcl ]] || source $zrcl
