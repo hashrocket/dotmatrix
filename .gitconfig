@@ -23,6 +23,8 @@
 	user = hashrocketeer
 [help]
 	autocorrect = 10
+[interactive]
+	singlekey = true
 [merge]
 	summary = true
 [merge "bundlelock"]
