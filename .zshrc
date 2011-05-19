@@ -77,6 +77,7 @@ alias mkdir='nocorrect mkdir'
 alias spec='nocorrect spec'
 alias rspec='nocorrect rspec'
 alias ll="ls -l"
+alias la="ls -a"
 alias l.='ls -ld .[^.]*'
 alias lsd='ls -ld *(-/DN)'
 alias md='mkdir -p'
