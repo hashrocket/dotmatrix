@@ -15,13 +15,10 @@ EDITOR="$VISUAL"
 LESS="FRX"
 RI="--format ansi -T"
 PSQL_EDITOR='vim -c"set syntax=sql"'
+CLICOLOR=1
+LSCOLORS=gxgxcxdxbxegedabagacad
 
-export VISUAL EDITOR LESS RI PSQL_EDITOR
-
-export CLICOLOR=1
-export LSCOLORS=gxgxcxdxbxegedabagacad
-
-export CLICOLOR LSCOLORS
+export VISUAL EDITOR LESS RI PSQL_EDITOR CLICOLOR LSCOLORS
 
 bind 'set bind-tty-special-chars off'
 bind '"\ep": history-search-backward'
