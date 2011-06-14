@@ -1,3 +1,4 @@
+require 'guard/rspec'
 extensions = ["Guard::RSpec"]
 
 module ::Guard
