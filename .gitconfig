@@ -11,6 +11,8 @@
 	pruneremote = remote prune origin
 	tree = log --graph --oneline --decorate --color --all
 	tr = log --graph --oneline --decorate --color
+	unpushed = !"PROJ_BRANCH=$(git symbolic-ref HEAD | sed 's|refs/heads/||') && git log origin/$PROJ_BRANCH..HEAD"
+	unpulled = !"PROJ_BRANCH=$(git symbolic-ref HEAD | sed 's|refs/heads/||') && git fetch && git log HEAD..origin/$PROJ_BRANCH"
 [branch]
 	autosetuprebase = always
 [color]
