@@ -9,19 +9,19 @@ def all_specs
 end
 
 trap 'INT' do
-  start_fresh "Your sins have been anulled, my child."
+  start_fresh
   exit! 0
 end
 
 def run_db_test_prepare
-  start_fresh "Purging your demons!"
+  start_fresh "Preparing database"
   system("rake db:test:prepare")
   puts "Done!"
 end
 
 def run_spec(file)
   return unless file.include?(" ") || File.exist?(file)
-  start_fresh "Bearing fresh witness to save your weary soul..."
+  start_fresh "Running specs"
   options = " -f nested -c"
   options << " --tag focus" if supports_command_line_tags? && has_focus_tag?(file)
   system("time #{@spec} #{options} #{file}")
@@ -39,13 +39,13 @@ end
 
 def run_test(type, file)
   return unless file.include?(" ") || File.exist?(file)
-  start_fresh "Invoking archaic rites of sacrifice..."
+  start_fresh "Running tests"
   system("time rake test#{':' + type if type} TEST=#{file}")
 end
 
 def run_feature(file)
   return unless file.include?(" ") || File.exist?(file)
-  start_fresh "Soliciting your salvation from the mighty King Koopa, Browser..."
+  start_fresh "Running features"
   options = "-f pretty"
   options << " --tags @focus:4" if has_focus_tag?(file)
   system("time cucumber #{options} #{file}")
@@ -54,12 +54,12 @@ end
 def start_fresh(text=nil)
   print `clear`
   voice = ENV['VOICE'] || "Bad"
-  fork { exec "say -v #{voice} #{text}" } if ENV['SAYIT'] == 'loud'
+  fork { exec "say -v #{voice} #{text}" } if ENV['SAYIT'] == 'loud' && text
   puts text if text
 end
 
-start_fresh("Praise Veezus!") unless @veezus_is_praised
-@veezus_is_praised = 'Yeah-ya!'
+start_fresh("Loading environment") unless @loaded
+@loaded = true
 
 watch('^lib/(.*)\.rb') {|md| run_spec("spec/lib/#{md[1]}_spec.rb") }
 watch('^db/schema.rb') {|md| run_db_test_prepare }
