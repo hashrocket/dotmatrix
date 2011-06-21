@@ -101,11 +101,11 @@ let g:surround_indent = 1
 
 
 if !exists('g:w_sleep')
-  let g:w_sleep = '300'
+  let g:w_sleep = 0
 endif
 
 function! s:Wall() abort
-  let sleep = 'sleep '.g:w_sleep.'m'
+  let sleep = g:w_sleep ? 'sleep '.g:w_sleep.'m' : ''
   let tab = tabpagenr()
   let win = winnr()
   let seen = {}
