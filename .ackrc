@@ -1,3 +1,5 @@
+--type-set
+cucumber=.feature
 --type-add
 html=.haml
 --type-add
