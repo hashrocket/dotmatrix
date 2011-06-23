@@ -17,7 +17,7 @@
 	ui = auto
 [core]
 	excludesfile = ~/.cvsignore
-	editor = vim
+	editor = mvim -f
 	whitespace = warn
 [github]
 	user = hashrocketeer
