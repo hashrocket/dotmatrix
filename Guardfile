@@ -1,6 +1,12 @@
 require 'guard/guard'
 extensions = ["Guard::Schema", "Guard::Routes"]
 
+if ARGV.include?("--quiet")
+  module ::Guard
+    def UI.info(*a); end
+  end
+end
+
 module ::Guard
   class Schema < ::Guard::Guard
     def run_on_change(_)
