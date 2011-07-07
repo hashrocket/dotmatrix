@@ -9,6 +9,7 @@ filetype plugin indent on
 set visualbell
 set guifont=Monaco:h16
 set guioptions-=T guioptions-=e guioptions-=L guioptions-=r
+set shell=bash
 
 augroup vimrc
   autocmd!
