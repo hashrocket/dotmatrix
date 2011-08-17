@@ -365,3 +365,4 @@ alias gr='git rebase'
 alias grc='git rebase --continue'
 alias gra='git rebase --abort'
 alias vi='vim'
+alias Vim="$HOME/Applications/MacVim.app/Contents/MacOS/Vim"
