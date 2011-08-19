@@ -227,5 +227,6 @@ augroup hashrocket
   autocmd User Rails Rnavcommand fabricator spec/fabricators -suffix=_fabricator.rb -default=model()
   autocmd User Rails Rnavcommand feature features -suffix=.feature -default=cucumber
   autocmd User Rails Rnavcommand support spec/support features/support -default=env
+  autocmd User Rails Rnavcommand worker app/workers -suffix=_worker.rb -default=model()
   autocmd User Fugitive command! -bang -bar -buffer -nargs=* Gpr :Git<bang> pull --rebase <args>
 augroup END
