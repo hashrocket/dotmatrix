@@ -152,9 +152,6 @@ cnoremap          <C-F> <Right>
 noremap           <F1>   <Esc>
 noremap!          <F1>   <Esc>
 
-nmap \\           <Plug>NERDCommenterInvert
-xmap \\           <Plug>NERDCommenterInvert
-
 " Enable TAB indent and SHIFT-TAB unindent
 vnoremap <silent> <TAB> >gv
 vnoremap <silent> <S-TAB> <gv

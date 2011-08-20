@@ -23,6 +23,7 @@ get_bundle pangloss vim-javascript
 get_bundle scrooloose nerdcommenter
 get_bundle therubymug vim-pyte
 get_bundle tpope vim-abolish
+get_bundle tpope vim-commentary
 get_bundle tpope vim-cucumber
 get_bundle tpope vim-endwise
 get_bundle tpope vim-fugitive
