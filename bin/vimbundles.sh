@@ -20,7 +20,6 @@ get_bundle kchmck vim-coffee-script
 get_bundle leshill vim-json
 get_bundle mileszs ack.vim
 get_bundle pangloss vim-javascript
-get_bundle scrooloose nerdcommenter
 get_bundle therubymug vim-pyte
 get_bundle tpope vim-abolish
 get_bundle tpope vim-commentary
