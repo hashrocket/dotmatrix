@@ -284,7 +284,14 @@ twiki () {
   rake db:migrate && rake db:migrate:redo && rake db:test:prepare
 }
 
-alias sc='script_rails console'
+sc () {
+  if command -v pry >/dev/null; then
+    RACK_ENV="${1:-development}" pry -r "$(rails_root)/config/environment"
+  else
+    script_rails console "$@"
+  fi
+}
+
 alias ss='script_rails server -u'
 alias sdbc='script_rails dbconsole -p'
 
