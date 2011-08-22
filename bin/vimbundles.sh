@@ -22,6 +22,7 @@ get_bundle mileszs ack.vim
 get_bundle pangloss vim-javascript
 get_bundle therubymug vim-pyte
 get_bundle tpope vim-abolish
+get_bundle tpope vim-bundler
 get_bundle tpope vim-commentary
 get_bundle tpope vim-cucumber
 get_bundle tpope vim-endwise

@@ -180,6 +180,13 @@ filetype plugin indent on
 " Bundle Open command, from Bernerd Schaefer
 " Call with :BO <gemname>
 function! s:BundleOpen(Gem) abort
+  if exists(':Btabedit')
+    execute 'Btabedit '.a:Gem
+    redraw
+    let v:warningmsg = 'Use :Btabedit instead. It has tab complete!'
+    echomsg v:warningmsg
+    return
+  endif
   let path = system('bundle show '.a:Gem)
   if v:shell_error != 0
     echo 'failed to run command'
