@@ -67,7 +67,9 @@ if &grepprg ==# 'grep -n $* /dev/null'
 endif
 set incsearch
 set laststatus=2    " Always show status line
-set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+if &listchars ==# 'eol:$'
+  set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+endif
 set list            " show trailing whiteshace and tabs
 set modelines=5
 set scrolloff=1
