@@ -13,6 +13,7 @@ path=(
 fpath=(
   $fpath
   ~/.rvm/scripts/zsh/Completion
+  ~/.zsh/functions
 )
 
 source "$HOME/.hashrc"
