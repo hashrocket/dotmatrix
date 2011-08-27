@@ -10,6 +10,11 @@ path=(
   /usr/X11/bin
 )
 
+fpath=(
+  $fpath
+  ~/.rvm/scripts/zsh/Completion
+)
+
 source "$HOME/.hashrc"
 
 # color term
