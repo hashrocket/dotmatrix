@@ -299,6 +299,8 @@ alias testify="watchr ~/.watchr.rb"
 alias vanguard="guard -c -n false"
 alias vangaurd="vanguard"
 
+alias tmux="TERM=screen-256color-bce tmux"
+
 alias ll='ls -l'
 
 # git_prompt_info accepts 0 or 1 arguments (i.e., format string)
