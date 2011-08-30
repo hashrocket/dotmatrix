@@ -24,7 +24,6 @@ export LSCOLORS=Dxfxcxdxbxegedabadacad
 export ZLS_COLORS=$LSCOLORS
 export LC_CTYPE=en_US.UTF-8
 export LESS=FRX
-[[ -z "${TERM}" ]] && export TERM=xterm
 
 # make with the nice completion
 autoload -U compinit; compinit

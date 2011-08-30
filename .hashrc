@@ -299,12 +299,6 @@ alias testify="watchr ~/.watchr.rb"
 alias vanguard="guard -c -n false"
 alias vangaurd="vanguard"
 
-case "$TERM_PROGRAM" in
-  Apple_Terminal|iTerm.app)
-    alias tmux="TERM=xterm-256color tmux"
-    ;;
-esac
-
 alias ll='ls -l'
 
 # git_prompt_info accepts 0 or 1 arguments (i.e., format string)
