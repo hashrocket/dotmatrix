@@ -184,24 +184,9 @@ EOS
     done
     .git/hooks/ctags
   fi
-  if [ ! -f .git/hooks/bundle ]; then
-    cat > .git/hooks/bundle <<EOS
-#!/bin/sh
-unset GIT_DIR
-if [ -f Gemfile ] && command -v bundle >/dev/null; then
-  echo 'Bundling...'
-  bundle check >/dev/null || bundle | grep -v '^Using ' | grep -v ' is complete'
-  true
-fi
-EOS
-    chmod +x .git/hooks/bundle
-    echo 'if command -v hookup >/dev/null; then' >> .git/hooks/post-checkout
-    echo '  hookup post-checkout "$@"' >> .git/hooks/post-checkout
-    echo "elif git diff --name-only \$1 \$2 | egrep -q '^Gemfile|\\.gemspec\$'; then" >> .git/hooks/post-checkout
-    echo "  \$GIT_DIR/hooks/bundle" >> .git/hooks/post-checkout
-    echo "fi" >> .git/hooks/post-checkout
-    [ -z "$new" ] || .git/hooks/bundle
-  fi
+  echo 'if command -v hookup >/dev/null; then' >> .git/hooks/post-checkout
+  echo '  hookup post-checkout "$@"' >> .git/hooks/post-checkout
+  echo "fi" >> .git/hooks/post-checkout
   if [ -n "$new" -a -x script/setup ]; then
     script/setup
   fi
