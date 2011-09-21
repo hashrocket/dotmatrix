@@ -17,115 +17,12 @@ for dir in /usr/local/sbin /opt/local/sbin; do
   esac
 done
 
-HASHROCKET_AUTHOR_ALOWE="Adam Lowe"
-HASHROCKET_AUTHOR_BIGTIGER="Jim Remsik"
-HASHROCKET_AUTHOR_BRIANDUNN="Brian Dunn"
-HASHROCKET_AUTHOR_CAMEROND="Cameron Daigle"
-HASHROCKET_AUTHOR_CALEBCORNMAN="Caleb Cornman"
-HASHROCKET_AUTHOR_DAVELYON="Dave Lyon"
-HASHROCKET_AUTHOR_DAVEOTT="Dave Ott"
-HASHROCKET_AUTHOR_DESI="Desi McAdam"
-HASHROCKET_AUTHOR_GREIS="Gabriel Reis"
-HASHROCKET_AUTHOR_JGDAVEY="Joshua Davey"
-HASHROCKET_AUTHOR_JOHMAS="John Thomas Marino"
-HASHROCKET_AUTHOR_MARTINISOFT="Aaron Kalin"
-HASHROCKET_AUTHOR_MATTONRAILS="Matthew Conway"
-HASHROCKET_AUTHOR_NARWEN="Thais Camilo"
-HASHROCKET_AUTHOR_PAULELLIOTT="Paul Elliott"
-HASHROCKET_AUTHOR_RBXBX="Robert Pitts"
-HASHROCKET_AUTHOR_SYNTAXRITUAL="Travis Anderson"
-HASHROCKET_AUTHOR_SHANERILEY="Shane Riley"
-HASHROCKET_AUTHOR_SHAYARNETT="Shay Arnett"
-HASHROCKET_AUTHOR_SUPASPOIDA="Lar Van Der Jagt"
-HASHROCKET_AUTHOR_THERUBYMUG="Rogelio J. Samour"
-HASHROCKET_AUTHOR_TPOPE="Tim Pope"
-HASHROCKET_AUTHOR_VEEZUS="Veezus Kreist"
-HASHROCKET_AUTHOR_VOXDOLO="Stephen Caudill"
-
 hcd() {
   cd "$HASHROCKET_DIR/$1"
 }
 
-hpair() {
-  local name email args initials author ret
-  name=""
-  email="dev"
-  if [ -n "$ZSH_VERSION" ]; then
-    eval 'args=(${(i)@})'
-  else
-    args="`for arg in "$@"; do echo "x$arg"|sed -e 's/^x//'|tr ' ' _; done|sort -f`"
-  fi
-  for arg in $args; do
-    initials=
-    author=
-    case "x$arg" in
-      x-h)
-      echo 'hpair rocketeer1 rocketeer2'
-      echo 'hpair rocketeer1 gueststar1="Real Name"'
-      echo 'hpair -u # go solo'
-      echo 'hpair    # status'
-      return 1
-      ;;
-      x-e) ret=email;    continue ;;
-      x-n) ret=name;     continue ;;
-      x-f) ret=file;     continue ;;
-      x-c) ret=commit;   continue ;;
-      x-s) ret=setenv;   continue ;;
-      x-u) ret=unsetenv; continue ;;
-      x-w) echo "-w is now the default" >&2; continue ;;
-      x-*) echo "Unknown option $arg" >&2; return 1 ;;
-      x*=*)
-      initials="`echo "$arg"|sed -e s/=.*//`"
-      author="`echo "$arg"|sed -e s/[^=]*=//|tr _ ' '`"
-      ;;
-      [^-]*)
-      initials="`echo "$arg"|tr a-z A-Z`"
-      eval "author=\"\$HASHROCKET_AUTHOR_$initials\""
-      ;;
-    esac
-    if [ -z "$author" ]; then
-      echo "Invalid id $arg" >&2
-      return 1
-    fi
-    name="$name and $author"
-    email="$email+`echo "$initials"|tr A-Z a-z`"
-  done
-  name="`echo $name|sed -e 's/^ *and *//'`"
-  email="$email@hashrocket.com"
-  case "$ret" in
-    unsetenv) unset GIT_AUTHOR_NAME GIT_AUTHOR_EMAIL
-    rm -f "$HOME/.hpairrc"
-    ;;
-    email) echo "$email" ;;
-    name)  echo "$name" ;;
-    file) git config user.name "$name" && git config user.email "$email" ;;
-    commit)
-    (
-    if [ "" = "$name" ]; then
-      unset GIT_AUTHOR_NAME GIT_AUTHOR_EMAIL
-    else
-      export GIT_AUTHOR_NAME="$name" GIT_AUTHOR_EMAIL="$email"
-    fi
-    git commit
-    ) ;;
-    *)
-    if [ "" = "$name" ]; then
-      echo "$GIT_AUTHOR_NAME <$GIT_AUTHOR_EMAIL>"
-    else
-      export GIT_AUTHOR_NAME="$name" GIT_AUTHOR_EMAIL="$email"
-      echo "$GIT_AUTHOR_NAME <$GIT_AUTHOR_EMAIL>"
-      rm -f "$HOME/.hpairrc"
-      echo "export GIT_AUTHOR_NAME=\"$GIT_AUTHOR_NAME\"" > "$HOME/.hpairrc"
-      echo "export GIT_AUTHOR_EMAIL=\"$GIT_AUTHOR_EMAIL\"" >> "$HOME/.hpairrc"
-      echo hpair >> "$HOME/.hpairrc"
-    fi ;;
-  esac
-}
-[ -n "$GIT_AUTHOR_EMAIL" -o ! -f "$HOME/.hpairrc" -o -z "$PS1" ] || . "$HOME/.hpairrc"
-
 git() {
   [ -f "$HOME/.hitch_export_authors" ] && . "$HOME/.hitch_export_authors"
-  [ -f "$HOME/.hpairrc" ] && . "$HOME/.hpairrc" >/dev/null
   if command -v hub >/dev/null; then
     command hub "$@"
   else
