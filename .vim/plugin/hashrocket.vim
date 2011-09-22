@@ -224,6 +224,8 @@ augroup hashrocket
 
   autocmd Syntax   css  syn sync minlines=50
 
+  autocmd FileType ruby nmap <buffer> <leader>bt <Plug>BlockToggle
+
   autocmd User Rails nnoremap <buffer> <D-r> :<C-U>Rake<CR>
   autocmd User Rails nnoremap <buffer> <D-R> :<C-U>.Rake<CR>
   autocmd User Rails Rnavcommand decorator app/decorators -suffix=_decorator.rb -default=model()
