@@ -248,4 +248,7 @@ alias grc='git rebase --continue'
 alias gra='git rebase --abort'
 alias reset-authors='git commit --amend --reset-author -C head'
 alias vi='vim'
-alias Vim="$HOME/Applications/MacVim.app/Contents/MacOS/Vim"
+
+bettervim="/Applications/MacVim.app/Contents/MacOS/Vim"
+[[ -f "$bettervim" ]] && alias vim="$bettervim"
+[[ -f "$HOME$bettervim" ]] && alias vim="$HOME$bettervim"
