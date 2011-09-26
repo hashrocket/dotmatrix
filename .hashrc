@@ -176,6 +176,17 @@ alias vangaurd="vanguard"
 
 alias ll='ls -l'
 
+
+setup_tmux_pasteboard () {
+ git clone https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard.git
+ cd tmux-MacOSX-pasteboard
+ make
+ mv reattach-to-user-namespace ~/bin
+ echo 'set-option -g default-command "reattach-to-user-namespace -l zsh"' >> ~/.tmux.conf.local
+ cd ..
+ rm -rf tmux-MacOSX-pasteboard
+}
+
 # git_prompt_info accepts 0 or 1 arguments (i.e., format string)
 # returns text to add to bash PS1 prompt (includes branch name)
 git_prompt_info () {
