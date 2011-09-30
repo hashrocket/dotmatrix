@@ -187,6 +187,19 @@ setup_tmux_pasteboard () {
  rm -rf tmux-MacOSX-pasteboard
 }
 
+# Before pushing, ensure all your commits since origin are atomic:
+#
+# $ atomically rake
+atomically () {
+  local b="$(git symbolic-ref HEAD 2>/dev/null)"
+  local branch="`basename $b`"
+  git rev-list origin/${branch-master}..${branch-master} | while read rev; do
+    echo "\nRunning at revision $rev\n"
+    git co $rev --quiet && git clean -fd && $*
+  done
+  git co $branch --quiet
+}
+
 # git_prompt_info accepts 0 or 1 arguments (i.e., format string)
 # returns text to add to bash PS1 prompt (includes branch name)
 git_prompt_info () {
