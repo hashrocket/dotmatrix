@@ -3,7 +3,9 @@
 __hitch_authors() {
   local expl
   local -a _authors
-  _authors=(${${(f)"$(cat ~/.hitch_pairs | awk '/:/ { print }')"}/:[ $'\t']##/:})
+  if [ -f $HOME/.hitch_pairs ]; then
+    _authors=(${${(f)"$(cat $HOME/.hitch_pairs | awk '/:/ { print }')"}/:[ $'\t']##/:})
+  fi
   _describe -t hitch-authors 'hitch authors' _authors "$@"
 }
 
