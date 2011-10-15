@@ -104,7 +104,7 @@ if Dir["features/**/*.feature"].any?
     end
   end
 
-  guard 'cucumber', :all_on_start => false, :all_after_pass => false, :cli => "-f pretty" do
+  guard 'cucumber', all_on_start: false, all_after_pass: false, keep_failed: false, cli: "-f pretty" do
     watch(%r{^features/.+\.feature$})
   end
 else
