@@ -53,7 +53,16 @@ if ARGV.include?('-h')
 end
 
 FileUtils.mkdir_p(File.join(home,'bin'))
-(Dir.entries(root) - %w(bin . .. .git) + ['bin/hr']).each do |file|
+(Dir.entries(root) - %w(bin . .. .git DefaultKeybinding.dict) + ['bin/hr']).each do |file|
   next if file =~ /~$/
   uninstall? ? uninstall(file) : install(file)
+end
+
+key_bindings = File.join(root,'DefaultKeyBinding.dict')
+if File.exist?(key_bindings)
+  key_bindings_dir = File.join(home,'Library','KeyBindings')
+  unless File.directory?(key_bindings_dir)
+    FileUtils.mkdir_p(File.join(home,'Library','KeyBindings'))
+  end
+  system("ln -nsf #{key_bindings} #{key_bindings_dir}")
 end
