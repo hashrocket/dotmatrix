@@ -17,6 +17,11 @@ for dir in /usr/local/sbin /opt/local/sbin; do
   esac
 done
 
+SOURCE="${BASH_SOURCE[0]}"
+[ -e "$SOURCE" ] || SOURCE="$0"
+while [ -h "$SOURCE" ] ; do SOURCE="$(readlink "$SOURCE")"; done
+DOTMATRIX_DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+
 hcd() {
   cd "$HASHROCKET_DIR/$1"
 }
@@ -191,13 +196,7 @@ setup_tmux_pasteboard () {
 #
 # $ atomically rake
 atomically () {
-  local b="$(git symbolic-ref HEAD 2>/dev/null)"
-  local branch="`basename $b`"
-  git rev-list origin/${branch-master}..${branch-master} | while read rev; do
-    echo "\nRunning at revision $rev\n"
-    git co $rev --quiet && git clean -fd && $*
-  done
-  git co $branch --quiet
+  $DOTMATRIX_DIR/bin/atomically $@
 }
 
 # git_prompt_info accepts 0 or 1 arguments (i.e., format string)

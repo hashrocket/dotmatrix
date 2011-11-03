@@ -1,0 +1,24 @@
+#!/bin/bash
+
+b="$(git symbolic-ref HEAD 2>/dev/null)"
+branch="`basename $b`"
+program=$*
+trap "reset_branch; exit 1" SIGINT SIGTERM
+
+reset_branch() {
+  git co $branch --quiet
+}
+
+run_for_revision() {
+  echo
+  echo "Running at revision $rev"
+  echo
+  git co $rev --quiet && git clean -fd && $program || echo "SOMETHING WENT WRONG AT REVISION $rev"
+  echo
+}
+
+git rev-list origin/${branch-master}..${branch-master} | while read rev; do
+  run_for_revision
+done
+
+reset_branch
