@@ -1,2 +1,3 @@
-rvm_project_rvmrc_default=1
-rvm_project_rvmrc=1
+export rvm_project_rvmrc_default=1
+export rvm_project_rvmrc=1
+[ -f "$HOME/.rvmrc.local" ] && source "$HOME/.rvmrc.local"
