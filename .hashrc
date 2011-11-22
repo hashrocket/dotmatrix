@@ -252,6 +252,10 @@ git_prompt_info () {
   fi
 }
 
+# Shortcut for navigating running jobs
+export HISTIGNORE="fg*"
+bind '"\C-f": "fg %-\n"'
+
 alias gap='git add -p'
 alias gb='git branch'
 alias gc='git commit -v'
