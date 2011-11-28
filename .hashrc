@@ -253,8 +253,10 @@ git_prompt_info () {
 }
 
 # Shortcut for navigating running jobs
-export HISTIGNORE="fg*"
-bind '"\C-f": "fg %-\n"'
+if [ -n "$BASH_VERSION" ]; then
+  export HISTIGNORE="fg*"
+  bind '"\C-f": "fg %-\n"'
+fi
 
 alias gap='git add -p'
 alias gb='git branch'
