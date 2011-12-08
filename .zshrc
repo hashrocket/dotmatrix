@@ -41,7 +41,7 @@ zstyle ':completion:*:functions' ignored-patterns '_*'
 autoload colors; colors
 
 # options
-setopt appendhistory autocd extendedglob histignoredups nonomatch prompt_subst
+setopt appendhistory autocd extendedglob histignoredups nonomatch prompt_subst interactivecomments
 
 # Bindings
 # external editor support
