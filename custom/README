@@ -1,0 +1,5 @@
+Adding files in this directory (or subdirectories) will be symlinked in
+starting at the current user's home directory.
+
+e.g. the file at ./Library/KeyBindings/DefaultKeybinding.dict will be symlinked
+     to: ~/Library/KeyBindings/DefaultKeybinding.dict
