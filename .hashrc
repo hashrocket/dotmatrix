@@ -26,10 +26,6 @@ hcd() {
   cd "$HASHROCKET_DIR/$1"
 }
 
-last_commit() {
-  git show --oneline | head -n 1
-}
-
 _mux() {
   local name cols
   if [ -n "$1" ]; then
