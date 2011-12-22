@@ -133,8 +133,7 @@ if [ -n "$BASH_VERSION" ]; then
   }
   complete -F _hcd hcd hclone _mux
 elif [ -n "$ZSH_VERSION" ]; then
-  #compdef '_files -W "$HASHROCKET_DIR"' hcd hclone
-  compctl -/ -W "$HASHROCKET_DIR" hcd hclone _mux
+  compctl -/ -S '' -W "$HASHROCKET_DIR" hcd hclone _mux
 fi
 
 rails_root() {
