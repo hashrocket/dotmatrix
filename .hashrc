@@ -43,7 +43,7 @@ _mux() {
   tmux attach-session -t $name
 }
 
-alias mux='_mux >/dev/null'
+alias mux='_mux &>/dev/null'
 
 git() {
   [ -f "$HOME/.hitch_export_authors" ] && . "$HOME/.hitch_export_authors"
