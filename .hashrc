@@ -26,24 +26,22 @@ hcd() {
   cd "$HASHROCKET_DIR/$1"
 }
 
-_mux() {
+mux() {
   local name cols
   if [ -n "$1" ]; then
     hcd $1
   fi
-  name=`basename $PWD`
-  cols=`tput cols`
-  if ! $(tmux has-session -t $name); then
-    tmux new-session -d -n code -s $name -x$cols -y50
-    tmux split-window -t $name:0 -h
-    tmux select-layout -t $name main-vertical
-    tmux new-window -a -t $name:0 -n server
-    tmux select-window -t $name:0
+  name="$(basename $PWD)"
+  cols="$(tput cols)"
+  if ! $(tmux has-session -t $name &>/dev/null); then
+    tmux new-session -d -n code -s $name -x${cols-150} -y50 && \
+    tmux split-window -t $name:0 \; \
+      new-window -a -d -n server -t $name:0 \; \
+      select-layout -t $name main-vertical &>/dev/null \; \
+      send-keys -t $name:0.1 'vim' C-m
   fi
   tmux attach-session -t $name
 }
-
-alias mux='_mux &>/dev/null'
 
 git() {
   [ -f "$HOME/.hitch_export_authors" ] && . "$HOME/.hitch_export_authors"
@@ -131,9 +129,9 @@ if [ -n "$BASH_VERSION" ]; then
 
     return 0
   }
-  complete -F _hcd hcd hclone _mux
+  complete -F _hcd hcd hclone mux
 elif [ -n "$ZSH_VERSION" ]; then
-  compctl -/ -S '' -W "$HASHROCKET_DIR" hcd hclone _mux
+  compctl -/ -S '' -W "$HASHROCKET_DIR" hcd hclone mux
 fi
 
 rails_root() {
