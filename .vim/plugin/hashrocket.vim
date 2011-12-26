@@ -102,7 +102,6 @@ let g:surround_{char2nr('s')} = " \r"
 let g:surround_{char2nr(':')} = ":\r"
 let g:surround_indent = 1
 
-
 if !exists('g:w_sleep')
   let g:w_sleep = 0
 endif
@@ -212,8 +211,6 @@ augroup hashrocket
   autocmd CursorHold,BufWritePost,BufReadPost,BufLeave *
         \ if isdirectory(expand("<amatch>:h")) | let &swapfile = &modified | endif
 
-  autocmd BufNewFile,BufRead *.haml             set ft=haml
-  autocmd BufNewFile,BufRead *.feature,*.story  set ft=cucumber
   autocmd BufRead * if ! did_filetype() && getline(1)." ".getline(2).
         \ " ".getline(3) =~? '<\%(!DOCTYPE \)\=html\>' | setf html | endif
 
