@@ -33,22 +33,6 @@ command! -bar -nargs=* -complete=dir Terrarails :execute 'Rails --template='.sys
 command! -bar -range=% Trim :<line1>,<line2>s/\s\+$//e
 command! -bar -range=% NotRocket :<line1>,<line2>s/:\(\w\+\)\s*=>/\1:/ge
 
-command! -bar -nargs=* -bang -complete=file Rename :
-      \ let v:errmsg = ""|
-      \ saveas<bang> <args>|
-      \ if v:errmsg == ""|
-      \   call delete(expand("#"))|
-      \ endif
-
-command! -bar -nargs=0 -bang -complete=file Remove :
-      \ let v:errmsg = ''|
-      \ let s:removable = expand('%:p')|
-      \ bdelete<bang>|
-      \ if v:errmsg == ''|
-      \   call delete(s:removable)|
-      \ endif|
-      \ unlet s:removable
-
 function! HTry(function, ...)
   if exists('*'.a:function)
     return call(a:function, a:000)
@@ -101,28 +85,6 @@ let g:VCSCommandDisableMappings = 1
 let g:surround_{char2nr('s')} = " \r"
 let g:surround_{char2nr(':')} = ":\r"
 let g:surround_indent = 1
-
-if !exists('g:w_sleep')
-  let g:w_sleep = 0
-endif
-
-function! s:Wall() abort
-  let sleep = g:w_sleep ? 'sleep '.g:w_sleep.'m' : ''
-  let tab = tabpagenr()
-  let win = winnr()
-  let seen = {}
-  if !&readonly && expand('%') !=# ''
-    let seen[bufnr('')] = 1
-    write
-  endif
-  tabdo windo if !&readonly && expand('%') !=# '' && !has_key(seen, bufnr('')) | exe sleep | silent write | let seen[bufnr('')] = 1 | endif
-  execute 'tabnext '.tab
-  execute win.'wincmd w'
-endfunction
-
-command! -bar W              :call s:Wall()
-
-command! -bar -nargs=0 SudoW :setl nomod|silent exe 'write !sudo tee % >/dev/null'|let &mod = v:shell_error
 
 runtime! plugin/matchit.vim
 runtime! macros/matchit.vim

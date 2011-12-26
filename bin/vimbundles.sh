@@ -26,6 +26,7 @@ get_bundle tpope vim-bundler
 get_bundle tpope vim-commentary
 get_bundle tpope vim-cucumber
 get_bundle tpope vim-endwise
+get_bundle tpope vim-eunuch
 get_bundle tpope vim-fugitive
 get_bundle tpope vim-git
 get_bundle tpope vim-haml
