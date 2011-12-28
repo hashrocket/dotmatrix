@@ -275,7 +275,7 @@ gco () {
     git reset HEAD^ -q
     git checkout .
   else
-    git checkout $*
+    git checkout "$@"
   fi
 }
 
@@ -296,7 +296,7 @@ alias gst='git status'
 alias gr='git rebase'
 alias grc='git rebase --continue'
 alias gra='git rebase --abort'
-alias reset-authors='git commit --amend --reset-author -C head'
+alias reset-authors='git commit --amend --reset-author -C HEAD'
 alias vi='vim'
 
 bettervim="/Applications/MacVim.app/Contents/MacOS/Vim"
