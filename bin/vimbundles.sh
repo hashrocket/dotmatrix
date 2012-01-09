@@ -47,6 +47,7 @@ get_bundle vim-scripts bufexplorer.zip
 get_bundle jgdavey vim-blockle
 get_bundle jgdavey vim-railscasts
 get_bundle jgdavey tslime.vim
+get_bundle jgdavey vim-turbux
 get_bundle gregsexton gitv
 
 vim -c 'call pathogen#helptags()|q'
