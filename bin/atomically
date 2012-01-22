@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ -n "$(git status --porcelain)" ]; then
+  echo "ERROR: You have a dirty working copy. This command would remove any files not already checked in"
+  exit 1
+fi
+
 b="$(git symbolic-ref HEAD 2>/dev/null)"
 branch="`basename $b`"
 program=$*
