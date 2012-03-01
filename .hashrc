@@ -186,12 +186,6 @@ twiki () {
   rake db:migrate && rake db:migrate:redo && rake db:test:prepare
 }
 
-# Shortcut for navigating running jobs
-if [ -n "$BASH_VERSION" ]; then
-  export HISTIGNORE="fg*"
-  bind '"\C-q": "fg %-\n"'
-fi
-
 alias sc='script_rails console'
 alias ss='script_rails server -u'
 alias sdbc='script_rails dbconsole -p'

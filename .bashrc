@@ -25,6 +25,9 @@ bind '"\ep": history-search-backward'
 bind '"\en": history-search-forward'
 bind '"\C-w": backward-kill-word'
 
+export HISTIGNORE="fg*"
+bind '"\C-q": "fg %-\n"'
+
 [ -z "$PS1" ] || stty -ixon
 
 [ -z "$PS1" ] || export PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;36m\]\w\[\033[00m\]\$(git_prompt_info '(%s)')$ "
