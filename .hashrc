@@ -17,11 +17,6 @@ for dir in /usr/local/sbin /opt/local/sbin; do
   esac
 done
 
-SOURCE="${BASH_SOURCE[0]}"
-[ -e "$SOURCE" ] || SOURCE="$0"
-while [ -h "$SOURCE" ] ; do SOURCE="$(readlink "$SOURCE")"; done
-DOTMATRIX_DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
-
 hcd() {
   cd "$HASHROCKET_DIR/$1"
 }
@@ -218,7 +213,7 @@ setup_tmux_pasteboard () {
 #
 # $ atomically rake
 atomically () {
-  $DOTMATRIX_DIR/bin/atomically $@
+  $HASHROCKET_DIR/dotmatrix/bin/atomically $@
 }
 
 # git_prompt_info accepts 0 or 1 arguments (i.e., format string)
@@ -306,5 +301,5 @@ alias reset-authors='git commit --amend --reset-author -C HEAD'
 alias vi='vim'
 
 bettervim="/Applications/MacVim.app/Contents/MacOS/Vim"
-[[ -f "$bettervim" ]] && alias vim="$bettervim"
-[[ -f "$HOME$bettervim" ]] && alias vim="$HOME$bettervim"
+[ -f "$bettervim" ] && alias vim="$bettervim"
+[ -f "$HOME$bettervim" ] && alias vim="$HOME$bettervim"
