@@ -9,7 +9,12 @@ filetype plugin indent on
 set visualbell
 
 set wildmenu
-set wildmode=list:longest
+set wildmode=list:longest,full
+
+set splitright
+set splitbelow
+
+set hidden
 
 set guifont=Monaco:h16
 set guioptions-=T guioptions-=e guioptions-=L guioptions-=r
