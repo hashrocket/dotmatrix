@@ -1,0 +1,11 @@
+#!/bin/bash
+dryfile='features/support/dry.rb'
+echo 'require File.expand_path("../env", __FILE__)' > $dryfile
+
+cucumber -r $dryfile --dry-run -fusage | awk '
+  BEGIN{FS=" # ";OFS=""};
+  /NOT MATCHED/{ gsub(/ *\n?/,"",file); gsub(/  */," ",step); print file,":",step;};
+  {file=$2;step=$1}
+'
+
+rm $dryfile
