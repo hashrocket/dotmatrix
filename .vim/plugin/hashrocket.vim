@@ -146,17 +146,24 @@ if !exists('g:syntax_on')
 endif
 filetype plugin indent on
 
-function! UnusedSteps()
+function! s:unused_steps(bang) abort
   let savegp = &grepprg
+
   let prg = "$HASHROCKET_DIR/dotmatrix/bin/unused_steps"
+  if a:bang | let prg = prg.' -f' | endif
   let &grepprg = prg
-  silent grep!
+
+  try
+    silent grep!
+  finally
+    let &grepprg = savegp
+  endtry
+
   copen
-  let &grepprg = savegp
   redraw!
 endfunction
 
-command! UnusedSteps call UnusedSteps()
+command! -bang UnusedSteps call <SID>unused_steps("<bang>")
 
 " Bundle Open command, from Bernerd Schaefer
 " Call with :BO <gemname>

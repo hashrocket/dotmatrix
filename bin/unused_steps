@@ -1,11 +1,21 @@
 #!/bin/bash
 dryfile='features/support/dry.rb'
-echo 'require File.expand_path("../env", __FILE__)' > $dryfile
+tmpfile='tmp/usage.txt'
 
-cucumber -r $dryfile --dry-run -fusage | awk '
+while getopts “:f” OPTION; do
+  if [ $OPTION = 'f' ]; then
+    rm -f $tmpfile
+  fi
+done
+
+if [ ! -f $tmpfile ]; then
+  echo 'require File.expand_path("../env", __FILE__)' > $dryfile
+  cucumber -r $dryfile --dry-run -fusage > $tmpfile
+  rm $dryfile
+fi
+
+cat $tmpfile | awk '
   BEGIN{FS=" # ";OFS=""};
   /NOT MATCHED/{ gsub(/ *\n?/,"",file); gsub(/  */," ",step); print file,":",step;};
   {file=$2;step=$1}
 '
-
-rm $dryfile
