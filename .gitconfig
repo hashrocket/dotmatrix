@@ -13,6 +13,7 @@
 	tr = log --graph --oneline --decorate --color
 	unpushed = !"PROJ_BRANCH=$(git symbolic-ref HEAD | sed 's|refs/heads/||') && git log origin/$PROJ_BRANCH..HEAD"
 	unpulled = !"PROJ_BRANCH=$(git symbolic-ref HEAD | sed 's|refs/heads/||') && git fetch && git log HEAD..origin/$PROJ_BRANCH"
+	add-untracked = !"git status --porcelain | awk '/\\?\\?/{ print $2 }' | xargs git add"
 	ln = log --pretty=format:'%Cblue%h %Cred* %C(yellow)%s'
 [branch]
 	autosetuprebase = always
