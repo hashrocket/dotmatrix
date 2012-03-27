@@ -15,6 +15,7 @@
 	unpulled = !"PROJ_BRANCH=$(git symbolic-ref HEAD | sed 's|refs/heads/||') && git fetch && git log HEAD..origin/$PROJ_BRANCH"
 	add-untracked = !"git status --porcelain | awk '/\\?\\?/{ print $2 }' | xargs git add"
 	ln = log --pretty=format:'%Cblue%h %Cred* %C(yellow)%s'
+	reset-authors = commit --amend --reset-author -CHEAD
 [branch]
 	autosetuprebase = always
 [color]
