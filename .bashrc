@@ -14,7 +14,7 @@ VISUAL=vim
 EDITOR="$VISUAL"
 LESS="FRX"
 RI="--format ansi -T"
-PSQL_EDITOR='vim -c"set syntax=sql"'
+PSQL_EDITOR='vim -c"setf sql"'
 CLICOLOR=1
 LSCOLORS=gxgxcxdxbxegedabagacad
 
