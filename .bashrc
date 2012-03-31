@@ -25,8 +25,11 @@ bind '"\ep": history-search-backward'
 bind '"\en": history-search-forward'
 bind '"\C-w": backward-kill-word'
 
-export HISTIGNORE="fg*"
-bind '"\C-q": "fg %-\n"'
+export HISTIGNORE="%*"
+bind '"\C-q": "%-\n"'
+bind '"\C-z": "\C-a%-\n"'
+trap 'stty susp ^Z' DEBUG
+export PROMPT_COMMAND='stty susp undef'
 
 [ -z "$PS1" ] || stty -ixon
 
