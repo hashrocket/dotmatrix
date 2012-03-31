@@ -55,6 +55,7 @@ bindkey '\en' down-line-or-search
 bindkey '\ew' kill-region
 
 fg-widget() {
+  zle reset-prompt
   if jobs %- >/dev/null 2>&1; then
     fg %-
   else
