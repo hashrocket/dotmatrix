@@ -54,6 +54,10 @@ bindkey '\ep' up-line-or-search
 bindkey '\en' down-line-or-search
 bindkey '\ew' kill-region
 
+fg-widget() { fg }
+zle -N fg-widget
+bindkey -M emacs "^Z" fg-widget
+
 # prompt
 PROMPT='%{$fg_bold[green]%}%n@%m%{$reset_color%}:%{$fg_bold[cyan]%}%~%{$reset_color%}$(git_prompt_info "(%s)")%# '
 
