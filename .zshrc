@@ -55,6 +55,8 @@ bindkey '\en' down-line-or-search
 bindkey '\ew' kill-region
 
 fg-widget() {
+  stty icanon echo pendin -inlcr < /dev/tty
+  stty discard '^O' dsusp '^Y' lnext '^V' quit '^\' susp '^Z' < /dev/tty
   zle reset-prompt
   if jobs %- >/dev/null 2>&1; then
     fg %-
