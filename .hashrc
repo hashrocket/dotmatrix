@@ -36,7 +36,7 @@ mux() {
     tmux split-window -t $name:0 \; \
       new-window -a -d -n server -t $name:0 \; \
       select-layout -t $name main-vertical &>/dev/null \; \
-      send-keys -t $name:0.1 'vim' C-m
+      send-keys -t $name:0.1 'vim .' C-m
   fi
   tmux attach-session -t $name
 }
