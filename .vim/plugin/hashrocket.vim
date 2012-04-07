@@ -41,7 +41,6 @@ function! HTry(function, ...)
   endif
 endfunction
 
-set nocompatible
 set autoindent
 set autoread
 set backspace=indent,eol,start
