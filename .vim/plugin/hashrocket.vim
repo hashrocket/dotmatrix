@@ -220,8 +220,4 @@ augroup hashrocket
   autocmd User Rails Rnavcommand support spec/support features/support -default=env
   autocmd User Rails Rnavcommand worker app/workers -suffix=_worker.rb -default=model()
   autocmd User Fugitive command! -bang -bar -buffer -nargs=* Gpr :Git<bang> pull --rebase <args>
-  autocmd User Fugitive
-        \ if filereadable(fugitive#buffer().repo().dir('fugitive.vim')) |
-        \   source `=fugitive#buffer().repo().dir('fugitive.vim')` |
-        \ endif
 augroup END
