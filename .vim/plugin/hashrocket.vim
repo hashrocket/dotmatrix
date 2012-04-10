@@ -79,6 +79,7 @@ let g:rubycomplete_rails = 1
 let g:NERDCreateDefaultMappings = 0
 let g:NERDSpaceDelims = 1
 let g:NERDShutUp = 1
+let g:netrw_list_hide = '^\.,^tags$'
 let g:VCSCommandDisableMappings = 1
 
 let g:surround_{char2nr('s')} = " \r"
