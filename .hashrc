@@ -29,7 +29,7 @@ mux() {
   if [ -n "$1" ]; then
     hcd $1
   fi
-  name="$(basename $PWD)"
+  name="$(basename $PWD | sed -e 's/\./-/g')"
   cols="$(tput cols)"
   if ! $(tmux has-session -t $name &>/dev/null); then
     tmux new-session -d -n code -s $name -x${cols-150} -y50 && \
