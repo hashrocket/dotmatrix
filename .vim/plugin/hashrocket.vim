@@ -65,6 +65,9 @@ if &statusline == ''
   set statusline=[%n]\ %<%.99f\ %h%w%m%r%{HTry('CapsLockStatusline')}%y%{HTry('rails#statusline')}%{HTry('fugitive#statusline')}%#ErrorMsg#%{HTry('SyntasticStatuslineFlag')}%*%=%-14.(%l,%c%V%)\ %P
 endif
 set ttimeoutlen=50  " Make Esc work faster
+if exists('+undofile')
+  set undofile
+endif
 set wildmenu
 
 if $TERM == '^\%(screen\|xterm-color\)$' && t_Co == 8
