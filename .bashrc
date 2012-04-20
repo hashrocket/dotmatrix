@@ -27,9 +27,6 @@ bind '"\C-w": backward-kill-word'
 
 export HISTIGNORE="%*"
 bind '"\C-q": "%-\n"'
-bind '"\C-z": "\C-a%-\n"'
-[ -z "$PS1" ] || trap 'stty susp ^Z' DEBUG
-export PROMPT_COMMAND='stty susp undef'
 
 [ -z "$PS1" ] || stty -ixon
 
