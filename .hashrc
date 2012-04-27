@@ -214,6 +214,20 @@ atomically () {
   $HASHROCKET_DIR/dotmatrix/bin/atomically $@
 }
 
+# Show git commit authorship totals. Options are forwarded to git log
+#
+# Usage:
+# $ contributions                    # for entire repo history
+# $ contributions -n30               # authorship for last 30 commits
+# $ contributions --since="last week"
+contributions () {
+  prog='BEGIN{ FS=" and "; OFS=""}
+  END{ for(name in count) print count[name],"|",name; print NR,"|TOTAL"}
+  { for(i=1; i<=NF; i++) { count[$i]++; } }'
+
+  git log --format="%an" $@ | awk $prog | sort -nr | column -t -s '|'
+}
+
 # git_prompt_info accepts 0 or 1 arguments (i.e., format string)
 # returns text to add to bash PS1 prompt (includes branch name)
 git_prompt_info () {
