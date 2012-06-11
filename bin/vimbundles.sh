@@ -46,6 +46,7 @@ get_bundle vim-scripts bufkill.vim
 get_bundle vim-scripts bufexplorer.zip
 get_bundle jgdavey vim-blockle
 get_bundle jgdavey vim-railscasts
+get_bundle jgdavey vim-twiddle
 get_bundle jgdavey tslime.vim
 get_bundle jgdavey vim-turbux
 get_bundle gregsexton gitv
