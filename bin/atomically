@@ -9,18 +9,14 @@ b="$(git symbolic-ref HEAD 2>/dev/null)"
 branch="`basename $b`"
 program=$*
 
-reset_branch() {
-  git co $branch --quiet
-}
-
 git rev-list origin/${branch-master}..${branch-master} | while read rev; do
   trap "exit 1" SIGINT SIGTERM
   echo
   echo "Running at revision $rev"
   echo
-  git co $rev --quiet && git clean -fd && $program
+  git checkout $rev --quiet && git clean -fd && $program || exit 1
   echo
   trap - SIGINT SIGTERM
 done
 
-reset_branch
+git checkout $branch --quiet
