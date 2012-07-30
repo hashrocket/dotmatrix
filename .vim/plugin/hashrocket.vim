@@ -235,6 +235,7 @@ augroup hashrocket
   autocmd User Rails nnoremap <buffer> <D-r> :<C-U>Rake<CR>
   autocmd User Rails nnoremap <buffer> <D-R> :<C-U>.Rake<CR>
   autocmd User Rails Rnavcommand decorator app/decorators -suffix=_decorator.rb -default=model()
+  autocmd User Rails Rnavcommand presenter app/presenters -suffix=_presenter.rb -default=model()
   autocmd User Rails Rnavcommand uploader app/uploaders -suffix=_uploader.rb -default=model()
   autocmd User Rails Rnavcommand steps features/step_definitions -suffix=_steps.rb -default=web
   autocmd User Rails Rnavcommand blueprint spec/blueprints -suffix=_blueprint.rb -default=model()
