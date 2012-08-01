@@ -1,13 +1,72 @@
 #compdef gem gem1.9
+# ------------------------------------------------------------------------------
+# Description
+# -----------
+#
+#  Completion script for gem (http://rubygems.org).
+#
+#  Source: https://gist.github.com/164465
+#
+# ------------------------------------------------------------------------------
+# Authors
+# -------
+#
+#  * Alex Vollmer (https://github.com/alexvollmer)
+#
+# ------------------------------------------------------------------------------
+# -*- mode: zsh; sh-indentation: 2; indent-tabs-mode: nil; sh-basic-offset: 2; -*-
+# vim: ft=zsh sw=2 ts=2 et
+# ------------------------------------------------------------------------------
 
-gem_general_flags=("(-h --help)"{-h,--help}"[Get help on this command]"
-  "(-V --verbose)"{-V,--verbose}"[Set the verbose level of output]"
-  "(-q --quiet)"{-q,--quiet}"[Silence commands]"
-  "--config-file[Use this config file instead of default]:file:_files"
-  "--backtrace[Show stack backtrace on errors]"
-  "--debug[Turn on Ruby debugging]"
-  $nul_arg
-)
+
+_gem() {
+  local -a gem_general_flags
+
+  gem_general_flags=("(-h --help)"{-h,--help}"[Get help on this command]"
+    "(-V --verbose)"{-V,--verbose}"[Set the verbose level of output]"
+    "(-q --quiet)"{-q,--quiet}"[Silence commands]"
+    "--config-file[Use this config file instead of default]:file:_files"
+    "--backtrace[Show stack backtrace on errors]"
+    "--debug[Turn on Ruby debugging]"
+    $nul_arg
+  )
+
+  if (( CURRENT > 2 )); then
+    (( CURRENT-- ))
+    shift words
+    _call_function 1 _gem_${words[1]}
+  else
+    _values "gem command" \
+      "build[Build a gem from a gemspec]" \
+      "cert[Manage RubyGems certificates and signing settings]" \
+      "check[Check installed gems]" \
+      "cleanup[Clean up old versions of installed gems in the local repository]" \
+      "contents[Display the contents of the installed gems]" \
+      "dependency[Show the dependencies of an installed gem]" \
+      "environment[Display information about the RubyGems environment]" \
+      "fetch[Download a gem and place it in the current directory]" \
+      "generate_index[Generates the index files for a gem server directory]" \
+      "help[Provide help on the 'gem' command]" \
+      "install[Install a gem into the local repository]" \
+      "list[Display gems whose name starts with STRING]" \
+      "lock[Generate a lockdown list of gems]" \
+      "mirror[Mirror a gem repository]" \
+      "outdated[Display all gems that need updates]" \
+      "push[Push a gem up to rubygems.org]" \
+      "pristine[Restores installed gems to pristine condition from files located in the gem cache]" \
+      "query[Query gem information in local or remote repositories]" \
+      "rdoc[Generates RDoc for pre-installed gems]" \
+      "search[Display all gems whose name contains STRING]" \
+      "server[Documentation and gem repository HTTP server]" \
+      "sources[Manage the sources and cache file RubyGems uses to search for gems]" \
+      "specification[Display gem specification (in yaml)]" \
+      "stale[List gems along with access times]" \
+      "uninstall[Uninstall gems from the local repository]" \
+      "unpack[Unpack an installed gem to the current directory]" \
+      "update[Update the named gems (or all installed gems) in the local repository]" \
+      "which[Find the location of a library file you can require]"
+  fi
+}
 
 __all_gems() {
   _gem_names=($(${service} list | awk '{print $1}'))
@@ -37,7 +96,6 @@ __gem_help_arguments() {
     "lock"
     "mirror"
     "outdated"
-    "owner"
     "pristine"
     "push"
     "query"
@@ -47,7 +105,6 @@ __gem_help_arguments() {
     "sources"
     "specification"
     "stale"
-    "tumble"
     "uninstall"
     "unpack"
     "update"
@@ -65,7 +122,7 @@ __gem_trust_policies() {
 
 _gem_build() {
   _arguments \
-    *:file:_files -f \
+    '*:file:_files -g "*.gemspec"' \
     $gem_general_flags && ret=0
 }
 
@@ -107,14 +164,6 @@ _gem_contents() {
     "(-l --no-lib-only)"{-l,--no-lib-only}"[Only return files in the Gem's lib_dirs]" \
     "--no-prefix[Don't include installed path prefix]" \
     $gem_general_flags && ret=0
-}
-
-_gem_clone() {
-  _arguments \
-    "*:gemname:__all_gems" \
-    "(-d --directory)"{-d,--directory}"[Parent directory to clone into]":directory:_directories \
-    "(-e --editor)"{-e,--editor}"[Override editor for -o]":editor:_command_names \
-    "(-o --open)"{-o,--open}"[Open the gem in an editor]" \
 }
 
 _gem_dependency() {
@@ -177,7 +226,7 @@ _gem_help() {
 
 _gem_install() {
   _arguments \
-    "*:gemname:__all_gems" \
+    "*:URI: _alternative 'files:file:_files -g *.gem' 'urls:URL:__all_gems'" \
     "(-i --install-dir)"{-i,--install-dir}"[Gem repository directory to get installed gems]":directory:_directories \
     "(-n --bindir)"{-n,--bindir}"[Directory where binary files are located]":directory:_directories \
     "(-d --no-rdoc)"{-d,--no-rdoc}"[Generate RDoc documentation for the gem on install]" \
@@ -236,13 +285,6 @@ _gem_mirror() {
     $gem_general_flags && ret=0
 }
 
-_gem_open() {
-  _arguments \
-    "*:gemname:__all_gems" \
-    "(-e --editor)"{-e,--editor}"[Override editor]":editor:_command_names \
-    "(-v --version)"{-v,--version}"[Specify version of gem to open]"
-}
-
 _gem_outdated() {
   _arguments \
     "(-l --local)"{-l,--local}"[Restrict operations to the LOCAL domain]" \
@@ -256,13 +298,6 @@ _gem_outdated() {
     $gem_general_flags && ret=0
 }
 
-_gem_owner() {
-  _arguments \
-    "(-a --add)"{-a,--add}"[Add an owner]" \
-    "(-r --remove)"{-r,--remove}"[Remove an owner]" \
-    $gem_general_flags && ret=0
-}
-
 _gem_pristine() {
   _arguments \
     ":gem name:__all_gems_all" \
@@ -273,7 +308,7 @@ _gem_pristine() {
 
 _gem_push() {
   _arguments \
-    *:file:_files -f \
+    '*:file:_files -g "*.gem"' \
     "(-p --http-proxy)"{-p,--http-proxy}"[Use HTTP proxy for remote operations]" \
     $gem_general_flags && ret=0
 }
@@ -369,11 +404,6 @@ _gem_stale() {
     $gem_general_flags && ret=0
 }
 
-_gem_tumble() {
-  _arguments \
-    $gem_general_flags && ret=0
-}
-
 _gem_uninstall() {
   _arguments \
     "*:gemname:__all_gems" \
@@ -433,50 +463,3 @@ _gem_which() {
     "(-g --no-gems-first)"{-g,--no-gems-first}"[search gems before non-gems]" \
     $gem_general_flags && ret=0
 }
-
-_gem_migrate() {
-  _arguments \
-    "*:gemname:__all_gems" \
-    $gem_general_flags && ret=0
-}
-
-if (( CURRENT > 2 )); then
-  (( CURRENT-- ))
-  shift words
-  _call_function 1 _gem_${words[1]}
-else
-  _values "gem command" \
-    "build[Build a gem from a gemspec]" \
-    "cert[Manage RubyGems certificates and signing settings]" \
-    "check[Check installed gems]" \
-    "cleanup[Clean up old versions of installed gems in the local repository]" \
-    "clone[Clone a gem from GitHub]" \
-    "contents[Display the contents of the installed gems]" \
-    "dependency[Show the dependencies of an installed gem]" \
-    "environment[Display information about the RubyGems environment]" \
-    "fetch[Download a gem and place it in the current directory]" \
-    "generate_index[Generates the index files for a gem server directory]" \
-    "help[Provide help on the 'gem' command]" \
-    "install[Install a gem into the local repository]" \
-    "list[Display gems whose name starts with STRING]" \
-    "lock[Generate a lockdown list of gems]" \
-    "migrate[Migrate a gem you own from Rubyforge to Gemcutter]" \
-    "mirror[Mirror a gem repository]" \
-    "open[Open a gem in your editor]" \
-    "outdated[Display all gems that need updates]" \
-    "owner[Manage gem owners on Gemcutter]" \
-    "pristine[Restores installed gems to pristine condition from files located in the gem cache]" \
-    "push[Push a gem up to Gemcutter]" \
-    "query[Query gem information in local or remote repositories]" \
-    "rdoc[Generates RDoc for pre-installed gems]" \
-    "search[Display all gems whose name contains STRING]" \
-    "server[Documentation and gem repository HTTP server]" \
-    "sources[Manage the sources and cache file RubyGems uses to search for gems]" \
-    "specification[Display gem specification (in yaml)]" \
-    "stale[List gems along with access times]" \
-    "tumble[Enable or disable Gemcutter as your primary gem source]" \
-    "uninstall[Uninstall gems from the local repository]" \
-    "unpack[Unpack an installed gem to the current directory]" \
-    "update[Update the named gems (or all installed gems) in the local repository]" \
-    "which[Find the location of a library file you can require]"
-fi
