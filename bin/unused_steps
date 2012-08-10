@@ -10,7 +10,7 @@ done
 
 if [ ! -f $tmpfile ]; then
   echo 'require File.expand_path("../env", __FILE__)' > $dryfile
-  cucumber -r $dryfile --dry-run -fusage > $tmpfile
+  cucumber -r $dryfile --dry-run -fusage > $tmpfile 2>/dev/null
   rm $dryfile
 fi
 
