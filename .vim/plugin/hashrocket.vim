@@ -67,7 +67,7 @@ endif
 set ttimeoutlen=50  " Make Esc work faster
 if exists('+undofile')
   set undofile
-  set undodir=$TEMP
+  set undodir=~/tmp,.
 endif
 set wildmenu
 
