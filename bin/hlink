@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 require 'fileutils'
 
-EXCLUDES = %w(bin custom . .. .git)
+EXCLUDES = %w(bin custom . .. .git README.md)
 
 def cwd
   @cwd ||= File.expand_path(File.dirname(__FILE__))
