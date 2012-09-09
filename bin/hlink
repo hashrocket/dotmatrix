@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 require 'fileutils'
 
-EXCLUDES = %w(bin custom . .. .git README.md)
+EXCLUDES = %w(bin custom . .. .git README.md .gitconfig.local)
 
 def cwd
   @cwd ||= File.expand_path(File.dirname(__FILE__))
@@ -79,4 +79,13 @@ directories_at(File.join(root,'custom')).each do |custom|
     FileUtils.mkdir_p(File.join(home,dest_dir))
     install(file,dest_dir)
   end
+end
+
+# install .gitconfig.local if needed
+unless File.exist?(@home + '/.gitconfig.local')
+  FileUtils.cp '.gitconfig.local', @home + '/.gitconfig.local'
+  puts %q{
+    Generic Hashrocket Git credentials have been configured in ~/.gitconfig.local.
+    Replace this with your own info if this is a personal machine.
+  }
 end
