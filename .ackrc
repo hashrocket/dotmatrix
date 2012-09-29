@@ -1,1 +1,8 @@
---type-add=ruby=.haml,.rake,.feature,.sass,.scss
+# Search unknown file-types
+--type-set=coffee=.coffee
+--type-set=cucumber=.feature
+--type-set=haml=.haml
+--type-set=sass=.sass,.scss
+
+# Do not search these directories for quicker lookup
+--ignore-dir=log,tags,tmp
