@@ -44,7 +44,7 @@ debug "Program: $program"
 git rev-list $range | while read rev; do
   trap "exit 1" SIGINT SIGTERM
   log "Running at revision $rev"
-  git checkout $rev --quiet && git clean -fd && $program || exit 1
+  git checkout $rev --quiet && git clean -fd && eval $program || exit 1
   log
   trap - SIGINT SIGTERM
 done
