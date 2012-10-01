@@ -5,11 +5,30 @@ if [ -n "$(git status --porcelain)" ]; then
   exit 1
 fi
 
+log() {
+  if [ $VERBOSE ]; then echo $@; fi
+}
+
 b="$(git symbolic-ref HEAD 2>/dev/null)"
 branch="`basename $b`"
-program=$*
+range="origin/${branch-master}..${branch-master}"
 
-git rev-list origin/${branch-master}..${branch-master} | while read rev; do
+while [ $# -gt 0 ]; do
+  case "$1" in
+    -r|--range) range=$2; shift ;;
+    -v|--verbose) VERBOSE=1 ;;
+    (--) shift; break ;;
+    (*) break ;;
+  esac
+  shift
+done
+
+program=$@
+
+log "Range: $range"
+log "Program: $program"
+
+git rev-list $range | while read rev; do
   trap "exit 1" SIGINT SIGTERM
   echo
   echo "Running at revision $rev"
