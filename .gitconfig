@@ -24,10 +24,10 @@
 	excludesfile = ~/.cvsignore
 	editor = vim
 	whitespace = warn
-[github]
-	user = hashrocketeer
 [help]
 	autocorrect = 10
+[include]
+	path = ~/.gitconfig.local
 [interactive]
 	singlekey = true
 [merge]
@@ -52,8 +52,3 @@
 	default = tracking
 [rebase]
 	autosquash = true
-[user]
-	email = dev@hashrocket.com
-	name = "Hashrocket Workstation"
-[include]
-	path = .gitconfig.local

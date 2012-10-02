@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby
 require 'fileutils'
+require_relative 'git_configuration_handler'
 
-EXCLUDES = %w(bin custom . .. .git README.md)
+EXCLUDES = %w(bin custom . .. .git README.md .gitconfig.local)
 
 def cwd
   @cwd ||= File.expand_path(File.dirname(__FILE__))
@@ -80,3 +81,7 @@ directories_at(File.join(root,'custom')).each do |custom|
     install(file,dest_dir)
   end
 end
+
+# install a .gitconfig.local if Git version
+# is compatible and file not already present
+GitConfigurationHandler.new(@home)
