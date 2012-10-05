@@ -1,3 +1,4 @@
+require 'rubygems'
 class GitConfigurationHandler
 
   LocalGitConfigCopiedMessage = "\nGeneric Hashrocket Git credentials \

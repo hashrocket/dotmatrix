@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 require 'fileutils'
-require_relative 'git_configuration_handler'
+require File.expand_path("../git_configuration_handler", __FILE__)
 
 EXCLUDES = %w(bin custom . .. .git README.md .gitconfig.local)
 
