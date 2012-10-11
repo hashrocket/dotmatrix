@@ -1,15 +1,3 @@
-path=(
-  "$HOME/bin"
-  /usr/local/bin
-  /usr/local/sbin
-  /opt/local/bin
-  /usr/bin
-  /bin
-  /usr/sbin
-  /sbin
-  /usr/X11/bin
-)
-
 fpath=(
   $fpath
   ~/.rvm/scripts/zsh/Completion
