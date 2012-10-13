@@ -4,7 +4,7 @@
 [ -e "$HASHROCKET_DIR" ] || HASHROCKET_DIR="$HOME/hashrocket"
 export HASHROCKET_DIR
 
-for dir in /usr/local/bin "$HOME/bin" .git/safe/../../bin; do
+for dir in /usr/local/bin "$HOME/bin" .git/safe/../../bin .git/bin; do
   case "$PATH:" in
     *:"$dir":*) PATH="`echo "$PATH"|sed -e "s#:$dir##"`" ;;
   esac
@@ -73,7 +73,7 @@ hclone() {
     fi
   fi
   hcd "$basename"
-  mkdir -p .git/safe
+  ln -sf ../bin .git
   if [ ! -f .git/hooks/post-rewrite ]; then
     cat > .git/hooks/post-rewrite <<EOS
 #!/bin/sh
