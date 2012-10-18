@@ -292,6 +292,17 @@ gco () {
   fi
 }
 
+gs () {
+  # Author: Joshua Toyota (Unix Superhero)
+  # Description: http://wp.me/p2MUFm-6
+  # Demo: http://youtu.be/_fFzgnyYYD4
+  # Usage: $> gs [pattern]   # see blog for a better explanation
+  #   vim -O $(gs views)     # open all changed views
+  #   gco $(gs feat)         # revert modified cucumber tests
+
+  git status -s | sed "s/...//;s/.* -> //" | grep "$1" | sort -u
+}
+
 alias gap='git add -p'
 alias gb='git branch'
 alias gc='git commit -v'
