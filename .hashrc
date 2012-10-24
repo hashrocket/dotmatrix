@@ -22,7 +22,7 @@ done
 
 hcd() {
   cd "$HASHROCKET_DIR/$1"
-  if [ -e .git/safe -a ! -e .git/bin ]; then
+  if [ -e .git/safe -a ! -L .git/bin ]; then
     ln -s ../bin .git
   fi
 }
