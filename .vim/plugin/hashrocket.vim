@@ -111,11 +111,14 @@ inoremap <silent> <C-B> <C-R>=getline('.')=~'^\s*$'&&col('.')>strlen(getline('.'
 cnoremap          <C-B> <Left>
 " If at end of line, decrease indent, else <Del>
 inoremap <silent> <C-D> <C-R>=col('.')>strlen(getline('.'))?"\<Lt>C-D>":"\<Lt>Del>"<CR>
-cnoremap          <C-D> <Del>
+" If at end of line, list matches, else <Del>
+cnoremap   <expr> <C-D> getcmdpos()>strlen(getcmdline())?"\<Lt>C-D>":"\<Lt>Del>"
+" If at end of line, copy character below, else <End>
+inoremap <silent> <C-E> <C-R>=col('.')>strlen(getline('.'))?"\<Lt>C-E>":"\<Lt>End>"<CR>
 " If at end of line, fix indent, else <Right>
 inoremap <silent> <C-F> <C-R>=col('.')>strlen(getline('.'))?"\<Lt>C-F>":"\<Lt>Right>"<CR>
-inoremap          <C-E> <End>
-cnoremap          <C-F> <Right>
+" if at end of line, open command-line window, else <Right>
+cnoremap   <expr> <C-F> getcmdpos()>strlen(getcmdline())?"\<Lt>C-F>":"\<Lt>Right>"
 
 noremap           <F1>   <Esc>
 noremap!          <F1>   <Esc>
