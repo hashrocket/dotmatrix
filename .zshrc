@@ -100,6 +100,7 @@ cdpath=(~ ~/src $DEV_DIR $HASHROCKET_DIR)
 
 # rvm-install added line:
 if [[ -s "$HOME/.rvm/scripts/rvm" ]] ; then source "$HOME/.rvm/scripts/rvm" ; fi
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
 cuke() {
   local file="$1"
