@@ -8,7 +8,7 @@ if [ -z "$COMMAND" ]; then
 fi
 
 COMMAND_PATH="$(command -v "hr-$COMMAND")"
-if grep -i "^# provide hr completions" "$COMMAND_PATH" >/dev/null; then
+if grep -iq "\-\-complete" "$COMMAND_PATH" >/dev/null; then
   shift
   exec "$COMMAND_PATH" --complete "$@"
 fi
