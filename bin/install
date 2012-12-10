@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -e
+
+dir=$PWD
+
+# Get list of files to link
+find . -depth 1 -name '.*' -not -name '.*.local' -type f |
+sed 's#^\./##' |
+while read dotfile; do
+  dotmatrix_path="$dir/$dotfile"
+  path="$HOME/$dotfile"
+
+  if [ ! -L $path ]; then
+    echo "Symlinking $dotfile to $path"
+    ln -nfs $dotmatrix_path $path
+  else
+    echo -e "Skipping $dotfile \talready exists"
+  fi
+done
