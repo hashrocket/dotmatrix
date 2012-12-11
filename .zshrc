@@ -28,6 +28,9 @@ zstyle ':completion:*:functions' ignored-patterns '_*'
 # make with the pretty colors
 autoload colors; colors
 
+# just say no to zle vim mode:
+bindkey -e
+
 # options
 setopt appendhistory autocd extendedglob histignoredups nonomatch prompt_subst interactivecomments
 
@@ -74,9 +77,6 @@ setopt INC_APPEND_HISTORY
 (( ${+PAGER}   )) || export PAGER='less'
 (( ${+EDITOR}  )) || export EDITOR='vim'
 export PSQL_EDITOR='vim -c"set syntax=sql"'
-
-# just say no to zle vim mode:
-bindkey -e
 
 # aliases
 alias mv='nocorrect mv'       # no spelling correction on mv
