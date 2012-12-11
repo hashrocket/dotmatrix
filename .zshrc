@@ -45,20 +45,23 @@ bindkey '\ep' up-line-or-search
 bindkey '\en' down-line-or-search
 bindkey '\ew' kill-region
 
-fg-widget() {
-  stty icanon echo pendin -inlcr < /dev/tty
-  stty discard '^O' dsusp '^Y' lnext '^V' quit '^\' susp '^Z' < /dev/tty
-  zle reset-prompt
-  if jobs %- >/dev/null 2>&1; then
-    fg %-
-  else
-    fg
-  fi
-}
-zle -N fg-widget
-bindkey -M emacs "^Z" fg-widget
-bindkey -M vicmd "^Z" fg-widget
-bindkey -M viins "^Z" fg-widget
+if [ -z "$TMUX" ]; then
+  fg-widget() {
+    stty icanon echo pendin -inlcr < /dev/tty
+    stty discard '^O' dsusp '^Y' lnext '^V' quit '^\' susp '^Z' < /dev/tty
+    zle reset-prompt
+    if jobs %- >/dev/null 2>&1; then
+      fg %-
+    else
+      fg
+    fi
+  }
+
+  zle -N fg-widget
+  bindkey -M emacs "^Z" fg-widget
+  bindkey -M vicmd "^Z" fg-widget
+  bindkey -M viins "^Z" fg-widget
+fi
 
 # prompt
 PROMPT='%{$fg_bold[green]%}%n@%m%{$reset_color%}:%{$fg_bold[cyan]%}%~%{$reset_color%}$(git_prompt_info "(%s)")%# '
