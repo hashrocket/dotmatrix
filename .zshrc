@@ -4,7 +4,7 @@ fpath=(
   ~/.zsh/functions
 )
 
-source "$HOME/.hashrc"
+source "$HOME/.shellrc"
 
 # color term
 export CLICOLOR=1
