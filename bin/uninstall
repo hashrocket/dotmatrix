@@ -2,15 +2,18 @@
 set -e
 
 dir=$PWD
+if [ "$(basename $dir)" = "bin" ]; then
+  echo "Please run 'bin/install' from dotmatrix root folder"
+  exit 1
+fi
 
 skip_file() {
   echo -e "Skipping $1 \t$2"
 }
 
-# Get list of files to link
-find . -depth 1 -name '.*' -not -name '.*.local' -type f |
-sed 's#^\./##' |
-while read dotfile; do
+files="$(./bin/file_list.sh)"
+
+for dotfile in $files; do
   dotmatrix_path="$dir/$dotfile"
   path="$HOME/$dotfile"
 

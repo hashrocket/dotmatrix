@@ -3,10 +3,14 @@ set -e
 
 dir=$PWD
 
-# Get list of files to link
-find . -depth 1 -name '.*' -not -name '.*.local' -not -name '*.un~' -type f |
-sed 's#^\./##' |
-while read dotfile; do
+if [ "$(basename $dir)" = "bin" ]; then
+  echo "Please run 'bin/install' from dotmatrix root folder"
+  exit 1
+fi
+
+files="$(./bin/file_list.sh)"
+
+for dotfile in $files; do
   dotmatrix_path="$dir/$dotfile"
   path="$HOME/$dotfile"
 
