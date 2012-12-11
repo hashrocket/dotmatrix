@@ -4,7 +4,7 @@ set -e
 dir=$PWD
 
 # Get list of files to link
-find . -depth 1 -name '.*' -not -name '.*.local' -type f |
+find . -depth 1 -name '.*' -not -name '.*.local' -not -name '*.un~' -type f |
 sed 's#^\./##' |
 while read dotfile; do
   dotmatrix_path="$dir/$dotfile"
