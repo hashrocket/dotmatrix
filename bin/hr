@@ -1,8 +1,0 @@
-#!/bin/bash
-
-command="$1"
-shift
-
-case "$command" in
-  *) "$HASHROCKET_DIR/hashrocket/bin/hashrocket" "$command" "$@" ;;
-esac
