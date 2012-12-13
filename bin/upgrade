@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -e
+
+if [ -n "$(git status --porcelain)" ]; then
+  echo "ERROR: You have a dirty working copy."
+  echo "Commit or clean any changes, and run bin/upgrade again."
+  exit 1
+fi
+
+git pull --rebase
+./bin/install
