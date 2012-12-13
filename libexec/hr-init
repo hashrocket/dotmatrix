@@ -66,7 +66,7 @@ esac
 commands=(`hr commands --sh`)
 IFS="|"
 cat <<EOS
-hr() {
+_hr_wrapper() {
   local command="\$1"
   if [ "\$#" -gt 0 ]; then
     shift
@@ -80,3 +80,15 @@ hr() {
   esac
 }
 EOS
+
+# zsh can't pass argument with aliases, but bash can.
+# zsh can have functions with the name being only numbers, but bash can't.
+# fix both cases here by letting zsh have a function, and bash have its alias.
+case "$shell" in
+bash )
+  echo "alias hr=_hr_wrapper"
+  ;;
+zsh )
+  echo "hr=_hr_wrapper"
+  ;;
+esac
