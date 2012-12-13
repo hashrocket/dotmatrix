@@ -68,10 +68,6 @@ end
   uninstall? ? uninstall(file) : install(file)
 end
 
-# install the hr convenience wrapper
-FileUtils.mkdir_p(File.join(home,'bin'))
-install('bin/hr')
-
 # install the custom directory path configs
 directories_at(File.join(root,'custom')).each do |custom|
   Dir.glob(File.join(custom,'**','**')).select{|f| File.file?(f) }.each do |file|
