@@ -35,10 +35,10 @@ root="$(abs_dirname "$0")/.."
 if [ -z "$print" ]; then
   case "$shell" in
   bash )
-    profile='~/.bash_profile'
+    profile='~/.bashrc.local'
     ;;
   zsh )
-    profile='~/.zshenv'
+    profile='~/.zshrc.local'
     ;;
   * )
     profile='your profile'
