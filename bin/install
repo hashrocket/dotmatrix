@@ -8,6 +8,20 @@ if [ "$(basename $dir)" = "bin" ]; then
   exit 1
 fi
 
+# Copy *.local files
+for dotfile in .*.local ; do
+  dotmatrix_path=$dir/$dotfile
+  path="$HOME/$dotfile"
+
+  if [ ! -f $path ]; then
+    echo "Copying $dotfile to $path"
+    cp $dotmatrix_path $path
+  else
+    echo -e "Skipping $dotfile \talready exists"
+  fi
+done
+
+# Symlink dotfiles
 files="$(./bin/file_list.sh)"
 
 for dotfile in $files; do
