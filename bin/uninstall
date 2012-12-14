@@ -2,8 +2,8 @@
 set -e
 
 dir=$PWD
-if [ "$(basename $dir)" = "bin" ]; then
-  echo "Please run 'bin/install' from dotmatrix root folder"
+if [[ ! "$dir/bin/uninstall" -ef "$0" ]]; then
+  echo "Please run 'bin/uninstall' from dotmatrix root folder"
   exit 1
 fi
 
