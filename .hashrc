@@ -152,28 +152,6 @@ rails_root() {
   )
 }
 
-stc() {
-  (
-  local root
-  root="`rails_root`"
-  [ -n "$root" ] || root=.
-  if [ "$root/config/amazon_s3.yml" -nt "$root/tmp/s3cfg" ] || [ -f "$root/config/amazon_s3.yml" -a ! -f "$root/tmp/s3cfg" ]; then
-    ruby -ryaml -e '
-    c = YAML.load(File.read(ARGV.first))[ENV["RAILS_ENV"]||"development"]
-    File.open(ARGV.last,"w") do |f|
-    f.puts "access_key = #{c["access_key_id"]}"
-    f.puts "secret_key = #{c["secret_access_key"]}"
-    end if c.kind_of?(Hash)
-    ' "$root/config/amazon_s3.yml" "$root/tmp/s3cfg"
-  fi
-  if [ -f "$root/tmp/s3cfg" ]; then
-    exec s3cmd -c "$root/tmp/s3cfg" "$@"
-  else
-    exec s3cmd "$@"
-  fi
-  )
-}
-
 script_rails() {
   if [ -f "`rails_root`/script/rails" ]; then
     "`rails_root`/script/rails" "$@"
