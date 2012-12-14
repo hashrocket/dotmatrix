@@ -198,17 +198,6 @@ alias vangaurd="vanguard"
 
 alias ll='ls -l'
 
-
-setup_tmux_pasteboard () {
- git clone https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard.git
- cd tmux-MacOSX-pasteboard
- make
- mv reattach-to-user-namespace ~/bin
- echo 'set-option -g default-command "reattach-to-user-namespace -l zsh"' >> ~/.tmux.conf.local
- cd ..
- rm -rf tmux-MacOSX-pasteboard
-}
-
 # Before pushing, ensure all your commits since origin are atomic:
 #
 # $ atomically rake
