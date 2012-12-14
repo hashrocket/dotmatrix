@@ -275,11 +275,7 @@ git_prompt_info () {
     [[ $s =~ "M " ]] && d+='*'
     [[ $s =~ "D " ]] && d+='-'
 
-    if [ -n "${1-}" ]; then
-      printf "$1" "${b##refs/heads/}$r$d"
-    else
-      printf "(%s) " "${b##refs/heads/}$r$d"
-    fi
+    printf "${1-"(%s) "}" "${b##refs/heads/}$r$d"
   fi
 }
 
