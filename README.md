@@ -4,18 +4,16 @@ A collection of useful scripts, based loosely on 37signals' sub
 
 ## Installation
 
+Before you do anything, you should *remove* the file that dotmatrix symlinked
+for you. It is old, broken, and defunct:
+
+    [ -f ~/bin/hr ] && rm ~/bin/hr
+
 This will set up the hr command and completions:
 
     hclone hr
     ./bin/hr init
-    # follow instructions
-
-Alternatively, if you feel icky about `eval`, assuming that `$HOME/bin`
-is in your `$PATH`:
-
-    hclone hr
-    mkdir -p $HOME/bin
-    ln -nfs $PWD/bin/hr $HOME/bin/hr
+    # follow instructions, adding the line to either .bashrc.local or .zshrc.local
 
 ## Usage
 
