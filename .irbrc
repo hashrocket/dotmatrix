@@ -32,3 +32,5 @@ def clippy
   @clippy.copy yield if block_given?
   @clippy
 end
+
+load File.expand_path("~/.irbrc.local") if File.exists?(File.expand_path("~/.irbrc.local"))
