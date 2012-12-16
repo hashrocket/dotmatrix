@@ -37,6 +37,7 @@ get_bundle tpope vim-rake
 get_bundle tpope vim-ragtag
 get_bundle tpope vim-rails
 get_bundle tpope vim-repeat
+get_bundle tpope vim-rsi
 get_bundle tpope vim-speeddating
 get_bundle tpope vim-surround
 get_bundle tpope vim-unimpaired
