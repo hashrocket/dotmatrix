@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 mkdir -p ~/.vimbundles
 cd ~/.vimbundles
 
