@@ -62,6 +62,20 @@ if ARGV.include?('-h')
   exit 0
 end
 
+if uninstall?
+  deprecation = <<-EOS
+  DEPRECATION: bin/hlink is deprecated and will be removed soon.
+  You should use bin/uninstall to uninstall files
+  EOS
+else
+  deprecation = <<-EOS
+  DEPRECATION: bin/hlink is deprecated and will be removed soon.
+  You should use bin/install or bin/upgrade
+  EOS
+end
+
+Kernel.warn deprecation.gsub(/^\s+/,'')
+
 # install all the dotfiles
 (Dir.entries(root) - EXCLUDES).each do |file|
   next if file =~ /~$/
