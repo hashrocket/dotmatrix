@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+# Usage: hr mux [<name>]
+#
+# Summary: Create or reattach to tmux session
+#
+# Help: After `cd`ing to a directory you'd like the root of your tmux session to be:
+#
+#    $ hr mux
+#
+# The above will create a tmux session named after the directory you're
+# in and create a few useful default windows with a sensible layout.
+#
+# If a session already exists with the name of your directory, this command will
+# simply re-attach to that session.
+
+sanitize() {
+  echo "$(basename $1 | sed -e 's/\./-/g')"
+}
+
+if [ "$1" = "--complete" ]; then
+  # List tmux sessions
+  tmux list-sessions 2>/dev/null | sed -e 's/:.*//'
+
+  # List potential directories
+  find $HASHROCKET_DIR -maxdepth 1 -mindepth 1 -type d | while read dir; do
+    echo "$(sanitize $dir)"
+  done
+
+  exit
+fi
+
+project-directory() {
+  local dir="$HASHROCKET_DIR/$1"
+  if [ -n "$1" -a -d $dir ]; then
+    echo $dir
+  else
+    echo "$PWD"
+  fi
+}
+
+directory="$(project-directory $1)"
+name="$(sanitize ${1:-$directory})"
+cols="$(tput cols)"
+
+if ! $(tmux has-session -t $name &>/dev/null); then
+  cd $directory
+  tmux new-session -d -n code -s $name -x${cols-150} -y50 && \
+    tmux split-window -t $name:0 \; \
+    new-window -a -d -n server -t $name:0 \; \
+    select-layout -t $name main-vertical &>/dev/null \; \
+      send-keys -t $name:0.1 'vim .' C-m
+fi
+
+tmux attach-session -t $name
