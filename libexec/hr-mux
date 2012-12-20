@@ -29,6 +29,11 @@ if [ "$1" = "--complete" ]; then
   exit
 fi
 
+if [ -n "$TMUX" ]; then
+  echo "ERROR: You're already in a tmux session. Nesting tmux sessions is a bad idea." >&2
+  exit 1
+fi
+
 project-directory() {
   local dir="$HASHROCKET_DIR/$1"
   if [ -n "$1" -a -d $dir ]; then
