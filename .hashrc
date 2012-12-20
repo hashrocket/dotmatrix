@@ -28,6 +28,7 @@ hcd() {
 }
 
 mux() {
+  echo "This command is deprecated. It has moved to an internal project." >&2
   local name cols
   if [ -n "$1" ]; then
     hcd $1
@@ -180,6 +181,8 @@ alias ll='ls -l'
 #
 # $ atomically rake
 atomically () {
+  echo "This command is deprecated. It has moved to an internal project."\
+   "Alternatively, you can still get the command at https://gist.github.com/4346801" >&2
   $HASHROCKET_DIR/dotmatrix/bin/atomically $@
 }
 
