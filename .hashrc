@@ -193,6 +193,8 @@ atomically () {
 # $ contributions -n30               # authorship for last 30 commits
 # $ contributions --since="last week"
 contributions () {
+  echo "This command is deprecated. It has moved to an internal project." >&2
+
   prog='BEGIN{ FS=",? and |, "; OFS=""}
   END{ for(name in count) print count[name],"|",name; print NR,"|TOTAL"}
   { for(i=1; i<=NF; i++) { count[$i]++; } }'
