@@ -34,6 +34,26 @@ This script symlinks all dotfiles into your home directory.
 $HOME directory. If you have, e.g. your own .bashrc file, you can move it to
 ~/.bashrc.local, and dotmatrix will source it for you.
 
+Partial Installation
+--------------------
+
+Sometimes it's useful to only install part of dotmatrix. For partial
+installation, you can create a `FILES` file in the root of dotmatrix that
+contains a newline-delimited list of dotfiles to symlink and keep up to date
+with dotmatrix.
+
+When `FILES` exists in the dotmatrix source directory, running `bin/install`
+will only symlink the dotfiles listed within `FILES`.
+
+If, for example, you only want the tmux configuaration and hashrc files, and
+want to ignore all of the rest of dotmatrix's dotfiles:
+
+    $ cd path/to/dotmatrix
+    $ cat FILES
+    .tmux.conf
+    .hashrc
+    $ bin/install # Only installs .tmux.conf and .hashrc
+
 Vim bundles
 -----------
 

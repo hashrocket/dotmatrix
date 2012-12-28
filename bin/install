@@ -27,6 +27,8 @@ for dotfile in $files; do
   dotmatrix_path="$dir/$dotfile"
   path="$HOME/$dotfile"
 
+  [ -f $dotmatrix_path ] || continue
+
   if [ ! -L $path ]; then
     echo "Symlinking $dotfile to $path"
     ln -nfs $dotmatrix_path $path
