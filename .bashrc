@@ -32,5 +32,9 @@ bind '"\C-q": "%-\n"'
 
 [ -z "$PS1" ] || export PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;36m\]\w\[\033[00m\]\$(git_prompt_info '(%s)')$ "
 
+if [ -f '/usr/local/etc/bash_completion.d/git-completion.bash' ]; then
+  source '/usr/local/etc/bash_completion.d/git-completion.bash'
+fi
+
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 [ ! -f "$HOME/.bashrc.local" ] || . "$HOME/.bashrc.local"
