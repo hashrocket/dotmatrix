@@ -12,26 +12,6 @@ if [ -z "$shell" ]; then
   shell="$(basename "$SHELL")"
 fi
 
-resolve_link() {
-  $(type -p greadlink readlink | head -1) $1
-}
-
-abs_dirname() {
-  local cwd="$(pwd)"
-  local path="$1"
-
-  while [ -n "$path" ]; do
-    cd "${path%/*}"
-    local name="${path##*/}"
-    path="$(resolve_link "$name" || true)"
-  done
-
-  pwd
-  cd "$cwd"
-}
-
-root="$(abs_dirname "$0")/.."
-
 if [ -z "$print" ]; then
   case "$shell" in
   bash )
@@ -59,7 +39,7 @@ echo "export PATH=\"\${PATH}:${_HR_ROOT}/bin\""
 
 case "$shell" in
 bash | zsh )
-  echo "source \"$root/completions/hr.${shell}\""
+  echo "source \"${_HR_ROOT}/completions/hr.${shell}\""
   ;;
 esac
 
