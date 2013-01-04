@@ -12,7 +12,7 @@ _hr() {
   if [ "${#words}" -eq 2 ]; then
     completions="$(hr commands)"
   else
-    completions="$(hr completions "${word}")"
+    completions="$(hr completions "${word}" ${words[@]:2})"
   fi
 
   reply=("${(ps:\n:)completions}")
