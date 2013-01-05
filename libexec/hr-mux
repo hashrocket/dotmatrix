@@ -18,6 +18,8 @@ sanitize() {
 }
 
 if [ "$1" = "--complete" ]; then
+  [ $# -gt 1 ] && exit 0
+
   # List tmux sessions
   tmux list-sessions 2>/dev/null | sed -e 's/:.*//'
 
