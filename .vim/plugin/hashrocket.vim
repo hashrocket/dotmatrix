@@ -135,11 +135,6 @@ function! s:align()
   endif
 endfunction
 
-if !exists('g:syntax_on')
-  syntax on
-endif
-filetype plugin indent on
-
 " Cursor shapes
 if exists("g:use_cursor_shapes") && g:use_cursor_shapes
   if exists("$TMUX")
