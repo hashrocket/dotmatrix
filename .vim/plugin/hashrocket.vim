@@ -53,7 +53,6 @@ if &listchars ==# 'eol:$'
   set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
 endif
 set list            " show trailing whiteshace and tabs
-set modelines=5
 set scrolloff=1
 set sidescrolloff=5
 set showcmd
