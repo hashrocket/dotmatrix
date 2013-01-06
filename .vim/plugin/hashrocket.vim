@@ -110,9 +110,6 @@ inoremap <silent> <C-F> <C-R>=col('.')>strlen(getline('.'))?"\<Lt>C-F>":"\<Lt>Ri
 " if at end of line, open command-line window, else <Right>
 cnoremap   <expr> <C-F> getcmdpos()>strlen(getcmdline())?"\<Lt>C-F>":"\<Lt>Right>"
 
-noremap           <F1>   <Esc>
-noremap!          <F1>   <Esc>
-
 " Enable TAB indent and SHIFT-TAB unindent
 vnoremap <silent> <TAB> >gv
 vnoremap <silent> <S-TAB> <gv
