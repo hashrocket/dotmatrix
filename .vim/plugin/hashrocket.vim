@@ -78,9 +78,6 @@ let g:ruby_minlines = 500
 let g:rubycomplete_buffer_loading = 1
 let g:rubycomplete_rails = 1
 
-let g:NERDCreateDefaultMappings = 0
-let g:NERDSpaceDelims = 1
-let g:NERDShutUp = 1
 let g:netrw_list_hide = '^\.,^tags$'
 let g:VCSCommandDisableMappings = 1
 
