@@ -68,10 +68,6 @@ if exists('+undofile')
 endif
 set wildmenu
 
-if $TERM == '^\%(screen\|xterm-color\)$' && t_Co == 8
-  set t_Co=16
-endif
-
 let g:is_bash = 1 " Highlight all .sh files as if they were bash
 let g:ruby_minlines = 500
 let g:rubycomplete_buffer_loading = 1
