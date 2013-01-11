@@ -87,29 +87,6 @@ map Y       y$
 nnoremap <silent> <C-L> :nohls<CR><C-L>
 inoremap <C-C> <Esc>`^
 
-cnoremap          <C-O> <Up>
-inoremap              ø <C-O>o
-inoremap          <M-o> <C-O>o
-" Emacs style mappings
-inoremap          <C-A> <C-O>^
-inoremap     <C-X><C-@> <C-A>
-cnoremap          <C-A> <Home>
-cnoremap     <C-X><C-A> <C-A>
-" If at end of a line of spaces, delete back to the previous line.
-" Otherwise, <Left>
-inoremap <silent> <C-B> <C-R>=getline('.')=~'^\s*$'&&col('.')>strlen(getline('.'))?"0\<Lt>C-D>\<Lt>Esc>kJs":"\<Lt>Left>"<CR>
-cnoremap          <C-B> <Left>
-" If at end of line, decrease indent, else <Del>
-inoremap <silent> <C-D> <C-R>=col('.')>strlen(getline('.'))?"\<Lt>C-D>":"\<Lt>Del>"<CR>
-" If at end of line, list matches, else <Del>
-cnoremap   <expr> <C-D> getcmdpos()>strlen(getcmdline())?"\<Lt>C-D>":"\<Lt>Del>"
-" If at end of line, copy character below, else <End>
-inoremap <silent> <C-E> <C-R>=col('.')>strlen(getline('.'))?"\<Lt>C-E>":"\<Lt>End>"<CR>
-" If at end of line, fix indent, else <Right>
-inoremap <silent> <C-F> <C-R>=col('.')>strlen(getline('.'))?"\<Lt>C-F>":"\<Lt>Right>"<CR>
-" if at end of line, open command-line window, else <Right>
-cnoremap   <expr> <C-F> getcmdpos()>strlen(getcmdline())?"\<Lt>C-F>":"\<Lt>Right>"
-
 " Enable TAB indent and SHIFT-TAB unindent
 vnoremap <silent> <TAB> >gv
 vnoremap <silent> <S-TAB> <gv
