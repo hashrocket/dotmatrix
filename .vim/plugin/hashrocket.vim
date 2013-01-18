@@ -39,44 +39,17 @@ function! HTry(function, ...)
   endif
 endfunction
 
-set autoindent
-set autoread
-set backspace=indent,eol,start
-set complete-=i      " Searching includes can be slow
-set display=lastline " When lines are cropped at the screen bottom, show as much as possible
 if &grepprg ==# 'grep -n $* /dev/null'
   set grepprg=grep\ -rnH\ --exclude='.*.swp'\ --exclude='*~'\ --exclude='*.log'\ --exclude=tags\ $*\ /dev/null
 endif
-set incsearch
-set laststatus=2    " Always show status line
-if &listchars ==# 'eol:$'
-  set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
-endif
 set list            " show trailing whiteshace and tabs
-set scrolloff=1
-set sidescrolloff=5
-set showcmd
-set showmatch
 if &statusline == ''
   set statusline=[%n]\ %<%.99f\ %h%w%m%r%{HTry('CapsLockStatusline')}%y%{HTry('rails#statusline')}%{HTry('fugitive#statusline')}%#ErrorMsg#%{HTry('SyntasticStatuslineFlag')}%*%=%-14.(%l,%c%V%)\ %P
 endif
-set ttimeoutlen=50  " Make Esc work faster
-if exists('+undofile')
-  set undofile
-  set undodir^=~/tmp,~/.vim/tmp
-endif
-set wildmenu
 
 let g:rubycomplete_buffer_loading = 1
 let g:rubycomplete_rails = 1
 
-let g:netrw_list_hide = '^\.,^tags$'
-
-runtime! plugin/matchit.vim
-runtime! macros/matchit.vim
-
-map Y       y$
-nnoremap <silent> <C-L> :nohls<CR><C-L>
 inoremap <C-C> <Esc>`^
 
 " Enable TAB indent and SHIFT-TAB unindent
