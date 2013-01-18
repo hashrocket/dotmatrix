@@ -58,4 +58,4 @@ if ! $(tmux has-session -t $name &>/dev/null); then
       send-keys -t $name:0.1 'vim .' C-m
 fi
 
-tmux attach-session -t $name
+exec tmux attach-session -t $name
