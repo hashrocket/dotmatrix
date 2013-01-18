@@ -54,6 +54,5 @@ get_bundle jgdavey vim-railscasts
 get_bundle jgdavey tslime.vim
 get_bundle jgdavey vim-turbux
 get_bundle gregsexton gitv
-get_bundle nathanaelkane vim-indent-guides
 
 vim -c 'call pathogen#helptags()|q'
