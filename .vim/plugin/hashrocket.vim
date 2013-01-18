@@ -71,7 +71,6 @@ let g:rubycomplete_buffer_loading = 1
 let g:rubycomplete_rails = 1
 
 let g:netrw_list_hide = '^\.,^tags$'
-let g:VCSCommandDisableMappings = 1
 
 runtime! plugin/matchit.vim
 runtime! macros/matchit.vim
