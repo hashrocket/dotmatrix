@@ -68,7 +68,6 @@ endif
 set wildmenu
 
 let g:is_bash = 1 " Highlight all .sh files as if they were bash
-let g:ruby_minlines = 500
 let g:rubycomplete_buffer_loading = 1
 let g:rubycomplete_rails = 1
 
