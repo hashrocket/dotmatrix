@@ -57,7 +57,6 @@ set scrolloff=1
 set sidescrolloff=5
 set showcmd
 set showmatch
-set smarttab
 if &statusline == ''
   set statusline=[%n]\ %<%.99f\ %h%w%m%r%{HTry('CapsLockStatusline')}%y%{HTry('rails#statusline')}%{HTry('fugitive#statusline')}%#ErrorMsg#%{HTry('SyntasticStatuslineFlag')}%*%=%-14.(%l,%c%V%)\ %P
 endif
