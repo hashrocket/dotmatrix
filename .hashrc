@@ -27,24 +27,6 @@ hcd() {
   fi
 }
 
-mux() {
-  echo "This command is deprecated. It has moved to an internal project." >&2
-  local name cols
-  if [ -n "$1" ]; then
-    hcd $1
-  fi
-  name="$(basename $PWD | sed -e 's/\./-/g')"
-  cols="$(tput cols)"
-  if ! $(tmux has-session -t $name &>/dev/null); then
-    tmux new-session -d -n code -s $name -x${cols-150} -y50 && \
-    tmux split-window -t $name:0 \; \
-      new-window -a -d -n server -t $name:0 \; \
-      select-layout -t $name main-vertical &>/dev/null \; \
-      send-keys -t $name:0.1 'vim .' C-m
-  fi
-  tmux attach-session -t $name
-}
-
 git() {
   [ -f "$HOME/.hitch_export_authors" ] && . "$HOME/.hitch_export_authors"
   if command -v hub >/dev/null; then
@@ -176,31 +158,6 @@ alias vanguard="guard -c -n false"
 alias vangaurd="vanguard"
 
 alias ll='ls -l'
-
-# Before pushing, ensure all your commits since origin are atomic:
-#
-# $ atomically rake
-atomically () {
-  echo "This command is deprecated. It has moved to an internal project."\
-   "Alternatively, you can still get the command at https://gist.github.com/4346801" >&2
-  $HASHROCKET_DIR/dotmatrix/bin/atomically $@
-}
-
-# Show git commit authorship totals. Options are forwarded to git log
-#
-# Usage:
-# $ contributions                    # for entire repo history
-# $ contributions -n30               # authorship for last 30 commits
-# $ contributions --since="last week"
-contributions () {
-  echo "This command is deprecated. It has moved to an internal project." >&2
-
-  prog='BEGIN{ FS=",? and |, "; OFS=""}
-  END{ for(name in count) print count[name],"|",name; print NR,"|TOTAL"}
-  { for(i=1; i<=NF; i++) { count[$i]++; } }'
-
-  git log --format="%an" $@ | awk $prog | sort -nr | column -t -s '|'
-}
 
 # git_prompt_info accepts 0 or 1 arguments (i.e., format string)
 # returns text to add to bash PS1 prompt (includes branch name)
