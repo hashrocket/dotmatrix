@@ -67,3 +67,6 @@ EOS
 
 # related to the bash hack above
 [ -n "$wrapper_function" ] && echo "alias hr=${wrapper_function}"
+
+# Aliases for making transition easier
+echo "source \"${_HR_SHARE}/aliases\""

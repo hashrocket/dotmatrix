@@ -21,6 +21,7 @@ abs_dirname() {
 
 libexec_path="$(abs_dirname "$0")"
 export _HR_ROOT="$(abs_dirname "$libexec_path")"
+export _HR_SHARE="$_HR_ROOT/share"
 export PATH="${libexec_path}:$PATH"
 
 command="$1"
