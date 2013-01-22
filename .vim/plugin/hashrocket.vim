@@ -46,6 +46,9 @@ set list            " show trailing whiteshace and tabs
 if &statusline == ''
   set statusline=[%n]\ %<%.99f\ %h%w%m%r%{HTry('CapsLockStatusline')}%y%{HTry('rails#statusline')}%{HTry('fugitive#statusline')}%#ErrorMsg#%{HTry('SyntasticStatuslineFlag')}%*%=%-14.(%l,%c%V%)\ %P
 endif
+if isdirectory(expand('~/.vim/tmp'))
+  set undodir^=~/.vim/tmp
+endif
 
 let g:rubycomplete_buffer_loading = 1
 let g:rubycomplete_rails = 1
