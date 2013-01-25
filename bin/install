@@ -7,6 +7,16 @@ if [[ ! "$dir/bin/install" -ef "$0" ]]; then
   exit 1
 fi
 
+# Ensure presence of directory for vim undo files
+undo_dir_path="Library/Vim/undo"
+if [ ! -d $HOME/$undo_dir_path ]; then
+  echo -n "Creating"
+  mkdir -p $HOME/$undo_dir_path
+else
+  echo -n "Skipping"
+fi
+echo " ~/$undo_dir_path"
+
 # Copy *.local files
 for dotfile in .*.local ; do
   dotmatrix_path=$dir/$dotfile
