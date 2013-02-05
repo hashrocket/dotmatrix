@@ -109,23 +109,6 @@ endfunction
 
 command! -bang UnusedSteps call <SID>unused_steps("<bang>")
 
-function! s:ExtractIntoRspecLet()
-  let pos = getpos('.')
-  if empty(matchstr(getline("."), " = ")) == 1
-    echo "Can't find an assignment"
-    return
-  end
-  normal 0
-  normal! "tdd
-  exec "?^\\s*\\<\\(describe\\|context\\)\\>"
-  normal! $"tp
-  exec 's/\v([a-z_][a-zA-Z0-9_]*) +\= +(.+)/let(:\1) { \2 }'
-  normal V=
-  let pos[1] = pos[1] + 1
-  call setpos('.', pos)
-  echo ''
-endfunction
-
 augroup hashrocket
   autocmd!
 
@@ -141,7 +124,7 @@ augroup hashrocket
   autocmd Syntax   css  syn sync minlines=50
 
   autocmd FileType ruby nmap <buffer> <leader>bt <Plug>BlockToggle
-  autocmd BufRead *_spec.rb nmap <buffer> <leader>l :<C-U>call <SID>ExtractIntoRspecLet()<CR>
+  autocmd BufRead *_spec.rb nnoremap <buffer> <leader>l <Plug>ExtractRspecLet
 
   autocmd User Rails nnoremap <buffer> <D-r> :<C-U>Rake<CR>
   autocmd User Rails nnoremap <buffer> <D-R> :<C-U>.Rake<CR>
