@@ -124,7 +124,7 @@ augroup hashrocket
   autocmd Syntax   css  syn sync minlines=50
 
   autocmd FileType ruby nmap <buffer> <leader>bt <Plug>BlockToggle
-  autocmd BufRead *_spec.rb nnoremap <buffer> <leader>l <Plug>ExtractRspecLet
+  autocmd BufRead *_spec.rb map <buffer> <leader>l <Plug>ExtractRspecLet
 
   autocmd User Rails nnoremap <buffer> <D-r> :<C-U>Rake<CR>
   autocmd User Rails nnoremap <buffer> <D-R> :<C-U>.Rake<CR>
