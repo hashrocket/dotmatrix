@@ -22,7 +22,7 @@ for dotfile in .*.local ; do
   dotmatrix_path=$dir/$dotfile
   path="$HOME/$dotfile"
 
-  if [ ! -f $path ]; then
+  if [ ! -e $path ]; then
     echo "Copying $dotfile to $path"
     cp $dotmatrix_path $path
   else
@@ -37,7 +37,7 @@ for dotfile in $files; do
   dotmatrix_path="$dir/$dotfile"
   path="$HOME/$dotfile"
 
-  [ -f $dotmatrix_path ] || continue
+  [ -e $dotmatrix_path ] || continue
 
   if [ ! -L $path ]; then
     echo "Symlinking $dotfile to $path"
