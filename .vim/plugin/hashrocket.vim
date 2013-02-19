@@ -54,6 +54,26 @@ endif
 let g:rubycomplete_buffer_loading = 1
 let g:rubycomplete_rails = 1
 
+if !exists('g:rails_default_config')
+  let g:rails_default_config = {
+        \ "projections": {
+        \  "fabricator": {
+        \    "format": ["spec/fabricators/%s_fabricator.rb", "spec/factories/%s_factory.rb"],
+        \    "alternate": "app/models/%s.rb",
+        \    "related": "db/schema.rb#%p",
+        \    "template": {"spec/fabricators/": "Fabricator :%s do\nend"},
+        \    "affinity": "model"},
+        \  "feature": {
+        \    "format": "features/%s.feature",
+        \    "template": "Feature: %h"},
+        \  "steps": {
+        \    "format": ["features/step_definitions/%s_steps.rb", "spec/steps/%s_steps.rb"],
+        \    "default": "web"},
+        \  "support": {
+        \    "format": ["spec/support/%s.rb", "features/support/%s.rb"],
+        \    "default": "env"}}}
+endif
+
 inoremap <C-C> <Esc>`^
 
 " Enable TAB indent and SHIFT-TAB unindent
