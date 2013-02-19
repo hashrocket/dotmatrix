@@ -47,7 +47,9 @@ if &statusline == ''
   set statusline=[%n]\ %<%.99f\ %h%w%m%r%{HTry('CapsLockStatusline')}%y%{HTry('rails#statusline')}%{HTry('fugitive#statusline')}%#ErrorMsg#%{HTry('SyntasticStatuslineFlag')}%*%=%-14.(%l,%c%V%)\ %P
 endif
 
-set undodir=~/.vim/tmp//,~/Library/Vim/undo,.
+if has('persistent_undo')
+  set undodir^=~/.vim/tmp//,~/Library/Vim/undo
+endif
 
 let g:rubycomplete_buffer_loading = 1
 let g:rubycomplete_rails = 1
