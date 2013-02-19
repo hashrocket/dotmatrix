@@ -60,6 +60,7 @@ hclone() {
   fi
   hcd "$basename"
   ln -sf ../bin .git
+  mkdir -p .git/safe
   if [ ! -f .git/hooks/post-rewrite ]; then
     cat > .git/hooks/post-rewrite <<EOS
 #!/bin/sh
