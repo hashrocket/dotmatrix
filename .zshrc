@@ -83,7 +83,7 @@ setopt INC_APPEND_HISTORY
 # default apps
 (( ${+PAGER}   )) || export PAGER='less'
 (( ${+EDITOR}  )) || export EDITOR='vim'
-export PSQL_EDITOR='vim -c"set syntax=sql"'
+export PSQL_EDITOR='vim -c"setf sql"'
 
 # aliases
 alias mv='nocorrect mv'       # no spelling correction on mv
