@@ -94,6 +94,8 @@ EOS
   echo "fi" >> .git/hooks/post-checkout
   if [ -n "$new" -a -x script/setup ]; then
     script/setup
+  elif [ -n "$new" -a -x bin/setup ]; then
+    bin/setup
   fi
 }
 
