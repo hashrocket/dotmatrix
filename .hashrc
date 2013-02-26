@@ -243,6 +243,8 @@ alias gra='git rebase --abort'
 alias reset-authors='git commit --amend --reset-author -C HEAD'
 alias vi='vim'
 
-bettervim="/Applications/MacVim.app/Contents/MacOS/Vim"
-[ -f "$bettervim" ] && alias vim="$bettervim"
-[ -f "$HOME$bettervim" ] && alias vim="$HOME$bettervim"
+if [ "$(uname)" = Darwin -a "$(command -v vim)" = /usr/bin/vim ]; then
+  bettervim="/Applications/MacVim.app/Contents/MacOS/Vim"
+  [ -f "$bettervim" ] && alias vim="$bettervim"
+  [ -f "$HOME$bettervim" ] && alias vim="$HOME$bettervim"
+fi
