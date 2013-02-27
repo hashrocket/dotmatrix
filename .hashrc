@@ -225,6 +225,7 @@ gco () {
 }
 
 alias gap='git add -p'
+alias gnap='git add -N . && git add -p'
 alias gb='git branch'
 alias gc='git commit -v'
 alias gca='git commit -a -v'
