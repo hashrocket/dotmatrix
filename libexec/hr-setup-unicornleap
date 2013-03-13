@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Usage: hr setup-unicornleap
+#
+# Summary: Install unicornleap
+# Help: Install unicornleap
+
+cd /tmp
+git clone git://github.com/jgdavey/unicornleap.git
+cd unicornleap
+
+if ! make; then
+  echo "Could not build unicornleap" >&2
+  exit 1
+fi
+
+if ! make install; then
+  echo "Could not install unicornleap" >&2
+  exit 1
+fi
+
+cd /tmp
+rm -rf unicornleap
+
+echo
+echo "You're all set!"
