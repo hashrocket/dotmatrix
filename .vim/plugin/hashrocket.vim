@@ -48,6 +48,7 @@ if &statusline == ''
 endif
 
 if has('persistent_undo')
+  set undofile
   set undodir^=~/.vim/tmp//,~/Library/Vim/undo
 endif
 
