@@ -55,52 +55,41 @@ endif
 let g:rubycomplete_buffer_loading = 1
 let g:rubycomplete_rails = 1
 
-if !exists('g:rails_projections')
-  let g:rails_projections = {}
-endif
-
-call extend(g:rails_projections, {
-      \  "support": {
-      \    "format": ["spec/support/%s.rb", "features/support/%s.rb"],
-      \    "default": "env"}
-      \ }, 'keep')
-
 if !exists('g:rails_gem_projections')
   let g:rails_gem_projections = {}
 endif
 
 call extend(g:rails_gem_projections, {
       \ "active_model_serializers": {
-      \   "serializer": {
-      \     "format": "app/serializers/%s_serializer.rb",
-      \     "template": [
-      \       "class %SSerializer < ActiveModel::Serializer",
-      \       "end"
-      \     ],
+      \   "app/serializers/*_serializer.rb": {
+      \     "command": "serializer",
+      \     "template": "class %SSerializer < ActiveModel::Serializer\nend",
       \     "affinity": "model"}},
+      \ "rspec": {
+      \    "spec/support/*.rb": {
+      \      "command": "support"}},
       \ "cucumber": {
-      \   "feature": {
-      \     "format": "features/%s.feature",
+      \   "features/*.feature": {
+      \     "command": "feature",
       \     "template": "Feature: %h"},
-      \   "steps": {
-      \     "format": ["features/step_definitions/%s_steps.rb"],
-      \     "default": "web"}},
-      \ "capybara": {
-      \   "uploader": {
-      \     "format": "app/uploaders/%s_uploader.rb",
-      \     "template": "class %SUploader CarrierWave::Uploader::Base\nend"}},
+      \   "features/support/*.rb": {
+      \     "command": "support"},
+      \   "features/support/env.rb": {
+      \     "command": "support"},
+      \   "features/step_definitions/*_steps.rb": {
+      \     "command": "steps"}},
+      \ "carrierwave": {
+      \   "app/uploaders/*_uploader.rb": {
+      \     "command": "uploader",
+      \     "template": "class %SUploader < CarrierWave::Uploader::Base\nend"}},
       \ "fabrication": {
-      \   "fabricator": {
-      \     "format": ["spec/fabricators/%s_fabricator.rb", "spec/factories/%s_factory.rb"],
+      \   "spec/fabricators/*_fabricator.rb": {
+      \     "command": ["fabricator", "factory"],
       \     "alternate": "app/models/%s.rb",
       \     "related": "db/schema.rb#%p",
       \     "test": "spec/models/%s_spec.rb",
-      \     "template": {"spec/fabricators/": "Fabricator :%s do\nend"},
-      \     "affinity": "model"}},
-      \ "turnip": {
-      \   "steps": {
-      \     "format": ["spec/steps/%s_steps.rb"],
-      \     "default": "web"}}
+      \     "template": "Fabricator :%s do\nend",
+      \     "affinity": "model"}}
       \ }, 'keep')
 
 inoremap <C-C> <Esc>`^
