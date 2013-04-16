@@ -82,6 +82,11 @@ call extend(g:rails_gem_projections, {
       \   "app/uploaders/*_uploader.rb": {
       \     "command": "uploader",
       \     "template": "class %SUploader < CarrierWave::Uploader::Base\nend"}},
+      \ "draper": {
+      \   "app/decorators/*_decorator.rb": {
+      \     "command": "decorator",
+      \     "affinity": "model",
+      \     "template": "class %SDecorator < ApplicationDecorator\nend"}},
       \ "fabrication": {
       \   "spec/fabricators/*_fabricator.rb": {
       \     "command": ["fabricator", "factory"],
@@ -89,7 +94,19 @@ call extend(g:rails_gem_projections, {
       \     "related": "db/schema.rb#%p",
       \     "test": "spec/models/%s_spec.rb",
       \     "template": "Fabricator :%s do\nend",
-      \     "affinity": "model"}}
+      \     "affinity": "model"}},
+      \ "factory_girl": {
+      \   "spec/factories/*_factory.rb": {
+      \     "command": "factory",
+      \     "alternate": "app/models/%s.rb",
+      \     "related": "db/schema.rb#%p",
+      \     "test": "spec/models/%s_spec.rb",
+      \     "template": "FactoryGirl.define do\n  factory :%s do\n  end\nend",
+      \     "affinity": "model"},
+      \   "spec/factories.rb": {
+      \      "command": "factory"},
+      \   "test/factories.rb": {
+      \      "command": "factory"}}
       \ }, 'keep')
 
 inoremap <C-C> <Esc>`^
