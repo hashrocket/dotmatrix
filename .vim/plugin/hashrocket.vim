@@ -55,6 +55,18 @@ endif
 let g:rubycomplete_buffer_loading = 1
 let g:rubycomplete_rails = 1
 
+if !exists('g:rails_projections')
+  let g:rails_projections = {}
+endif
+
+call extend(g:rails_projections, {
+      \  "app/presenters/*.rb": {
+      \     "command": "presenter",
+      \     "test": "spec/presenter/%s_spec.rb",
+      \     "alternate": "spec/presenter/%s_spec.rb",
+      \     "template": "class %S\nend" }
+      \ }, 'keep')
+
 if !exists('g:rails_gem_projections')
   let g:rails_gem_projections = {}
 endif
