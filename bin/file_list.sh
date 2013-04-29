@@ -12,7 +12,7 @@ else
   # Get list of files to link
   includes=".vim .zsh"
   excludes=".gitignore"
-  base="$(find . -depth 1 -name '.*' -not -name '.*.local' -type f | sed 's#^\./##' | grep -vF $excludes)"
+  base="$(find . -maxdepth 1 -name '.*' -not -name '.*.local' -type f | sed 's#^\./##' | grep -vF $excludes)"
   files="$base $includes"
 fi
 
