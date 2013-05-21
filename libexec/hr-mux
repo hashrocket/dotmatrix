@@ -47,27 +47,15 @@ project-directory() {
 
 directory="$(project-directory $1)"
 name="$(sanitize ${1:-$directory})"
-cols="$(tput cols)"
 
-default_mux=$(cat <<'HERE'
-tmux new-session -d -n code -s $name -x${cols-150} -y50 && \
-  tmux \
-    split-window -t $name:0 \; \
-    new-window -a -d -n server -t $name:0 \; \
-    select-layout -t $name main-vertical &>/dev/null \; \
-    send-keys -t $name:0.1 'vim .' C-m
-HERE)
-
-mux_file=$HOME/.mux
+mux_file="$HOME/.mux"
+[ -f $mux_file ] || mux_file="$_HR_SHARE/mux-init"
 
 if ! $(tmux has-session -t $name &>/dev/null); then
+  cols="$(tput cols)"
   cd $directory
-
-  if [ -e $mux_file ]; then
-    eval `sed 's/$name/'"$name/" < $mux_file`
-  else
-    eval $default_mux
-  fi
+  tmux new-session -d -n code -s $name -x${cols-150} -y50
+  name=$name source $mux_file
 fi
 
 exec tmux attach-session -t $name
