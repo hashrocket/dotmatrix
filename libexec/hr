@@ -19,6 +19,8 @@ abs_dirname() {
   cd "$cwd"
 }
 
+export ORIG_PATH="$PATH"
+
 # HR extensions
 if [ -n "$HR_LIBEXEC_PATH" ]; then
   export HR_LIBEXEC_PATH=`echo ${HR_LIBEXEC_PATH} | awk -v RS=: -v ORS=: '/^$/ {next} {print}' | sed 's/:*$//'`

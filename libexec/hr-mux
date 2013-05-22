@@ -52,6 +52,10 @@ mux_file="$HOME/.mux"
 [ -f $mux_file ] || mux_file="$_HR_SHARE/mux-init"
 
 if ! $(tmux has-session -t $name &>/dev/null); then
+  # Cleanup env
+  export PATH=$ORIG_PATH
+  unset ORIG_PATH _HR_ROOT _HR_SHARE
+
   cols="$(tput cols)"
   cd $directory
   tmux new-session -d -n code -s $name -x${cols-150} -y50
