@@ -162,7 +162,7 @@ endif
 function! s:unused_steps(bang) abort
   let savegp = &grepprg
 
-  let prg = "$HASHROCKET_DIR/dotmatrix/bin/unused_steps"
+  let prg = "hr unused"
   if a:bang | let prg = prg.' -f' | endif
   let &grepprg = prg
 
