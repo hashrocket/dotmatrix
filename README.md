@@ -4,14 +4,10 @@ A collection of useful scripts, based loosely on 37signals' sub
 
 ## Installation
 
-Before you do anything, you should *remove* the file that dotmatrix symlinked
-for you. It is old, broken, and defunct:
-
-    [ -f ~/bin/hr ] && rm ~/bin/hr
-
 This will set up the hr command and completions:
 
-    hclone hr
+    git clone git://github.com/hashrocket/hr
+    cd hr
     ./bin/hr init
     # follow instructions, adding the line to either .bashrc.local or .zshrc.local
 
