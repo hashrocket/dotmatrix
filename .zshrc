@@ -123,3 +123,6 @@ compdef _git gco=git-checkout
 # import local zsh customizations, if present
 zrcl="$HOME/.zshrc.local"
 [[ ! -a $zrcl ]] || source $zrcl
+
+# remove duplicates in $PATH
+typeset -aU path
