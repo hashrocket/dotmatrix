@@ -1,2 +1,3 @@
-alias mux="hr mux"
 alias atomically="hr atomically"
+alias h="hr heroku"
+alias mux="hr mux"
