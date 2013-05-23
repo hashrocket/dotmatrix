@@ -1,31 +1,40 @@
 #!/usr/bin/env bash
 # Usage: hr clone <repo>
 #
-# Summary: Clone down an HR project
+# Summary: Clone down an HR project into $HASHROCKET_DIR
+# This command requires $HASHROCKET_DIR to be set
+
+if [ -z "$HASHROCKET_DIR" ]; then
+  echo "Error: \$HASHROCKET_DIR not set" >&2
+  exit 1
+fi
+
+if [ "x-f" = "x$1" ]; then
+  shift
+  rm -rf "$HASHROCKET_DIR/`basename $1 .git`"
+fi
+
+basename="`basename $1 .git`"
+path="$HASHROCKET_DIR/$basename"
 
 hclone() {
-  local url basename example new
-  if [ x-f = "x$1" ]; then
-    shift
-    rm -rf "$HASHROCKET_DIR/`basename $1 .git`"
-  fi
-  basename="`basename $1 .git`"
-  if [ ! -d "$HASHROCKET_DIR/$basename" ]; then
+  local url example new
+  if [ ! -d "$path" ]; then
     new=1
     case "$1" in
       *:*) url="$1" ;;
       */*) url="git@github.com:$1.git" ;;
       *)   url="git@github.com:hashrocket/$1.git" ;;
     esac
-    git clone "$url" "$HASHROCKET_DIR/$basename" || return 1
-    for example in "$HASHROCKET_DIR/$basename"/config/*.example.yml; do
+    git clone "$url" "$path" || return 1
+    for example in "$path"/config/*.example.yml; do
       cp "$example" "${example%.example.yml}.yml"
     done 2>/dev/null
-    if [ -f "$HASHROCKET_DIR/$basename/.rvmrc" ] && command -v __rvm_trust_rvmrc >/dev/null; then
-      __rvm_trust_rvmrc "$HASHROCKET_DIR/$basename/.rvmrc"
+    if [ -f "$path/.rvmrc" ] && command -v __rvm_trust_rvmrc >/dev/null; then
+      __rvm_trust_rvmrc "$path/.rvmrc"
     fi
   fi
-  cd "$HASHROCKET_DIR/$basename"
+  cd "$path"
   ln -sf ../bin .git
   mkdir -p .git/safe
   if [ ! -f .git/hooks/post-rewrite ]; then
@@ -66,4 +75,5 @@ EOS
   fi
 }
 
-hclone $@
+hclone "$@" >&2
+echo "cd $1"
