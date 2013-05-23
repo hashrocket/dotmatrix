@@ -3,17 +3,22 @@
 #
 # Summary: A wrapper around the heroku command
 
-commands=(config console get logs rake remove restart set)
+
+print_commands() {
+  local commands=(config console get logs rake remove restart set)
+  for command in ${commands[@]}; do
+    echo $command
+  done
+}
 
 if [ "$1" = "--complete" ]; then
   if [ -n "$2" ]; then
     exit 1
   fi
-  for command in ${commands[@]}; do
-    echo $command
-  done
+  print_commands
   exit
 fi
+
 
 heroku_command='heroku'
 
@@ -28,6 +33,18 @@ check_for_heroku() {
 if ! check_for_heroku; then
   return 2
 fi
+
+command=$1
+shift
+APP=$1
+shift
+
+if [ -z "$command" ]; then
+  echo "Please specify a subcomand:" >&2
+  print_commands >&2
+  exit 1
+fi
+
 
 hlogs() { $heroku_command logs -t --app $APP; }
 
@@ -49,8 +66,4 @@ hget() { $heroku_command config:get $1 --app $APP; }
 
 hremove() { $heroku_command config:unset $1 --app $APP; }
 
-command=$1
-shift
-APP=$1
-shift
 h$command $@
