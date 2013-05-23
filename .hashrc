@@ -122,7 +122,7 @@ elif [ -n "$ZSH_VERSION" ]; then
   compctl -/ -S '' -W "$HASHROCKET_DIR" hcd hclone
 fi
 
-rails_root() {
+__rails_root() {
   (
   dir=${1:-$(pwd)}
   i=0
@@ -139,15 +139,16 @@ rails_root() {
 }
 
 script_rails() {
-  if [ -f "`rails_root`/script/rails" ]; then
-    "`rails_root`/script/rails" "$@"
-  elif [ -f "`rails_root`/bin/rails" -a -f "`rails_root`/config/application.rb" ]; then
-    "`rails_root`/bin/rails" "$@"
+  local root="`__rails_root`"
+  if [ -f "$root/script/rails" ]; then
+    "$root/script/rails" "$@"
+  elif [ -f "$root/bin/rails" -a -f "$root/config/application.rb" ]; then
+    "$root/bin/rails" "$@"
   else
     local name
     name="$1"
     shift
-    "`rails_root`/script/$name" "$@"
+    "$root/script/$name" "$@"
   fi
 }
 
