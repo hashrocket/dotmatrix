@@ -11,8 +11,12 @@ _hr_subcommands() {
   local -a commands
   cmd="${words[2]}"
   subcmds="$(hr completions $cmd ${words[3,$(($CURRENT - 1))]})"
-  commands=(${(ps:\n:)subcmds})
-  _wanted subcommand expl "hr $cmd subcommand" compadd -a commands
+  if [ -n "$subcmds" ]; then
+    commands=(${(ps:\n:)subcmds})
+    _wanted subcommand expl "hr $cmd subcommand" compadd -a commands
+  else
+    _default
+  fi
 }
 
 _hr() {
