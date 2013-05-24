@@ -21,27 +21,21 @@ fi
 
 basename="`basename $1 .git`"
 path="$HASHROCKET_DIR/$basename"
+new=
+url=
 
-hclone() {
-  local url example new
-  if [ ! -d "$path" ]; then
-    new=1
-    case "$1" in
-      *:*) url="$1" ;;
-      */*) url="git@github.com:$1.git" ;;
-      *)   url="git@github.com:hashrocket/$1.git" ;;
-    esac
-    git clone "$url" "$path" || return 1
-    for example in "$path"/config/*.example.yml; do
-      cp "$example" "${example%.example.yml}.yml"
-    done 2>/dev/null
-    if [ -f "$path/.rvmrc" ] && command -v __rvm_trust_rvmrc >/dev/null; then
-      __rvm_trust_rvmrc "$path/.rvmrc"
-    fi
-  fi
+case "$1" in
+  *:*) url="$1" ;;
+  */*) url="git@github.com:$1.git" ;;
+  *)   url="git@github.com:hashrocket/$1.git" ;;
+esac
+
+if [ ! -d "$path" ]; then
+  new=1
+fi
+
+setup_git_hooks() {
   cd "$path"
-  ln -sf ../bin .git
-  mkdir -p .git/safe
   if [ ! -f .git/hooks/post-rewrite ]; then
     cat > .git/hooks/post-rewrite <<EOS
 #!/bin/sh
@@ -73,6 +67,28 @@ EOS
   echo 'if command -v hookup >/dev/null; then' >> .git/hooks/post-checkout
   echo '  hookup post-checkout "$@"' >> .git/hooks/post-checkout
   echo "fi" >> .git/hooks/post-checkout
+}
+
+setup_bin_path() {
+  cd "$path"
+  ln -sf ../bin .git
+  mkdir -p .git/safe
+}
+
+clone_if_necessary() {
+  local example
+  if [ -n "$new" ]; then
+    git clone "$url" "$path" || return 1
+    for example in "$path"/config/*.example.yml; do
+      cp "$example" "${example%.example.yml}.yml"
+    done 2>/dev/null
+    if [ -f "$path/.rvmrc" ] && command -v __rvm_trust_rvmrc >/dev/null; then
+      __rvm_trust_rvmrc "$path/.rvmrc"
+    fi
+  fi
+}
+
+script_setup() {
   if [ -n "$new" -a -x script/setup ]; then
     script/setup
   elif [ -n "$new" -a -x bin/setup ]; then
@@ -80,5 +96,11 @@ EOS
   fi
 }
 
-hclone "$@" >&2
-echo "cd $1"
+hclone() {
+  clone_if_necessary
+  setup_git_hooks
+  setup_bin_path
+  script_setup
+}
+
+hclone "$@" >&2 && echo "cd $1"
