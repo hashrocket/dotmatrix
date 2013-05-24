@@ -37,6 +37,8 @@ git() {
 }
 
 hclone() {
+  echo "DEPRECATION: hclone is moving to \`hr'. Pull the latest to experience the benefits" >&2
+
   local url basename example new
   if [ x-f = "x$1" ]; then
     shift
