@@ -9,6 +9,11 @@ if [ -z "$HASHROCKET_DIR" ]; then
   exit 1
 fi
 
+if [ -z "$1" ]; then
+  echo "Error: please provide a a repo" >&2
+  exit 1
+fi
+
 if [ "x-f" = "x$1" ]; then
   shift
   rm -rf "$HASHROCKET_DIR/`basename $1 .git`"
