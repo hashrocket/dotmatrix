@@ -86,6 +86,7 @@ clone_if_necessary() {
       __rvm_trust_rvmrc "$path/.rvmrc"
     fi
   fi
+  return 0
 }
 
 script_setup() {
@@ -97,7 +98,7 @@ script_setup() {
 }
 
 hclone() {
-  clone_if_necessary
+  clone_if_necessary || return 1
   setup_git_hooks
   setup_bin_path
   script_setup
