@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
-# Usage: hr clone <repo>
+# Usage: hr clone [-f] <repo>
 #
 # Summary: Clone down an HR project into $HASHROCKET_DIR
-# This command requires $HASHROCKET_DIR to be set
+#
+# Help: Clone down an HR project into $HASHROCKET_DIR. If you provide
+# the "-f" flag, the repository will be redownloaded.
+#
+# Note: This command requires $HASHROCKET_DIR to be set.
 
 if [ -z "$HASHROCKET_DIR" ]; then
   echo "Error: \$HASHROCKET_DIR not set" >&2
@@ -10,6 +14,7 @@ if [ -z "$HASHROCKET_DIR" ]; then
 fi
 
 if [ "$1" = "--complete" ]; then
+  echo "-f"
   [ -f "$HOME/.repos" ] && cat "$HOME/.repos"
   exit 0
 fi
