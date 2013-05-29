@@ -167,7 +167,7 @@ alias ll='ls -l'
 # git_prompt_info accepts 0 or 1 arguments (i.e., format string)
 # returns text to add to bash PS1 prompt (includes branch name)
 git_prompt_info () {
-  local g="$(git rev-parse --git-dir 2>/dev/null)"
+  local g="$(command git rev-parse --git-dir 2>/dev/null)"
   if [ -n "$g" ]; then
     local r
     local b
@@ -178,7 +178,7 @@ git_prompt_info () {
       if test -f "$g/rebase-apply/rebasing" ; then
         r="|REBASE"
       fi
-      b="$(git symbolic-ref HEAD 2>/dev/null)"
+      b="$(command git symbolic-ref HEAD 2>/dev/null)"
     # Interactive rebase
     elif [ -f "$g/rebase-merge/interactive" ] ; then
       r="|REBASE-i"
@@ -186,13 +186,13 @@ git_prompt_info () {
     # Merging
     elif [ -f "$g/MERGE_HEAD" ] ; then
       r="|MERGING"
-      b="$(git symbolic-ref HEAD 2>/dev/null)"
+      b="$(command git symbolic-ref HEAD 2>/dev/null)"
     else
       if [ -f "$g/BISECT_LOG" ] ; then
         r="|BISECTING"
       fi
-      if ! b="$(git symbolic-ref HEAD 2>/dev/null)" ; then
-        if ! b="$(git describe --exact-match HEAD 2>/dev/null)" ; then
+      if ! b="$(command git symbolic-ref HEAD 2>/dev/null)" ; then
+        if ! b="$(command git describe --exact-match HEAD 2>/dev/null)" ; then
           b="$(cut -c1-7 "$g/HEAD")..."
         fi
       fi
@@ -204,7 +204,7 @@ git_prompt_info () {
       newfile='\?\? '
     fi
     d=''
-    s=$(git status --porcelain 2> /dev/null)
+    s=$(command git status --porcelain 2> /dev/null)
     [[ $s =~ "$newfile" ]] && d+='+'
     [[ $s =~ "M " ]] && d+='*'
     [[ $s =~ "D " ]] && d+='-'
