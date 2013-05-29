@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# Usage: hr hinder [<location>|reset]
+#
+# Summary: Simulate network latency to a given IP or network address
+#
+# Help: Hinder simulates network latency to a given IP or network address.
+# Pass 'reset' to remove all "hinderances"
+#
+# Note: Requires Mac OSX and uses sudo
+
+set -e
+
+ip=$1
+
+if [ -z "$ip" ]; then
+  hr-help hinder
+  echo
+  echo "ERROR: You must provide a network address or 'reset'" >&2
+  exit 1
+fi
+
+if [ "$ip" = "reset" ]; then
+  printf 'Resetting... '
+  sudo ipfw list | grep 'pipe' | awk '{print $1}' | while read name; do sudo ipfw delete $name ; done
+  echo 'Done'
+else
+  echo "Creating rules to simulate latency to $ip... "
+
+  # Create 2 pipes and assigned traffic to and from our webserver to each:
+  sudo ipfw add pipe 1 ip from any to $ip
+  sudo ipfw add pipe 2 ip from $ip to any
+
+  # Configure the pipes we just created:
+  sudo ipfw pipe 1 config delay 250ms bw 1Mbit/s plr 0.1
+  sudo ipfw pipe 2 config delay 250ms bw 1Mbit/s plr 0.1
+
+  echo "Done"
+fi
