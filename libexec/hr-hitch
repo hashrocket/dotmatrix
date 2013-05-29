@@ -11,12 +11,12 @@ ichat_status_message_from_authors() {
   # Extract current hitch github usernames
   usernames="$(grep '^- ' ~/.hitchrc | sed 's/^- //' | paste -s -d '|' -)"
   if [ -z "$usernames" ]; then
-    return 1
+    names=""
+  else
+    # Find first names for those usernames
+    awkprog='$1 ~ /'${usernames}'/{ print $2 }'
+    names="$(awk -F':\? +' "$awkprog" < ~/.hitch_pairs | tr "\\n" "|" | sed 's/\|$//g; s/\|/ \& /g')"
   fi
-
-  # Find first names for those usernames
-  awkprog='$1 ~ /'${usernames}'/{ print $2 }'
-  names="$(awk -F':\? +' "$awkprog" < ~/.hitch_pairs | tr "\\n" "|" | sed 's/\|$//g; s/\|/ \& /g')"
 
   # Detect which application we're using [iChat Messages]
   application="Messages"
