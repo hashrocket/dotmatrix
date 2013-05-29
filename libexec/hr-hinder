@@ -13,9 +13,11 @@ set -e
 ip=$1
 
 if [ -z "$ip" ]; then
-  hr-help hinder
-  echo
-  echo "ERROR: You must provide a network address or 'reset'" >&2
+  {
+    hr-help hinder
+    echo
+    echo "ERROR: You must provide a network address or 'reset'"
+  } >&2
   exit 1
 fi
 
