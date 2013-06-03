@@ -18,6 +18,7 @@
 	ln = log --pretty=format:'%Cblue%h %Cred* %C(yellow)%s'
 	reset-authors = commit --amend --reset-author -CHEAD
 	rmbranch = "!f(){ git branch -d ${1} && git push origin --delete ${1}; };f"
+        snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
 [branch]
 	autosetuprebase = always
 [color]
