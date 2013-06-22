@@ -28,7 +28,6 @@ Hcommand split
 Hcommand saveas
 Hcommand tabedit
 
-command! -bar -range=% Trim :<line1>,<line2>s/\s\+$//e
 command! -bar -range=% NotRocket :<line1>,<line2>s/:\(\w\+\)\s*=>/\1:/ge
 
 function! HTry(function, ...)
