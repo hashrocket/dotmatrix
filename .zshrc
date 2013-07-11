@@ -102,6 +102,7 @@ alias cd..='cd ..'
 alias ..='cd ..'
 alias spec='spec -c'
 alias heroku='nocorrect heroku'
+alias groutes='rake routes | grep $@'
 
 # set cd autocompletion to commonly visited directories
 cdpath=(~ ~/src $DEV_DIR $HASHROCKET_DIR)
