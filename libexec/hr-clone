@@ -118,4 +118,4 @@ hclone() {
   script_setup
 }
 
-hclone "$@" && echo "$path"
+hclone "$@" >&2 && echo && echo "$path"
