@@ -36,71 +36,6 @@ git() {
   fi
 }
 
-hclone() {
-  echo "DEPRECATION: hclone is moving to \`hr'. Pull the latest to experience the benefits" >&2
-
-  local url basename example new
-  if [ x-f = "x$1" ]; then
-    shift
-    rm -rf "$HASHROCKET_DIR/`basename $1 .git`"
-  fi
-  basename="`basename $1 .git`"
-  if [ ! -d "$HASHROCKET_DIR/$basename" ]; then
-    new=1
-    case "$1" in
-      *:*) url="$1" ;;
-      */*) url="git@github.com:$1.git" ;;
-      *)   url="git@github.com:hashrocket/$1.git" ;;
-    esac
-    git clone "$url" "$HASHROCKET_DIR/$basename" || return 1
-    for example in "$HASHROCKET_DIR/$basename"/config/*.example.yml; do
-      cp "$example" "${example%.example.yml}.yml"
-    done 2>/dev/null
-    if [ -f "$HASHROCKET_DIR/$basename/.rvmrc" ] && command -v __rvm_trust_rvmrc >/dev/null; then
-      __rvm_trust_rvmrc "$HASHROCKET_DIR/$basename/.rvmrc"
-    fi
-  fi
-  hcd "$basename"
-  ln -sf ../bin .git
-  mkdir -p .git/safe
-  if [ ! -f .git/hooks/post-rewrite ]; then
-    cat > .git/hooks/post-rewrite <<EOS
-#!/bin/sh
-
-GIT_DIR="\$(dirname "\$(dirname "\$0")")"
-export GIT_DIR
-
-case "\$1" in
-  rebase) exec "\$GIT_DIR/hooks/post-merge" 0 rebase ;;
-esac
-EOS
-  fi
-  if [ ! -f .git/hooks/pre-commit ]; then
-    echo '#!/bin/sh' > .git/hooks/pre-commit
-    echo 'git diff --exit-code --cached -- Gemfile Gemfile.lock >/dev/null || bundle check' >> .git/hooks/pre-commit
-  fi
-  if [ ! -f .git/hooks/ctags ]; then
-    echo '#!/bin/sh' > .git/hooks/ctags
-    echo 'rm -f .git/tags' >> .git/hooks/ctags
-    echo 'ctags --tag-relative -f .git/tags --exclude=.git --exclude=db --exclude=public/uploads --exclude=vendor --exclude=tmp --languages=-javascript,html,sql -R' >> .git/hooks/ctags
-    chmod +x .git/hooks/ctags
-    for basename in post-checkout post-commit post-merge; do
-      echo '#!/bin/sh' > .git/hooks/$basename
-      echo '$GIT_DIR/hooks/ctags >/dev/null 2>&1 &' >> .git/hooks/$basename
-      chmod +x .git/hooks/$basename
-    done
-    .git/hooks/ctags
-  fi
-  echo 'if command -v hookup >/dev/null; then' >> .git/hooks/post-checkout
-  echo '  hookup post-checkout "$@"' >> .git/hooks/post-checkout
-  echo "fi" >> .git/hooks/post-checkout
-  if [ -n "$new" -a -x script/setup ]; then
-    script/setup
-  elif [ -n "$new" -a -x bin/setup ]; then
-    bin/setup
-  fi
-}
-
 # Tab completion
 if [ -n "$BASH_VERSION" ]; then
   _hcd()
@@ -121,7 +56,7 @@ if [ -n "$BASH_VERSION" ]; then
   }
   complete -F _hcd hcd hclone
 elif [ -n "$ZSH_VERSION" ]; then
-  compctl -/ -S '' -W "$HASHROCKET_DIR" hcd hclone
+  compctl -/ -S '' -W "$HASHROCKET_DIR" hcd
 fi
 
 __rails_root() {
