@@ -4,6 +4,7 @@
 [ -e "$HASHROCKET_DIR" ] || HASHROCKET_DIR="$HOME/hashrocket"
 export HASHROCKET_DIR
 
+# Paths for prepending
 for dir in /usr/local/bin "$HOME/bin" .git/bin .git/safe/../../bin; do
   case "$PATH:" in
     *:"$dir":*) PATH="`echo "$PATH"|sed -e "s#:$dir##"`" ;;
@@ -13,6 +14,8 @@ for dir in /usr/local/bin "$HOME/bin" .git/bin .git/safe/../../bin; do
     *) PATH="$dir:$PATH" ;;
   esac
 done
+
+# Paths for appending
 for dir in /usr/local/sbin /opt/local/sbin /usr/X11/bin; do
   case ":$PATH:" in
     *:"$dir":*) ;;
