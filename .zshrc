@@ -90,7 +90,6 @@ export PSQL_EDITOR='vim -c"setf sql"'
 alias mv='nocorrect mv'       # no spelling correction on mv
 alias cp='nocorrect cp'
 alias mkdir='nocorrect mkdir'
-alias spec='nocorrect spec'
 alias rspec='nocorrect rspec'
 alias ll="ls -l"
 alias la="ls -a"
@@ -100,8 +99,6 @@ alias md='mkdir -p'
 alias rd='rmdir'
 alias cd..='cd ..'
 alias ..='cd ..'
-alias spec='spec -c'
-alias heroku='nocorrect heroku'
 alias groutes='rake routes | grep $@'
 
 # set cd autocompletion to commonly visited directories
