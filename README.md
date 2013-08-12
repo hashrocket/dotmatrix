@@ -22,7 +22,7 @@ Install
 
 Start by cloning down the repo:
 
-	$ git clone git@github.com:hashrocket/dotmatrix.git
+	$ git clone https://github.com/hashrocket/dotmatrix.git
 
 Then run this script:
 
