@@ -4,6 +4,7 @@
 [ -e "$HASHROCKET_DIR" ] || HASHROCKET_DIR="$HOME/hashrocket"
 export HASHROCKET_DIR
 
+# Paths for prepending
 for dir in /usr/local/bin "$HOME/bin" .git/bin .git/safe/../../bin; do
   case "$PATH:" in
     *:"$dir":*) PATH="`echo "$PATH"|sed -e "s#:$dir##"`" ;;
@@ -13,6 +14,8 @@ for dir in /usr/local/bin "$HOME/bin" .git/bin .git/safe/../../bin; do
     *) PATH="$dir:$PATH" ;;
   esac
 done
+
+# Paths for appending
 for dir in /usr/local/sbin /opt/local/sbin /usr/X11/bin; do
   case ":$PATH:" in
     *:"$dir":*) ;;
@@ -36,69 +39,6 @@ git() {
   fi
 }
 
-hclone() {
-  local url basename example new
-  if [ x-f = "x$1" ]; then
-    shift
-    rm -rf "$HASHROCKET_DIR/`basename $1 .git`"
-  fi
-  basename="`basename $1 .git`"
-  if [ ! -d "$HASHROCKET_DIR/$basename" ]; then
-    new=1
-    case "$1" in
-      *:*) url="$1" ;;
-      */*) url="git@github.com:$1.git" ;;
-      *)   url="git@github.com:hashrocket/$1.git" ;;
-    esac
-    git clone "$url" "$HASHROCKET_DIR/$basename" || return 1
-    for example in "$HASHROCKET_DIR/$basename"/config/*.example.yml; do
-      cp "$example" "${example%.example.yml}.yml"
-    done 2>/dev/null
-    if [ -f "$HASHROCKET_DIR/$basename/.rvmrc" ] && command -v __rvm_trust_rvmrc >/dev/null; then
-      __rvm_trust_rvmrc "$HASHROCKET_DIR/$basename/.rvmrc"
-    fi
-  fi
-  hcd "$basename"
-  ln -sf ../bin .git
-  mkdir -p .git/safe
-  if [ ! -f .git/hooks/post-rewrite ]; then
-    cat > .git/hooks/post-rewrite <<EOS
-#!/bin/sh
-
-GIT_DIR="\$(dirname "\$(dirname "\$0")")"
-export GIT_DIR
-
-case "\$1" in
-  rebase) exec "\$GIT_DIR/hooks/post-merge" 0 rebase ;;
-esac
-EOS
-  fi
-  if [ ! -f .git/hooks/pre-commit ]; then
-    echo '#!/bin/sh' > .git/hooks/pre-commit
-    echo 'git diff --exit-code --cached -- Gemfile Gemfile.lock >/dev/null || bundle check' >> .git/hooks/pre-commit
-  fi
-  if [ ! -f .git/hooks/ctags ]; then
-    echo '#!/bin/sh' > .git/hooks/ctags
-    echo 'rm -f .git/tags' >> .git/hooks/ctags
-    echo 'ctags --tag-relative -f .git/tags --exclude=.git --exclude=db --exclude=public/uploads --exclude=vendor --exclude=tmp --languages=-javascript,html,sql -R' >> .git/hooks/ctags
-    chmod +x .git/hooks/ctags
-    for basename in post-checkout post-commit post-merge; do
-      echo '#!/bin/sh' > .git/hooks/$basename
-      echo '$GIT_DIR/hooks/ctags >/dev/null 2>&1 &' >> .git/hooks/$basename
-      chmod +x .git/hooks/$basename
-    done
-    .git/hooks/ctags
-  fi
-  echo 'if command -v hookup >/dev/null; then' >> .git/hooks/post-checkout
-  echo '  hookup post-checkout "$@"' >> .git/hooks/post-checkout
-  echo "fi" >> .git/hooks/post-checkout
-  if [ -n "$new" -a -x script/setup ]; then
-    script/setup
-  elif [ -n "$new" -a -x bin/setup ]; then
-    bin/setup
-  fi
-}
-
 # Tab completion
 if [ -n "$BASH_VERSION" ]; then
   _hcd()
@@ -119,10 +59,10 @@ if [ -n "$BASH_VERSION" ]; then
   }
   complete -F _hcd hcd hclone
 elif [ -n "$ZSH_VERSION" ]; then
-  compctl -/ -S '' -W "$HASHROCKET_DIR" hcd hclone
+  compctl -/ -S '' -W "$HASHROCKET_DIR" hcd
 fi
 
-rails_root() {
+__rails_root() {
   (
   dir=${1:-$(pwd)}
   i=0
@@ -139,15 +79,16 @@ rails_root() {
 }
 
 script_rails() {
-  if [ -f "`rails_root`/script/rails" ]; then
-    "`rails_root`/script/rails" "$@"
-  elif [ -f "`rails_root`/bin/rails" -a -f "`rails_root`/config/application.rb" ]; then
-    "`rails_root`/bin/rails" "$@"
+  local root="`__rails_root`"
+  if [ -f "$root/script/rails" ]; then
+    "$root/script/rails" "$@"
+  elif [ -f "$root/bin/rails" -a -f "$root/config/application.rb" ]; then
+    "$root/bin/rails" "$@"
   else
     local name
     name="$1"
     shift
-    "`rails_root`/script/$name" "$@"
+    "$root/script/$name" "$@"
   fi
 }
 
@@ -156,18 +97,15 @@ twiki () {
 }
 
 alias sc='script_rails console'
-alias ss='script_rails server -u'
+alias ss='script_rails server'
 alias sdbc='script_rails dbconsole -p'
-
-alias vanguard="guard -c -n false"
-alias vangaurd="vanguard"
 
 alias ll='ls -l'
 
 # git_prompt_info accepts 0 or 1 arguments (i.e., format string)
 # returns text to add to bash PS1 prompt (includes branch name)
 git_prompt_info () {
-  local g="$(git rev-parse --git-dir 2>/dev/null)"
+  local g="$(command git rev-parse --git-dir 2>/dev/null)"
   if [ -n "$g" ]; then
     local r
     local b
@@ -178,7 +116,7 @@ git_prompt_info () {
       if test -f "$g/rebase-apply/rebasing" ; then
         r="|REBASE"
       fi
-      b="$(git symbolic-ref HEAD 2>/dev/null)"
+      b="$(command git symbolic-ref HEAD 2>/dev/null)"
     # Interactive rebase
     elif [ -f "$g/rebase-merge/interactive" ] ; then
       r="|REBASE-i"
@@ -186,13 +124,13 @@ git_prompt_info () {
     # Merging
     elif [ -f "$g/MERGE_HEAD" ] ; then
       r="|MERGING"
-      b="$(git symbolic-ref HEAD 2>/dev/null)"
+      b="$(command git symbolic-ref HEAD 2>/dev/null)"
     else
       if [ -f "$g/BISECT_LOG" ] ; then
         r="|BISECTING"
       fi
-      if ! b="$(git symbolic-ref HEAD 2>/dev/null)" ; then
-        if ! b="$(git describe --exact-match HEAD 2>/dev/null)" ; then
+      if ! b="$(command git symbolic-ref HEAD 2>/dev/null)" ; then
+        if ! b="$(command git describe --exact-match HEAD 2>/dev/null)" ; then
           b="$(cut -c1-7 "$g/HEAD")..."
         fi
       fi
@@ -204,7 +142,7 @@ git_prompt_info () {
       newfile='\?\? '
     fi
     d=''
-    s=$(git status --porcelain 2> /dev/null)
+    s=$(command git status --porcelain 2> /dev/null)
     [[ $s =~ "$newfile" ]] && d+='+'
     [[ $s =~ "M " ]] && d+='*'
     [[ $s =~ "D " ]] && d+='-'
@@ -234,7 +172,6 @@ alias gdc='git diff --cached'
 alias gdh='git diff HEAD'
 alias gl='git pull'
 alias glod='git log --oneline --decorate'
-alias gln="git ln | perl -ple 's/\*/sprintf(\"%2s\", \$n++)/e' | less"
 alias gp='git push'
 alias gpr='git pull --rebase'
 alias gst='git status'
@@ -249,108 +186,3 @@ if [ "$(uname)" = Darwin -a "$(command -v vim)" = /usr/bin/vim ]; then
   [ -f "$bettervim" ] && alias vim="$bettervim"
   [ -f "$HOME$bettervim" ] && alias vim="$HOME$bettervim"
 fi
-
-
-# Heroku Commands
-
-heroku_command='heroku'
-
-check_for_heroku() {
-  if ! which $heroku_command &> /dev/null; then
-    echo "You do not have heroku toolbelt installed."
-    return 1
-  fi
-  return 0
-}
-
-# View heroku logs in realtime
-#
-# usage: hlogs APP_NAME
-
-hlogs() {
-  if ! check_for_heroku; then
-    return 2
-  fi
-  $heroku_command logs -t --app $1
-}
-
-# Restart heroku app
-#
-# usage: hrestart APP_NAME
-
-hrestart() {
-  if ! check_for_heroku; then
-    return 2
-  fi
-  $heroku_command restart --app $1
-}
-
-# Opens console for heroku app
-#
-# usage: hconsole APP_NAME
-
-hconsole() {
-  if ! check_for_heroku; then
-    return 2
-  fi
-  $heroku_command run console --app $1
-}
-
-# Run config for heroku app
-#
-# usage: hconfig APP_NAME
-
-hconfig() {
-  if ! check_for_heroku; then
-    return 2
-  fi
-  APP=$1
-  shift 1
-  $heroku_command config $@  --app $APP
-}
-
-# Sets config var for heroku app
-#
-# usage: hset APP_NAME key value
-
-hset() {
-  if ! check_for_heroku; then
-    return 2
-  fi
-  $heroku_command config:set $2=$3 --app $1
-}
-
-# Gets config var for heroku app
-#
-# usage: hget APP_NAME key
-
-hget() {
-  if ! check_for_heroku; then
-    return 2
-  fi
-  $heroku_command config:get $2 --app $1
-}
-
-# Removes config var for heroku app
-#
-# usage: hremove APP_NAME key
-
-hremove() {
-  if ! check_for_heroku; then
-    return 2
-  fi
-  $heroku_command config:unset $2 --app $1
-}
-
-# Run rake for heroku app
-#
-# usage: hrake APP_NAME args
-
-hrake() {
-  if ! check_for_heroku; then
-    return 2
-  fi
-  APP=$1
-  shift 1
-  $heroku_command run rake $@ --app $APP
-}

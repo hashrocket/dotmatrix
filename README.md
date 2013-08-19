@@ -5,7 +5,7 @@ Dotmatrix is a collection of dotfiles used at Hashrocket to customize various
 deveopment tools. This project is the culmination of many years worth of
 tinkering with our favorite tools to get them to behave just right. We think
 using dotmatrix makes working with these tools more pleasant and hope you will
-to!
+too!
 
 What are dotfiles?
 ------------------
@@ -22,7 +22,7 @@ Install
 
 Start by cloning down the repo:
 
-	$ git clone git@github.com:hashrocket/dotmatrix.git
+	$ git clone https://github.com/hashrocket/dotmatrix.git
 
 Then run this script:
 

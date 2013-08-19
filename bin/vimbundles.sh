@@ -17,6 +17,7 @@ get_bundle() {
 get_bundle adamlowe vim-slurper
 get_bundle AndrewRadev splitjoin.vim
 get_bundle duff vim-bufonly
+get_bundle ervandew supertab
 get_bundle godlygeek tabular
 get_bundle kchmck vim-coffee-script
 get_bundle leshill vim-json
@@ -55,5 +56,7 @@ get_bundle jgdavey tslime.vim
 get_bundle jgdavey vim-turbux
 get_bundle jgdavey vim-weefactor
 get_bundle gregsexton gitv
+get_bundle rondale-sc vim-spacejam
+get_bundle elixir-lang vim-elixir
 
 vim -c 'call pathogen#helptags()|q'

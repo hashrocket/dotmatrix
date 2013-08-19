@@ -28,7 +28,6 @@ Hcommand split
 Hcommand saveas
 Hcommand tabedit
 
-command! -bar -range=% Trim :<line1>,<line2>s/\s\+$//e
 command! -bar -range=% NotRocket :<line1>,<line2>s/:\(\w\+\)\s*=>/\1:/ge
 
 function! HTry(function, ...)
@@ -162,7 +161,7 @@ endif
 function! s:unused_steps(bang) abort
   let savegp = &grepprg
 
-  let prg = "$HASHROCKET_DIR/dotmatrix/bin/unused_steps"
+  let prg = "hr unused"
   if a:bang | let prg = prg.' -f' | endif
   let &grepprg = prg
 
