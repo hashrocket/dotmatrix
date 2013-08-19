@@ -106,12 +106,6 @@ alias heroku='nocorrect heroku'
 # set cd autocompletion to commonly visited directories
 cdpath=(~ ~/src $DEV_DIR $HASHROCKET_DIR)
 
-# Improve tree
-tree() {
-    # Fancy UTF8 codes, colors, auto-paginate only on long output
-    command tree --charset UTF8 -C "$@" | less -RXF
-}
-
 # rvm-install added line:
 if [[ -s "$HOME/.rvm/scripts/rvm" ]] ; then source "$HOME/.rvm/scripts/rvm" ; fi
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
