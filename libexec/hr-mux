@@ -58,7 +58,7 @@ if ! $(tmux has-session -t $name &>/dev/null); then
 
   cols="$(tput cols)"
   cd $directory
-  tmux new-session -d -n code -s $name -x${cols-150} -y50
+  tmux new-session -d -n code -s $name -x${cols-150} -y50 'reattach-to-user-namespace -l zsh'
   name=$name source $mux_file
 fi
 
