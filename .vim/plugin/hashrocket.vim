@@ -121,6 +121,7 @@ call extend(g:rails_gem_projections, {
       \ }, 'keep')
 
 inoremap <C-C> <Esc>`^
+map Y y$
 
 " Enable TAB indent and SHIFT-TAB unindent
 vnoremap <silent> <TAB> >gv
