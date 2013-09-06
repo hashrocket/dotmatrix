@@ -123,6 +123,12 @@ call extend(g:rails_gem_projections, {
 inoremap <C-C> <Esc>`^
 map Y y$
 
+let g:splitjoin_split_mapping = ''
+let g:splitjoin_join_mapping = ''
+
+nmap <silent> gK :SplitjoinJoin<cr>
+nmap <silent> gJ :SplitjoinSplit<cr>
+
 " Enable TAB indent and SHIFT-TAB unindent
 vnoremap <silent> <TAB> >gv
 vnoremap <silent> <S-TAB> <gv
