@@ -2,7 +2,7 @@ DOTMATRIX
 =========
 
 Dotmatrix is a collection of dotfiles used at Hashrocket to customize various
-deveopment tools. This project is the culmination of many years worth of
+development tools. This project is the culmination of many years worth of
 tinkering with our favorite tools to get them to behave just right. We think
 using dotmatrix makes working with these tools more pleasant and hope you will
 too!
@@ -45,7 +45,7 @@ with dotmatrix.
 When `FILES` exists in the dotmatrix source directory, running `bin/install`
 will only symlink the dotfiles listed within `FILES`.
 
-If, for example, you only want the tmux configuaration and hashrc files, and
+If, for example, you only want the tmux configuration and hashrc files, and
 want to ignore all of the rest of dotmatrix's dotfiles:
 
     $ cd path/to/dotmatrix
@@ -80,7 +80,7 @@ Actively Maintained
 -------------------
 
 At Hashrocket we use dotmatrix on all of our development machines, then for
-many of us we get so used to the setup that we use it on our personal machines
+many of us we get so familiar with the setup that we use it on our personal machines
 too. That means there's a lot of picky nerds using dotmatrix every day to make
 their tools easy and fun to use.
 
