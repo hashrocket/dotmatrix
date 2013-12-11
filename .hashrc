@@ -162,6 +162,10 @@ gco () {
   fi
 }
 
+gcr() {
+  git checkout -b $1 origin/$1
+}
+
 alias gap='git add -p'
 alias gnap='git add -N . && git add -p'
 alias gb='git branch'
