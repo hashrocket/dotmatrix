@@ -60,5 +60,6 @@ get_bundle rondale-sc vim-spacejam
 get_bundle elixir-lang vim-elixir
 get_bundle heartsentwined vim-emblem
 get_bundle slim-template vim-slim
+get_bundle vicramon vim-quickdraw
 
 vim -c 'call pathogen#helptags()|q'
