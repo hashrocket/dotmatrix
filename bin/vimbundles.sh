@@ -9,7 +9,7 @@ get_bundle() {
     cd "$2"
     git pull --rebase
   else
-    git clone "git://github.com/$1/$2.git"
+    git clone "https://github.com/$1/$2.git"
   fi
   )
 }
