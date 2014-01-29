@@ -1,7 +1,6 @@
 AndrewRadev/splitjoin.vim
 adamlowe/vim-slurper
 duff/vim-bufonly
-elixir-lang/vim-elixir
 ervandew/supertab
 godlygeek/tabular
 gregsexton/gitv
@@ -40,7 +39,6 @@ tpope/vim-speeddating
 tpope/vim-surround
 tpope/vim-unimpaired
 tpope/vim-vividchalk
-vicramon/vim-quickdraw
 vim-ruby/vim-ruby
 vim-scripts/bufexplorer.zip
 vim-scripts/bufkill.vim
