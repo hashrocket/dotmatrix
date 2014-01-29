@@ -56,3 +56,5 @@
 	default = tracking
 [rebase]
 	autosquash = true
+[diff]
+	algorithm = patience
