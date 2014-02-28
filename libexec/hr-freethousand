@@ -11,7 +11,7 @@ pid="$(lsof -Fp -i tcp:$port | sed 's/p//')"
 
 if [ -n "$pid" ]; then
   echo "Killing process with PID $pid listening on port $port..." >&2
-  kill "$pid"
+  kill $pid
 else
   echo "No process listening on port $port" >&2
   exit 1
