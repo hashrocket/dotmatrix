@@ -1,6 +1,6 @@
 runtime! autoload/pathogen.vim
 if exists('g:loaded_pathogen')
-  execute pathogen#infect('~/.vimbundles/{}')
+  execute pathogen#infect('~/.vimbundles/{}', '~/.vim/bundle/{}')
 endif
 
 syntax on
