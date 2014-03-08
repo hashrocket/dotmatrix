@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
-BASE="$HOME/.vimbundles"
+if [ ! -d "$HOME/.vimbundles" ]; then
+  BASE="$HOME/.vim/bundle"
+else
+  BASE="$HOME/.vimbundles"
+fi
 
 mkdir -p $BASE
 
