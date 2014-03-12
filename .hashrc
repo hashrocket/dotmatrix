@@ -31,13 +31,18 @@ hcd() {
 }
 
 git() {
-  [ -f "$HOME/.hitch_export_authors" ] && . "$HOME/.hitch_export_authors"
   if command -v hub >/dev/null; then
     command hub "$@"
   else
     command git "$@"
   fi
 }
+
+hitch() {
+  command hitch "$@"
+  if [[ -s "$HOME/.hitch_export_authors" ]] ; then source "$HOME/.hitch_export_authors" ; fi
+}
+alias unhitch='hitch -u'
 
 # Tab completion
 if [ -n "$BASH_VERSION" ]; then
