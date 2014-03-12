@@ -28,13 +28,18 @@ hcd() {
 }
 
 git() {
-  [ -f "$HOME/.hitch_export_authors" ] && . "$HOME/.hitch_export_authors"
   if command -v hub >/dev/null; then
     command hub "$@"
   else
     command git "$@"
   fi
 }
+
+hitch() {
+  command hitch "$@"
+  if [[ -s "$HOME/.hitch_export_authors" ]] ; then source "$HOME/.hitch_export_authors" ; fi
+}
+alias unhitch='hitch -u'
 
 hclone() {
   echo "DEPRECATION: hclone is moving to \`hr'. Pull the latest to experience the benefits" >&2
