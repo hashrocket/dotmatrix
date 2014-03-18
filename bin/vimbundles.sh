@@ -28,3 +28,4 @@ install_from() {
 
 install_from "$HOME/.vimbundle"
 install_from "$HOME/.vimbundle.local"
+vim -c 'call pathogen#helptags()|q'
