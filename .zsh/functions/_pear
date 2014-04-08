@@ -1,0 +1,31 @@
+#compdef pear
+
+__pear_authors() {
+  local -a _authors
+  if [ -f $HOME/.pearrc ]; then
+    _authors=(${${(f)"$(cat $HOME/.pearrc | sed '1,/^devs:$/d' | sed 's/^ *//')"}/:[ $'\t']##/:})
+  fi
+  _describe -t pear_authors "pear authors" _authors "$@"
+}
+
+_pear() {
+  local ret=1
+  local context state line
+  local curcontext="$curcontext"
+  typeset -A opt_args
+
+  _arguments -C \
+    '(- 1 *)'{-v,--version}'[Display version information]' \
+    '(- 1 *)'{-e,--email}'[Base author email]' \
+    '(- 1 *)'{-g,--global}'[Modify global git settings]' \
+    '(- 1 *)'{-f,--file}'[Optional alternative git config file]:output file:_files' \
+    '*:: :->pear_authors' && ret=0
+
+  if [[ ${state} == "pear_authors" ]]; then
+    _call_function ret __pear_authors
+  fi
+
+  return ret
+}
+
+_pear
