@@ -15,3 +15,9 @@
 --regex-CoffeeScript=/(^|=[ \t])*class ([A-Za-z.]+)( extends [A-Za-z.]+)?$/\2/c,class/
 --regex-CoffeeScript=/^[ \t]*@?([A-Za-z.]+):.*[-=]>.*$/\1/f,function/
 --regex-CoffeeScript=/^[ \t]*([A-Za-z.]+)[ \t]+=.*[-=]>.*$/\1/f,function/
+
+--langdef=Go
+--langmap=Go:.go
+--regex-Go=/func([ \t]+\([^)]+\))?[ \t]+([a-zA-Z0-9_]+)/\2/d,func/
+--regex-Go=/var[ \t]+([a-zA-Z_][a-zA-Z0-9_]+)/\1/d,var/
+--regex-Go=/type[ \t]+([a-zA-Z_][a-zA-Z0-9_]+)/\1/d,type/
