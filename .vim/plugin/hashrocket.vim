@@ -120,6 +120,24 @@ call extend(g:rails_gem_projections, {
       \      "command": "factory"}}
       \ }, 'keep')
 
+" Generic non-Rails projections with projectile.vim
+if !exists('g:projectiles')
+  let g:projectiles = {}
+endif
+
+call extend(g:projectiles, {
+      \ "config.rb&source/": {
+      \   "source/stylesheets/*.sass": { "command" : "stylesheet" },
+      \   "source/stylesheets/*.scss": { "command" : "stylesheet" },
+      \   "source/stylesheets/*.css":  { "command" : "stylesheet" },
+      \   "source/javascripts/*.js":   { "command" : "javascript" },
+      \   "source/stylesheets/*.coffee": { "command" : "javascript" },
+      \   "source/*.html": { "command" : "view" },
+      \   "source/*.haml": { "command" : "view" },
+      \   "config.rb": { "command" : "config" }
+      \ }
+      \ }, 'keep')
+
 inoremap <C-C> <Esc>`^
 map Y y$
 
