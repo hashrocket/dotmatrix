@@ -131,7 +131,7 @@ call extend(g:projectiles, {
       \   "source/stylesheets/*.scss": { "command" : "stylesheet" },
       \   "source/stylesheets/*.css":  { "command" : "stylesheet" },
       \   "source/javascripts/*.js":   { "command" : "javascript" },
-      \   "source/stylesheets/*.coffee": { "command" : "javascript" },
+      \   "source/javascripts/*.coffee": { "command" : "javascript" },
       \   "source/*.html": { "command" : "view" },
       \   "source/*.haml": { "command" : "view" },
       \   "config.rb": { "command" : "config" }
