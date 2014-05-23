@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+path="$(command hr-cd "$1")"
+
+if [ -d "$path" ]; then
+  echo "cd $path"
+else
+  echo "No such directory: $path" >&2
+fi

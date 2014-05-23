@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Usage: hr cd <directory>
+#
+# Summary: Change to a folder within $HASHROCKET_DIR
+#
+# Help: Change to a folder within $HASHROCKET_DIR
+#
+# Note: This command requires $HASHROCKET_DIR to be set.
+
+base="$HASHROCKET_DIR"
+
+if [ "$1" = "--complete" ]; then
+  ls "$base"
+  exit 0
+fi
+
+echo "$base/$1"
