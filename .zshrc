@@ -5,7 +5,7 @@ fpath=(
   /usr/local/share/zsh/site-functions
 )
 
-source "$HOME/.hashrc"
+source "$HOME/.sharedrc"
 
 # color term
 export CLICOLOR=1

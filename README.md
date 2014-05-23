@@ -45,14 +45,14 @@ with dotmatrix.
 When `FILES` exists in the dotmatrix source directory, running `bin/install`
 will only symlink the dotfiles listed within `FILES`.
 
-If, for example, you only want the tmux configuration and hashrc files, and
+If, for example, you only want the tmux configuration and sharedrc files, and
 want to ignore all of the rest of dotmatrix's dotfiles:
 
     $ cd path/to/dotmatrix
     $ cat FILES
     .tmux.conf
-    .hashrc
-    $ bin/install # Only installs .tmux.conf and .hashrc
+    .sharedrc
+    $ bin/install # Only installs .tmux.conf and .sharedrc
 
 Vim bundles
 -----------

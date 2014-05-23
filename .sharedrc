@@ -1,0 +1,199 @@
+# vim:set ft=sh sw=2 sts=2:
+
+[ -e "$HASHROCKET_DIR" ] || HASHROCKET_DIR="$HOME/hashrocket"
+export HASHROCKET_DIR
+
+# Paths for prepending
+for dir in /usr/local/bin "$HOME/bin" .git/bin .git/safe/../../bin; do
+  case "$PATH:" in
+    *:"$dir":*) PATH="`echo "$PATH"|sed -e "s#:$dir##"`" ;;
+  esac
+  case "$dir" in
+    /*) [ ! -d "$dir" ] || PATH="$dir:$PATH" ;;
+    *) PATH="$dir:$PATH" ;;
+  esac
+done
+
+# Paths for appending
+for dir in /usr/local/sbin /opt/local/sbin /usr/X11/bin; do
+  case ":$PATH:" in
+    *:"$dir":*) ;;
+    *) [ ! -d "$dir" ] || PATH="$PATH:$dir" ;;
+  esac
+done
+
+hcd() {
+  cd "$HASHROCKET_DIR/$1"
+  if [ -e .git/safe -a ! -L .git/bin ]; then
+    ln -s ../bin .git
+  fi
+}
+
+git() {
+  if command -v hub >/dev/null; then
+    command hub "$@"
+  else
+    command git "$@"
+  fi
+}
+
+hitch() {
+  command hitch "$@"
+  if [[ -s "$HOME/.hitch_export_authors" ]] ; then source "$HOME/.hitch_export_authors" ; fi
+}
+alias unhitch='hitch -u'
+
+# Tab completion
+if [ -n "$BASH_VERSION" ]; then
+  _hcd()
+  {
+    local cur projects
+
+    [ -r "$HASHROCKET_DIR" ] || return 0
+
+    eval 'COMPREPLY=()'
+    cur=${COMP_WORDS[COMP_CWORD]}
+    projects=$(\ls "$HASHROCKET_DIR")
+
+    if [ $COMP_CWORD -eq 1 ]; then
+      eval 'COMPREPLY=( $(compgen -o filenames -W "$projects" $cur) )'
+    fi
+
+    return 0
+  }
+  complete -F _hcd hcd hclone
+elif [ -n "$ZSH_VERSION" ]; then
+  compctl -/ -S '' -W "$HASHROCKET_DIR" hcd
+fi
+
+__rails_root() {
+  (
+  dir=${1:-$(pwd)}
+  i=0
+  while [ "/" != "$dir" -a "$i" -ne 16 ]; do
+    if [ -f "$dir/config/environment.rb" ]; then
+      echo "$dir"
+      return 0
+    fi
+    dir="$(dirname "$dir")"
+    i=$(expr $i + 1)
+  done
+  return 1
+  )
+}
+
+script_rails() {
+  local root="`__rails_root`"
+  if [ -f "$root/script/rails" ]; then
+    "$root/script/rails" "$@"
+  elif [ -f "$root/bin/rails" -a -f "$root/config/application.rb" ]; then
+    "$root/bin/rails" "$@"
+  else
+    local name
+    name="$1"
+    shift
+    "$root/script/$name" "$@"
+  fi
+}
+
+twiki () {
+  rake db:migrate && rake db:migrate:redo && rake db:test:prepare
+}
+
+alias sc='script_rails console'
+alias ss='script_rails server'
+alias sdbc='script_rails dbconsole -p'
+
+alias ll='ls -l'
+
+# git_prompt_info accepts 0 or 1 arguments (i.e., format string)
+# returns text to add to bash PS1 prompt (includes branch name)
+git_prompt_info () {
+  local g="$(command git rev-parse --git-dir 2>/dev/null)"
+  if [ -n "$g" ]; then
+    local r
+    local b
+    local d
+    local s
+    # Rebasing
+    if [ -d "$g/rebase-apply" ] ; then
+      if test -f "$g/rebase-apply/rebasing" ; then
+        r="|REBASE"
+      fi
+      b="$(command git symbolic-ref HEAD 2>/dev/null)"
+    # Interactive rebase
+    elif [ -f "$g/rebase-merge/interactive" ] ; then
+      r="|REBASE-i"
+      b="$(cat "$g/rebase-merge/head-name")"
+    # Merging
+    elif [ -f "$g/MERGE_HEAD" ] ; then
+      r="|MERGING"
+      b="$(command git symbolic-ref HEAD 2>/dev/null)"
+    else
+      if [ -f "$g/BISECT_LOG" ] ; then
+        r="|BISECTING"
+      fi
+      if ! b="$(command git symbolic-ref HEAD 2>/dev/null)" ; then
+        if ! b="$(command git describe --exact-match HEAD 2>/dev/null)" ; then
+          b="$(cut -c1-7 "$g/HEAD")..."
+        fi
+      fi
+    fi
+
+    # Dirty Branch
+    local newfile='?? '
+    if [ -n "$ZSH_VERSION" ]; then
+      newfile='\?\? '
+    fi
+    d=''
+    s=$(command git status --porcelain 2> /dev/null)
+    [[ $s =~ "$newfile" ]] && d+='+'
+    [[ $s =~ "M " ]] && d+='*'
+    [[ $s =~ "D " ]] && d+='-'
+
+    printf "${1-"(%s) "}" "${b##refs/heads/}$r$d"
+  fi
+}
+
+gco () {
+  if [[ $1 == '.' ]]; then
+    git add -A
+    git commit -m "CHECKING OUT CURRENT DIRECTORY" -q
+    git reset HEAD^ -q
+    git checkout .
+  else
+    git checkout "$@"
+  fi
+}
+
+gcr() {
+  git checkout -b $1 origin/$1
+}
+
+alias gap='git add -p'
+alias gnap='git add -N . && git add -p'
+alias glp='git log -p'
+alias glg='git log --graph --oneline --decorate --color --all'
+alias gb='git branch'
+alias gc='git commit -v'
+alias gca='git commit -a -v'
+alias gcl='git clean -f -d'
+alias gd='git diff'
+alias gdc='git diff --cached'
+alias gdh='git diff HEAD'
+alias gl='git pull'
+alias glod='git log --oneline --decorate'
+alias gp='git push'
+alias gpr='git pull --rebase'
+alias gst='git status'
+alias gr='git rebase'
+alias grc='git rebase --continue'
+alias gra='git rebase --abort'
+alias reset-authors='git commit --amend --reset-author -C HEAD'
+alias vi='vim'
+
+if [ "$(uname)" = Darwin -a "$(command -v vim)" = /usr/bin/vim ]; then
+  bettervim="/Applications/MacVim.app/Contents/MacOS/Vim"
+  [ -f "$bettervim" ] && alias vim="$bettervim"
+  [ -f "$HOME$bettervim" ] && alias vim="$HOME$bettervim"
+fi
