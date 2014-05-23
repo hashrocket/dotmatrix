@@ -1,6 +1,11 @@
 " hashrocket.vim
 " vim:set ft=vim et tw=78 sw=2:
 
+if exists('g:loaded_hashrocket')
+  finish
+endif
+let g:loaded_hashrocket = 1
+
 if $HASHROCKET_DIR == '' && expand('<sfile>') =~# '/dotmatrix/\.vim/plugin/hashrocket\.vim$'
   let $HASHROCKET_DIR = expand('<sfile>')[0 : -38]
 endif
