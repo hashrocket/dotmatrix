@@ -46,3 +46,19 @@ for dotfile in $files; do
     echo -e "Skipping $dotfile \talready exists"
   fi
 done
+
+# Symlink $HOME-relative files, preserving directory structure
+
+for file in $(find custom -type f -not -name '*README*'); do
+  path=${file/"custom"/$HOME}
+  name=$(basename $file)
+  if [ ! -L $path ]; then
+    dest=$(dirname $path)
+    echo "Symlinking $name to $dest"
+    mkdir -p $dest
+    ln -nfs $dir/$file $dest
+  else
+    echo -e "Skipping $name already exists"
+  fi
+done
+

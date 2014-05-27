@@ -28,3 +28,18 @@ for dotfile in $files; do
     skip_file $dotfile "not found or is not a symlink"
   fi
 done
+
+for file in $(find custom -type f -not -name '*README*'); do
+  path=${file/"custom"/$HOME}
+  name=$(basename $file)
+  if [ -L $path ]; then
+    if [ $dir/$file = $(readlink $path) ]; then
+      echo "Removing $path"
+      unlink $path
+    else
+      skip_file $name, "exists, but is not from dotmatrix"
+    fi
+  else
+    skip_file $name, "not found or is not a symlink"
+  fi
+done
