@@ -11,7 +11,7 @@ if [ ! -d $HOME/$undo_dir_path ]; then
   create_notice "~/$undo_dir_path" "absent"
   mkdir -p $HOME/$undo_dir_path
 else
-  print_padded "Skipping ~/$undo_dir_path" "exists"
+  skip_notice "~/$undo_dir_path" "exists"
 fi
 
 # Copy *.local files

@@ -1,28 +1,36 @@
+# colors
+
+red=$(tput setaf 1)
+green=$(tput setaf 2)
+yellow=$(tput setaf 3)
+normal=$(tput sgr0)
+
 # Print functions
+
 print_padded() {
   len=${#2}
-  printf "%-40s [%$((len+(10-len)/2))s%$(((10-len)/2))s]\n" "$1" "$2" " "
+  printf "%-50s [$3%$((len+(10-len)/2))s%$(((10-len)/2))s$normal]\n" "$1" "$2"
 }
 
 create_notice() {
-  print_padded "Creating $1" "$2"
+  print_padded "Creating $1" "$2" $green
 }
 
 
 skip_notice() {
-  print_padded "Skipping $1" "$2"
+  print_padded "${yellow}Skipping${normal} $1" "$2" $yellow
 }
 
 copy_notice() {
-  print_padded "Copying  $1" "$2"
+  print_padded "${green}Copying${normal}  $1" "$2" $green
 }
 
 link_notice() {
-  print_padded "Linking  $1" "$2"
+  print_padded "${green}Linking${normal}  $1" "$2" $green
 }
 
 remove_notice() {
-  print_padded "Removing $1" "$2"
+  print_padded "${red}Removing${normal} $1" "$2" $red
 }
 
 # Other functions
@@ -30,7 +38,7 @@ remove_notice() {
 directory_warning() {
   name=$(basename $0)
   if [[ ! "$PWD/bin/$name" -ef "$0" ]]; then
-    echo "Please run '$name' from dotmatrix root folder"
+    echo "${yellow}Please run '$name' from dotmatrix root folder${normal}"
     exit 1
   fi
 }
