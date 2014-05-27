@@ -4,12 +4,7 @@ set -e
 source $(dirname $0)/dot_functions.sh
 
 directory_warning
-
-if [ -n "$(git status --porcelain)" ]; then
-  echo "ERROR: You have a dirty working copy."
-  echo "Commit or clean any changes, and run bin/upgrade again."
-  exit 1
-fi
+dirty_warning
 
 git pull --rebase
 ./bin/install

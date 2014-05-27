@@ -42,3 +42,11 @@ directory_warning() {
     exit 1
   fi
 }
+
+dirty_warning() {
+  if [ -n "$(git status --porcelain)" ]; then
+    echo "${red}ERROR: You have a dirty working copy.${normal}"
+    echo "Commit or clean any changes, and run bin/upgrade again."
+    exit 1
+  fi
+}
