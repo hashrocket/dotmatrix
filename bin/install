@@ -1,49 +1,43 @@
 #!/usr/bin/env bash
 set -e
 
-dir=$PWD
-if [[ ! "$dir/bin/install" -ef "$0" ]]; then
-  echo "Please run 'bin/install' from dotmatrix root folder"
-  exit 1
-fi
+source $(dirname $0)/dot_functions.sh
+
+directory_warning
 
 # Ensure presence of directory for vim undo files
 undo_dir_path="Library/Vim/undo"
 if [ ! -d $HOME/$undo_dir_path ]; then
-  echo -n "Creating"
+  create_notice "~/$undo_dir_path" "absent"
   mkdir -p $HOME/$undo_dir_path
 else
-  echo -n "Skipping"
+  print_padded "Skipping ~/$undo_dir_path" "exists"
 fi
-echo " ~/$undo_dir_path"
 
 # Copy *.local files
 for dotfile in .*.local ; do
-  dotmatrix_path=$dir/$dotfile
+  dotmatrix_path=$PWD/$dotfile
   path="$HOME/$dotfile"
 
   if [ ! -e $path ]; then
-    echo "Copying $dotfile to $path"
+    copy_notice $dotfile "absent"
     cp $dotmatrix_path $path
   else
-    echo -e "Skipping $dotfile \talready exists"
+    skip_notice $dotfile "exists"
   fi
 done
 
-# Symlink dotfiles
-files="$(./bin/file_list.sh)"
-
-for dotfile in $files; do
-  dotmatrix_path="$dir/$dotfile"
+for dotfile in $(./bin/file_list.sh); do
+  dotmatrix_path="$PWD/$dotfile"
   path="$HOME/$dotfile"
 
   [ -e $dotmatrix_path ] || continue
 
   if [ ! -L $path ]; then
-    echo "Symlinking $dotfile to $path"
+    link_notice $dotfile "absent"
     ln -nfs $dotmatrix_path $path
   else
-    echo -e "Skipping $dotfile \talready exists"
+    skip_notice $dotfile "exists"
   fi
 done
 
@@ -54,11 +48,11 @@ for file in $(find custom -type f -not -name '*README*'); do
   name=$(basename $file)
   if [ ! -L $path ]; then
     dest=$(dirname $path)
-    echo "Symlinking $name to $dest"
+    link_notice $name "absent"
     mkdir -p $dest
-    ln -nfs $dir/$file $dest
+    ln -nfs $PWD/$file $dest
   else
-    echo -e "Skipping $name already exists"
+    skip_notice $name "exists"
   fi
 done
 

@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
-if [[ ! "$PWD/bin/upgrade" -ef "$0" ]]; then
-  echo "Please run 'bin/upgrade' from dotmatrix root folder"
-  exit 1
-fi
+source $(dirname $0)/dot_functions.sh
+
+directory_warning
 
 if [ -n "$(git status --porcelain)" ]; then
   echo "ERROR: You have a dirty working copy."
