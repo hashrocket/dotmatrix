@@ -19,6 +19,7 @@ _pear() {
     '(- 1 *)'{-e,--email}'[Base author email]' \
     '(- 1 *)'{-g,--global}'[Modify global git settings]' \
     '(- 1 *)'{-f,--file}'[Optional alternative git config file]:output file:_files' \
+    '(- 1 *)'{-u,--unset}'[Unset local pear config and use global config]:output file:_files' \
     '*:: :->pear_authors' && ret=0
 
   if [[ ${state} == "pear_authors" ]]; then
