@@ -6,19 +6,35 @@ else
   BASE="$HOME/.vimbundles"
 fi
 
+if [ "$1" = "log-since" ]; then
+  echo "**logsince**"
+  logsince="true"
+  date="$2"
+else
+  logsince="false"
+fi
+
+if $($logsince) ; then
+  echo "*** logsince ***"
+fi
+
 mkdir -p $BASE
 
-install_from() {
+action_from() {
   if [ -r $1 ]; then
     repos="$(cat $1)"
     for repo in $repos; do
       cd $BASE
       dir="$(basename $repo)"
-      echo
       if [ -d "$BASE/$dir" ]; then
-        echo "Updating $repo"
         cd "$BASE/$dir"
-        git pull --rebase
+        if $logsince ; then
+          echo "Log for repo $repo" >>/tmp/vimbundles.log
+          git log --since $date --color=always >>/tmp/vimbundles.log
+        else
+          echo "Updating $repo"
+          git pull --rebase
+        fi
       else
         git clone https://github.com/"$repo".git
       fi
@@ -26,6 +42,10 @@ install_from() {
   fi
 }
 
-install_from "$HOME/.vimbundle"
-install_from "$HOME/.vimbundle.local"
-vim -c 'call pathogen#helptags()|q'
+action_from "$HOME/.vimbundle"
+action_from "$HOME/.vimbundle.local"
+
+if $logsince ; then
+  less "/tmp/vimbundles.log"
+  rm "/tmp/vimbundles.log"
+fi
