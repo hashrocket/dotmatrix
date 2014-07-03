@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Usage: hr update
+# Summary: Update hr and all plugins
+# Help: Just run `hr update`
+
+set -e
+
+if [ "$1" = "--complete" ]; then
+  exec hr-commands
+fi
+
+git pull --rebase
+
+shopt -s nullglob
+
+for plugin in "${_HR_ROOT}/plugins"/*/ ; do
+  (
+    cd $plugin
+    git pull --rebase
+  )
+done
+
+shopt -u nullglob

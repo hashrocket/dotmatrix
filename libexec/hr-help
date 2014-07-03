@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -e
 
+if [ -n "$HR_LIBEXEC_PATH" ]; then
+  echo "\$HR_LIBEXEC_PATH is deprecated. Install hr extensions to $_HR_ROOT/plugins." >&2
+fi
+
+
 print_summaries() {
   local commands=()
   local summaries=()
