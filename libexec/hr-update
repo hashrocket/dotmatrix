@@ -5,16 +5,25 @@
 
 set -e
 
+header() {
+  echo -e "\033[33m$1\033[0m"
+}
+
 if [ "$1" = "--complete" ]; then
   exec hr-commands
 fi
 
+header "Updating hr"
 git pull --rebase
 
 shopt -s nullglob
 
 for plugin in "${_HR_ROOT}/plugins"/*/ ; do
   (
+    echo
+    echo
+    name="$(basename $plugin)"
+    header "Updating hr plugin $name"
     cd $plugin
     git pull --rebase
   )
