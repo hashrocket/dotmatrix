@@ -13,6 +13,7 @@ if [ "$1" = "--complete" ]; then
   exec hr-commands
 fi
 
+cd $_HR_ROOT
 header "Updating hr"
 git pull --rebase
 
