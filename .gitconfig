@@ -30,8 +30,6 @@
 	whitespace = warn
 [help]
 	autocorrect = 10
-[include]
-	path = ~/.gitconfig.local
 [interactive]
 	singlekey = true
 [merge]
@@ -58,3 +56,5 @@
 	autosquash = true
 [diff]
 	algorithm = patience
+[include]
+	path = ~/.gitconfig.local
