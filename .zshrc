@@ -87,10 +87,6 @@ setopt INC_APPEND_HISTORY
 export PSQL_EDITOR='vim -c"setf sql"'
 
 # aliases
-alias mv='nocorrect mv'       # no spelling correction on mv
-alias cp='nocorrect cp'
-alias mkdir='nocorrect mkdir'
-alias rspec='nocorrect rspec'
 alias ll="ls -l"
 alias la="ls -a"
 alias l.='ls -ld .[^.]*'
