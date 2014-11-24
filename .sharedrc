@@ -197,3 +197,6 @@ if [ "$(uname)" = Darwin -a "$(command -v vim)" = /usr/bin/vim ]; then
   [ -f "$bettervim" ] && alias vim="$bettervim"
   [ -f "$HOME$bettervim" ] && alias vim="$HOME$bettervim"
 fi
+
+# RVM exectuble path for scripting, when available
+if [[ -s "$HOME/.rvm/bin" ]] ; then export PATH="$PATH:$HOME/.rvm/bin" ; fi
