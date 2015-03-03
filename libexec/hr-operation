@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+# Usage: hr operation
+#
+# Summary: Generate a random operation name
+
+class Operation
+
+  DESCRIPTORS = %w[iron bronze wolf bear phantom rock eagle snake freedom tiger
+    dragon gold crowned timberwolf surprise ghost lightning thunder night yukon
+    blue red black fearsome fierce warrior new old royal guardian wicked power
+    christmas final epic rowdy mutant turbulent overpowered teenager tentative
+    pensive sorrowful hesitant Roman frighful galaxy]
+
+  NOUNS = %w[fury storm king tornado jackhammer hammer fight night swarm
+    blitz strike ripper talon forge sweep bite fire dive justice surge
+    hunt sword mace bull fox wagon fist peace hope resolve piledriver
+    maneuver prince deuce menace holiday cavort galavant bender winter
+    accident thrust disaster collapse cat booth]
+
+  def generate
+    a = DESCRIPTORS.sample
+    b = NOUNS.sample
+    "operation #{a} #{b}".upcase
+  end
+end
+
+puts Operation.new.generate
