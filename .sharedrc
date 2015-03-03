@@ -4,7 +4,7 @@
 export HASHROCKET_DIR
 
 # Paths for prepending
-for dir in /usr/local/bin "$HOME/bin" .git/bin .git/safe/../../bin; do
+for dir in /usr/local/bin "$HOME/bin" .git/safe/../../bin; do
   case "$PATH:" in
     *:"$dir":*) PATH="`echo "$PATH"|sed -e "s#:$dir##"`" ;;
   esac
@@ -24,9 +24,6 @@ done
 
 hcd() {
   cd "$HASHROCKET_DIR/$1"
-  if [ -e .git/safe -a ! -L .git/bin ]; then
-    ln -s ../bin .git
-  fi
 }
 
 git() {
