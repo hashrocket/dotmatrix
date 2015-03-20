@@ -56,3 +56,4 @@ for file in $(find custom -type f -not -name '*README*'); do
   fi
 done
 
+exit 0
