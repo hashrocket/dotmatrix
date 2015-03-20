@@ -1,4 +1,4 @@
-#compdef psql pg_dump createdb dropdb vacuumdb
+#compdef psql pg_dump pg_dumpall createdb dropdb vacuumdb createuser dropuser initdb
 # ------------------------------------------------------------------------------
 # Description
 # -----------
@@ -15,9 +15,8 @@
 #
 #  * Johann 'Myrkraverk' Oskarsson <johann@2ndquadrant.com>
 #
-# ------------------------------------------------------------------------------
-# -*- mode: zsh; sh-indentation: 2; indent-tabs-mode: nil; sh-basic-offset: 2; -*-
-# vim: ft=zsh sw=2 ts=2 et
+#  * Daniel Serodio <dserodio@gmail.com> pg_dumpall completion
+#
 # ------------------------------------------------------------------------------
 
 
@@ -87,7 +86,7 @@ _pgsql_tables () {
     local _pgsql_table_sql
     _pgsql_table_sql="select n.nspname || '.' || c.relname \
 	from pg_catalog.pg_class c \
-		left join pg_catalog.pg_namespace n on n.oin = c.relnamespace \
+		left join pg_catalog.pg_namespace n on n.oid = c.relnamespace \
 	where c.relkind in ('r', '') \
 		and n.nspname <> 'pg_catalog' \
 		and n.nspname <> 'information_schema' \
@@ -99,6 +98,23 @@ _pgsql_tables () {
         $( psql $_pgsql_params[@] -Aqt -c $_pgsql_table_sql $db 2>/dev/null )
 }
 
+_pgsql_schemas () {
+    local _pgsql_user _pgsql_port _pgsql_host _pgsql_params
+    _pgsql_get_identity
+
+    local db
+    db=${line[1]:-${PGDATABASE:-$LOGNAME}}
+
+    local _pgsql_schema_sql="select n.nspname \
+        from pg_catalog.pg_namespace n \
+        where n.nspname !~ '^pg_' \
+            and n.nspname <> 'information_schema' \
+        order by 1;"
+
+    compadd "$@" - \
+        $( psql $_pgsql_params[@] -Aqt -c $_pgsql_schema_sql $db 2>/dev/null )
+}
+
 _pgsql_databases () {
     local _pgsql_user _pgsql_port _pgsql_host _pgsql_params
     _pgsql_get_identity
@@ -108,6 +124,16 @@ _pgsql_databases () {
 	where d.datname <> 'template0'"
 
     compadd "$@" - $( psql $_pgsql_params[@] -Atq -c $_pgsql_db_sql template1 2>/dev/null )
+}
+
+_pgsql_encodings () {
+    local _pgsql_user
+    _pgsql_get_identity
+
+    local _pgsql_db_sql
+    _pgsql_db_sql="select pg_encoding_to_char(i) from generate_series(0,100) i;"
+
+    compadd "$@" - $( psql $_pgsql_params[@] -Atq -c $_pgsql_db_sql template1  )
 }
 
 
@@ -158,24 +184,65 @@ _pg_dump () {
         {-b,--blobs}'[dump blobs as well]' \
         {-c,--clean}'[include clean cmds in dump]' \
         {-C,--create}'[include createdb cmds in dump]' \
+        {-E+,--encoding=}':database encoding:_pgsql_encodings' \
         {-d,--inserts}'[use INSERT not COPY]' \
         {-D,--{attribute,column}-inserts}'[use INSERT (cols) not COPY]' \
         {-f+,--file=}':output file:_files' \
         {-F+,--format=}':output format:_values "format" "p[plain text]" "t[tar]" "c[custom]"' \
         {-i,--ignore-version}'[ignore version mismatch]' \
-        {-n+,--schema=}':schema to dump:' \
+        {-n+,--schema=}':schema to dump:_pgsql_schemas' \
+        {-N+,--exclude-schema=}':schema to NOT dump:_pgsql_schemas' \
         {-o,--oids}'[dump objects identifiers for every table]' \
         {-O,--no-owner}'[dont recreate as same owner]' \
         {-R,--no-reconnect}'[dont output connect]' \
         {-s,--schema-only}'[no data, only schema]' \
         {-S+,--superuser=}':superuser name:_pgsql_users' \
         {-t+,--table=}':table to dump:_pgsql_tables' \
+        {-T+,--exclude-table=}':table to NOT dump:_pgsql_tables' \
         {-v,--verbose}'[verbose mode]' \
         {-V,--version}'[display client version]' \
         {-x,--no-{acl,privileges}}'[dont dump ACLs]' \
         -X+':option:_values "option" use-set-session-authorization disable-triggers' \
         {-Z+,--compress=}':compression level:_values "level" 9 8 7 6 5 4 3 2 1 0' \
-        ':PostgreSQL database:_pgsql_databases'
+        ':PostgreSQL database:_pgsql_databases' \
+        --section=':dump named section:_values "section" pre-data data post-data' \
+        --disable-dollar-quoting'[disable dollar quoting, use SQL standard quoting]' \
+        --disable-triggers'[disable triggers during data-only restore]' \
+        --no-security-labels'[do not dump security label assignments]' \
+        --no-tablespaces'[do not dump tablespace assignments]' \
+        --no-unlogged-table-data'[do not dump unlogged table data]' \
+        --quote-all-identifiers'[quote all identifiers, even if not key words]' \
+        --serializable-deferrable'[wait until the dump can run without anomalies]' \
+        --use-set-session-authorization'[use SET SESSION AUTHORIZATION commands instead of ALTER OWNER]'
+}
+
+_pg_dumpall () {
+    local curcontext="$curcontext" state line expl
+    typeset -A opt_args
+
+    _arguments -C -s \
+        "$_pgsql_common_opts[@]" \
+        {-a,--data-only}'[dump only data]' \
+        {-c,--clean}'[include clean (drop) cmds brefore recreating]' \
+        {-g,--globals-only}'[dump only global objects, no databases]' \
+        {-f+,--file=}':output file:_files' \
+        {-o,--oids}'[dump objects identifiers for every table]' \
+        {-O,--no-owner}'[dont recreate as same owner]' \
+        {-r,--roles-only}'[no databases or tablespaces, only roles]' \
+        {-s,--schema-only}'[no data, only schema]' \
+        {-S+,--superuser=}':superuser name:_pgsql_users' \
+        {-t,--tablespaces-only}'[no databases or roles, only tablespaces]' \
+        {-x,--no-privileges}'[dont dump ACLs]' \
+        --binary-upgrade'[for use by upgrade utilities only]' \
+        --column-inserts'[use INSERT with column names not COPY]' \
+        --disable-dollar-quoting'[disable dollar quoting, use SQL standard quoting]' \
+        --disable-triggers'[disable triggers during data-only restore]' \
+        --inserts'[use INSERT not COPY]' \
+        --no-security-labels'[do not dump security label assignments]' \
+        --no-tablespaces'[do not dump tablespace assignments]' \
+        --no-unlogged-table-data'[do not dump unlogged table data]' \
+        --quote-all-identifiers'[quote all identifiers, even if not key words]' \
+        --use-set-session-authorization'[use SET SESSION AUTHORIZATION cmds instead of ALTER OWNER]'
 }
 
 _createdb () {
@@ -188,7 +255,7 @@ _createdb () {
         {-q,--quiet}'[non verbose mode]' \
         {-D+,--location=}':database location:_directories' \
         {-T+,--template=}':database template:_pgsql_databases' \
-        {-E+,--encoding=}':database encoding:_values "encoding" $_pgsql_encodings[@]' \
+        {-E+,--encoding=}':database encoding:_pgsql_encodings' \
         ':PostgreSQL database:' \
         ':comment:'
 }
@@ -224,8 +291,71 @@ _vacuumdb () {
         '1:PostgreSQL database:_pgsql_databases'
 }
 
+_createuser () {
+    local curcontext="$curcontext" state line expl
+    typeset -A opt_args
+
+    _arguments -C -s \
+        "$_pgsql_common_opts[@]" \
+        {-e,--echo}'[display SQL queries]' \
+        {-c,--connection-limit=}'[connection limit for role (default: no limit)]' \
+        {-d,--createdb}'[role can create new databases]' \
+        {-D,--no-createdb}'[role cannot create databases]' \
+        {-E,--encrypted}'[encrypt stored password]' \
+        {-i,--inherit}'[role inherits privileges of roles it is a member of (default)]' \
+        {-I,--no-inherit}'[role does not inherit privileges]' \
+        {-l,--login}'[role can login (default)]' \
+        {-L,--no-login}'[role cannot login]' \
+        {-N,--unencrypted}'[do not encrypt stored password]' \
+        {-P,--pwprompt}'[assign a password to new role]' \
+        {-r,--createrole}'[role can create new roles]' \
+        {-R,--no-createrole}'[role cannot create roles]' \
+        {-s,--superuser}'[role will be superuser]' \
+        {-S,--no-superuser}'[role will not be superuser]'
+}
+
+_dropuser () {
+    local curcontext="$curcontext" state line expl
+    typeset -A opt_args
+
+    _arguments -C -s \
+        "$_pgsql_common_opts[@]" \
+        {-e,--echo}'[display SQL queries]' \
+        {-q,--quiet}'[non verbose mode]' \
+        {-i,--interactive}'[confirm before drop]' \
+        ':PostgreSQL user:_pgsql_users'
+}
+
+_initdb () {
+    local curcontext="$curcontext" state line expl
+    typeset -A opt_args
+
+    _arguments -C -s \
+        {--auth=,-A+}':default authentication method for local connections:_values "auth methods" $_pgsql_auth_methods[@]' \
+        {-D+,--pgdata=}':location for this database cluster:_files' \
+        {-E+,--encoding=}':set default encoding for new databases:' \
+        --locale=':set default locale for new databases:' \
+        --lc-collate=':set the default locale for collate:' \
+        --lc-ctype=':set the default locale for ctype:' \
+        --lc-messages=':set the default locale for messages:' \
+        --lc-monetary=':set the default locale for monetary:' \
+        --lc-numeric=':set the default locale for numeric:' \
+        --lc-time=':set the default local for time:' \
+        --no-locale'[equivalent to --locale=C]' \
+        --pwfile=':read password for the new superuser from file:_files' \
+        {-T+,--text-search-config=}'[default text search configuration]' \
+        {-U+,--username=NAME}':database superuser name:' \
+        {-W,--pwprompt}'[prompt for a password for the new superuser]' \
+        {-X+,--xlogdir=}':location for the transaction log directory:_files' \
+        {-d,--debug}'[generate lots of debugging output]' \
+        -L+':where to find the input files:_files' \
+        {-n,--noclean}'[do not clean up after errors]' \
+        {-s,--show}'[show internal settings]' \
+        ':location for this database cluster:_files'
+}
+
 _pgsql_utils () {
-    local _pgsql_common_opts _pgsql_encodings
+    local _pgsql_common_opts _pgsql_auth_methods
 
     _pgsql_common_opts=(
         {-\?,--help}'[display help]'
@@ -235,23 +365,20 @@ _pgsql_utils () {
         {-W,--password}'[prompt for password]'
     )
 
-    # Taken from
-    # <http://www.postgresql.org/docs/7.4/static/multibyte.html#CHARSET-TABLE>.
-    # It'd be real nice if postgres could tell us these...
-    _pgsql_encodings=(
-        SQL_ASCII
-        EUC_{JP,CN,KR,TW}
-        JOHAB
-        UNICODE
-        MULE_INTERNAL
-        LATIN{1,2,3,4,5,6,7,8,9,10}
-        ISO_8859_{5,6,7,8}
-        KOI8
-        WIN
-        ALT
-        WIN1256
-        TCVN
-        WIN874
+    _pgsql_auth_methods=(
+        trust
+        reject
+        md5
+        password
+        gss
+        sspi
+        krb5
+        ident
+        peer
+        ldap
+        radius
+        cert
+        pam
     )
 
     case "$service" in
@@ -260,7 +387,18 @@ _pgsql_utils () {
         createdb) _createdb "$@" ;;
         dropdb)   _dropdb "$@"   ;;
         vacuumdb) _vacuumdb "$@"   ;;
+        createuser) _createuser "$@" ;;
+        dropuser) _dropuser "$@" ;;
+        initdb) _initdb "$@"     ;;
     esac
 }
 
 _pgsql_utils "$@"
+
+# Local Variables:
+# mode: Shell-Script
+# sh-indentation: 2
+# indent-tabs-mode: nil
+# sh-basic-offset: 2
+# End:
+# vim: ft=zsh sw=2 ts=2 et

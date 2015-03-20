@@ -12,9 +12,6 @@
 #  * Ali B. (http://awhitebox.com)
 #
 # ------------------------------------------------------------------------------
-# -*- mode: zsh; sh-indentation: 2; indent-tabs-mode: nil; sh-basic-offset: 2; -*-
-# vim: ft=zsh sw=2 ts=2 et
-# ------------------------------------------------------------------------------
 
 local -a _1st_arguments
 _1st_arguments=(
@@ -34,9 +31,10 @@ _1st_arguments=(
   "apps\:destroy":"permanently destroy an app"
   "auth\:login":"log in with your heroku credentials"
   "auth\:logout":"clear local authentication credentials"
-  "config":"display the config vars for an app"
-  "config\:add":"add one or more config vars"
-  "config\:remove":"remove a config var"
+  "config":"display a config vars for an app"
+  "config\:get":"display a config value for an app"
+  "config\:set":"set one or more config vars"
+  "config\:unset":"unset one or more config vars"
   "db\:push":"push local data up to your app"
   "db\:pull":"pull heroku data down into your local database"
   "domains":"list custom domains for an app"
@@ -53,6 +51,7 @@ _1st_arguments=(
   "logs\:drains":"manage syslog drains"
   "maintenance\:on":"put the app into maintenance mode"
   "maintenance\:off":"take the app out of maintenance mode"
+  "open":"open app in a web browser"
   "pg\:info":"display database information"
   "pg\:ingress":"allow direct connections to the database from this IP for one minute"
   "pg\:promote":"sets DATABASE as your DATABASE_URL"
@@ -68,6 +67,7 @@ _1st_arguments=(
   "plugins":"list installed plugins"
   "plugins\:install":"install a plugin"
   "plugins\:uninstall":"uninstall a plugin"
+  "plugins\:update":"updates all plugins or a single plugin by name"
   "ps\:dynos":"scale to QTY web processes"
   "ps\:workers":"scale to QTY background processes"
   "ps":"list processes for an app"
@@ -165,5 +165,45 @@ case "$words[1]" in
 
 _arguments \
   $_command_args \
-  '(--app)--app[the app name]' \
+  '(-a|--app)'{-a,--app}'[the app name]' \
+  '(-r|--remote)'{-r,--remote}'[the git remote name]:remote:->remotes' \
   &&  return 0
+
+__heroku_git_remotes () {
+	local expl gitdir remotes
+
+	gitdir=$(_call_program gitdir git rev-parse --git-dir 2>/dev/null)
+	__heroku_git_command_successful || return
+
+	remotes=(${${(f)"$(_call_program remotes git config --get-regexp '"^remote\..*\.url$"')"}//#(#b)remote.(*).url */$match[1]})
+	__heroku_git_command_successful || return
+
+	# TODO: Should combine the two instead of either or.
+	if (( $#remotes > 0 )); then
+		_wanted remotes expl remote compadd $* - $remotes
+	else
+		_wanted remotes expl remote _files $* - -W "($gitdir/remotes)" -g "$gitdir/remotes/*"
+	fi
+}
+
+__heroku_git_command_successful () {
+	if (( ${#pipestatus:#0} > 0 )); then
+		_message 'not a git repository'
+		return 1
+	fi
+	return 0
+}
+
+case $state in
+  (remotes)
+   __heroku_git_remotes && return 0
+  ;;
+esac
+
+# Local Variables:
+# mode: Shell-Script
+# sh-indentation: 2
+# indent-tabs-mode: nil
+# sh-basic-offset: 2
+# End:
+# vim: ft=zsh sw=2 ts=2 et
