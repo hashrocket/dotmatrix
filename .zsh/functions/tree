@@ -1,0 +1,5 @@
+# Improve tree
+tree() {
+    # Fancy UTF8 codes, colors, auto-paginate only on long output
+    command tree --charset UTF8 -C "$@" | less -RXF
+}
