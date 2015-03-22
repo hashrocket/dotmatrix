@@ -1,10 +1,10 @@
-#!/usr/bin/env bash
+#!/usr/bin/env ruby
 #
-# Usage: hr vimbundles
+# Usage: hr vimbundle [options]
 #
 # Summary: Install or update all vim plugins defined in ~/.vimbundle
 #
-# Help: Running `hr vimbundles` will iterate through the plugins listed in the
+# Help: Running `hr vimbundle` will iterate through the plugins listed in the
 # ~/.vimbundle and ~/.vimbundle.local files. If the plugin isn't already in the
 # folder, it will be fetched. If it already exists, the latest will be fetched
 # from github.
@@ -19,37 +19,139 @@
 #
 # This would fetch both the vim-surround and the vim-rails plugins from the
 # corresponding repos on tpope's github account.
+#
+# Options include -j [--threads] to specify the number of concurrent jobs to
+# run. Defaults to 1.
 
-if [ "$1" = "--complete" ]; then
-  exit
-fi
+exit 0 if ARGV[0] == "--complete"
 
-if [ ! -d "$HOME/.vimbundles" ]; then
-  BASE="$HOME/.vim/bundle"
-else
-  BASE="$HOME/.vimbundles"
-fi
+require 'pathname'
+require 'stringio'
+require 'fileutils'
+require 'thread'
 
-mkdir -p $BASE
+BASE = if Pathname.new("#{ENV["HOME"]}/.vimbundles").exist?
+         Pathname.new("#{ENV["HOME"]}/.vimbundles")
+       else
+         Pathname.new("#{ENV["HOME"]}/.vim/bundle")
+       end
 
-install_from() {
-  if [ -r $1 ]; then
-    repos="$(cat $1)"
-    for repo in $repos; do
-      cd $BASE
-      dir="$(basename $repo)"
-      echo
-      if [ -d "$BASE/$dir" ]; then
-        echo "Updating $repo"
-        cd "$BASE/$dir"
-        git pull --rebase
-      else
-        git clone https://github.com/"$repo".git
-      fi
-    done
-  fi
-}
+FileUtils.mkdir_p(BASE)
 
-install_from "$HOME/.vimbundle"
-install_from "$HOME/.vimbundle.local"
-vim -c 'call pathogen#helptags()|q'
+class Dependency
+  def self.from_spec(spec)
+    new *spec.chomp.split("/",2)
+  end
+
+  attr_reader :repo
+
+  def initialize(username, repo)
+    @username, @repo = username, repo
+  end
+
+  def path
+    @path ||= BASE.join(repo)
+  end
+
+  def run(cmd, *args)
+    str = StringIO.new
+    IO.popen([cmd, *args, :chdir => path]) do |out|
+      str.write(out.read)
+    end
+    str.string.chomp
+  end
+
+  def exist?
+    path.exist?
+  end
+
+  def clone!
+    @original_ref = "0" * 40
+    run("git", "clone", "https://github.com/#@username/#@repo.git")
+    @new_ref = run("git", "rev-parse", "HEAD")
+  end
+
+  def update!
+    @original_ref = run("git", "rev-parse", "HEAD")
+    run("git", "pull", "--rebase")
+    @new_ref = run("git", "rev-parse", "HEAD")
+  end
+
+  def diff
+    return if @original_ref == @new_ref
+    "#{path}\t#@original_ref..#@new_ref"
+  end
+
+  def clone_or_update!
+    if exist?
+      update!
+    else
+      clone!
+    end
+    diff
+  end
+
+  def announce(io=$stdout)
+    io.print "Updating #@username/#@repo\n"
+  end
+end
+
+require 'optparse'
+
+options = {:jobs => 1}
+OptionParser.new do |opts|
+  opts.banner = "Usage: hr vimbundle [options]"
+
+  opts.on("-j", "--threads [NUM]", Integer, "Number of concurrent threads to use") do |j|
+    options[:jobs] = j
+  end
+end.parse!
+
+dependencies = [
+  Pathname.new(File.join(ENV["HOME"],".vimbundle")),
+  Pathname.new(File.join(ENV["HOME"],".vimbundle.local"))
+].select(&:exist?).flat_map do |manifest|
+  manifest.readlines.map(&Dependency.method(:from_spec))
+end
+
+work = Queue.new
+done = Queue.new
+
+dependencies.each { |dep| work << dep }
+
+workers = options[:jobs].times.map do |i|
+  Thread.new do
+    begin
+      while dep = work.pop(true)
+        dep.announce
+        dep.clone_or_update!
+        done.push(dep)
+        dep = nil
+      end
+    rescue Exception
+      $stderr.print "Problem updating #{dep.repo}\n" if dep
+    end
+  end
+end
+
+printer = Thread.new do
+  File.open("#{ENV['HOME']}/.vimbundle.logs", "w") do |log|
+    loop do
+      dep = done.pop
+      break if dep == :done
+      if diff = dep.diff
+        log.puts diff
+      end
+    end
+  end
+end
+
+workers.each(&:join)
+done.push(:done)
+printer.join
+
+system "vim -c 'call pathogen#helptags()|q'"
+
+$stdout.puts "\nDone!"
+
+exit 0
