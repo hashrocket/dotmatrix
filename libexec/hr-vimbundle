@@ -117,16 +117,20 @@ end
 work = Queue.new
 done = Queue.new
 
-dependencies.each { |dep| work << dep }
+n = options[:jobs].times
 
-workers = options[:jobs].times.map do |i|
+dependencies.each { |dep| work << dep }
+n.each { work << :done }
+
+workers = n.map do |i|
   Thread.new do
     begin
-      while dep = work.pop(true)
+      loop do
+        dep = work.pop
+        break if dep == :done
         dep.announce
         dep.clone_or_update!
         done.push(dep)
-        dep = nil
       end
     rescue Exception
       $stderr.print "Problem updating #{dep.repo}\n" if dep
