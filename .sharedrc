@@ -153,17 +153,6 @@ git_prompt_info () {
   fi
 }
 
-gco () {
-  if [[ $1 == '.' ]]; then
-    git add -A
-    git commit -m "CHECKING OUT CURRENT DIRECTORY" -q
-    git reset HEAD^ -q
-    git checkout .
-  else
-    git checkout "$@"
-  fi
-}
-
 gcr() {
   git checkout -b $1 origin/$1
 }
@@ -187,6 +176,7 @@ alias gst='git status'
 alias gr='git rebase'
 alias grc='git rebase --continue'
 alias gra='git rebase --abort'
+alias gco='git checkout'
 alias reset-authors='git commit --amend --reset-author -C HEAD'
 alias vi='vim'
 
