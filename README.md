@@ -13,4 +13,4 @@ This will set up the hr command and completions:
 
 ## Usage
 
-Just run `hr`. Each subcommand is self-documenting.
+Open a new shell and run `hr`. Each subcommand is self-documenting.
