@@ -48,7 +48,8 @@ project-directory() {
 directory="$(project-directory $1)"
 name="$(sanitize ${1:-$directory})"
 
-mux_file="$HOME/.mux"
+mux_file="$directory/.mux"
+[ -f $mux_file ] || mux_file="$HOME/.mux"
 [ -f $mux_file ] || mux_file="$_HR_SHARE/mux-init"
 
 if ! $(tmux has-session -t $name &>/dev/null); then
