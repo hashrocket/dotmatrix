@@ -53,12 +53,16 @@ class Dependency
     @path ||= BASE.join(repo)
   end
 
-  def run(cmd, *args)
+  def run_with_path(path, cmd, *args)
     str = StringIO.new
     IO.popen([cmd, *args, :chdir => path]) do |out|
       str.write(out.read)
     end
     str.string.chomp
+  end
+
+  def run(cmd, *args)
+    run_with_path(path, cmd, *args)
   end
 
   def exist?
@@ -67,7 +71,7 @@ class Dependency
 
   def clone!
     @original_ref = "0" * 40
-    run("git", "clone", "https://github.com/#@username/#@repo.git")
+    run_with_path(BASE, "git", "clone", "https://github.com/#@username/#@repo.git")
     @new_ref = run("git", "rev-parse", "HEAD")
   end
 
@@ -124,6 +128,7 @@ n.each { work << :done }
 
 workers = n.map do |i|
   Thread.new do
+    dep = nil
     begin
       loop do
         dep = work.pop
@@ -132,8 +137,8 @@ workers = n.map do |i|
         dep.clone_or_update!
         done.push(dep)
       end
-    rescue Exception
-      $stderr.print "Problem updating #{dep.repo}\n" if dep
+    rescue Exception => e
+      $stderr.print "Problem updating #{dep.repo}: #{e}\n" if dep
     end
   end
 end
