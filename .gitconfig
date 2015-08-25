@@ -5,8 +5,8 @@
 	co = checkout
 	cp = cherry-pick
 	put = push origin HEAD
-	fixup = !sh -c 'git commit -m \"fixup! $(git log -1 --format='\\''%s'\\'' $@)\"' -
-	squash = !sh -c 'git commit -m \"squash! $(git log -1 --format='\\''%s'\\'' $@)\"' -
+	fixup = commit --fixup
+	squash = commit --squash
 	doff = reset head^
 	ri = rebase --interactive
 	br = branch
