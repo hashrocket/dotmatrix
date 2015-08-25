@@ -40,3 +40,10 @@
 --regex-clojure=/\([ \t]*defstruct[ \t]+([-[:alnum:]*><+!_:\/.?]+)/\1/s,struct/
 --regex-clojure=/\([ \t]*intern[ \t]+([-[:alnum:]*><+!_:\/.?]+)/\1/v,intern/
 --regex-clojure=/\([ \t]*ns[ \t]+([-[:alnum:]*><+!_:\/.?]+)/\1/n,namespace/
+
+--langmap=javascript:+.jsx
+
+--regex-javascript=/[ \t.]([A-Z][A-Z0-9._$]+)[ \t]*[=:][ \t]*([0-9"'\[\{]|null)/\1/n,constant/
+--regex-javascript=/['"]*([A-Za-z$][A-Za-z0-9_$]+)['"]*:[ \t]*function[ \t]*\(/\1/m,method/
+--regex-javascript=/([A-Za-z0-9_$]+)\[["']([A-Za-z0-9_$]+)["']\][ \t]*=[ \t]*function[ \t]*\(/\2/m,method/
+--regex-javascript=/const[ \t]*([A-Za-z0-9_$]+)[ \t]*=/\1/c,definition/
