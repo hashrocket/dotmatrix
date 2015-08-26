@@ -7,7 +7,7 @@
 	put = push origin HEAD
 	fixup = commit --fixup
 	squash = commit --squash
-	doff = reset head^
+	doff = reset HEAD^
 	ri = rebase --interactive
 	br = branch
 	pruneremote = remote prune origin
