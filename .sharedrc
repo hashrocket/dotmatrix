@@ -63,37 +63,6 @@ elif [ -n "$ZSH_VERSION" ]; then
   compctl -/ -S '' -W "$HASHROCKET_DIR" hcd
 fi
 
-__rails_root() {
-  (
-  dir=${1:-$(pwd)}
-  i=0
-  while [ "/" != "$dir" -a "$i" -ne 16 ]; do
-    if [ -f "$dir/config/environment.rb" ]; then
-      echo "$dir"
-      return 0
-    fi
-    dir="$(dirname "$dir")"
-    i=$(expr $i + 1)
-  done
-  return 1
-  )
-}
-
-script_rails() {
-  echo "DEPRECATION: script_rails is for Rails 2.3 and earlier. You have bigger problems than getting into a Rails console." >&2
-  local root="`__rails_root`"
-  if [ -f "$root/script/rails" ]; then
-    "$root/script/rails" "$@"
-  elif [ -f "$root/bin/rails" -a -f "$root/config/application.rb" ]; then
-    "$root/bin/rails" "$@"
-  else
-    local name
-    name="$1"
-    shift
-    "$root/script/$name" "$@"
-  fi
-}
-
 twiki () {
   rake db:migrate && rake db:migrate:redo && rake db:test:prepare
 }
