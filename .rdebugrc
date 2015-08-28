@@ -1,3 +1,0 @@
-eval require 'ruby-debug/completion'
-set autolist
-set autoeval
