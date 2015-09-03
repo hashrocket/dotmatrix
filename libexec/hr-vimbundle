@@ -22,8 +22,15 @@
 #
 # Options include -j [--threads] to specify the number of concurrent jobs to
 # run. Defaults to 1.
+#
+# After running `hr vimbundle`, you can run `hr vimbundle diff` to see a list
+# of changes for each changed plugin.
 
-exit 0 if ARGV[0] == "--complete"
+if ARGV[0] == "--complete"
+  puts "-j"
+  puts "diff"
+  exit 0
+end
 
 require 'pathname'
 require 'stringio'
@@ -35,6 +42,8 @@ BASE = if Pathname.new("#{ENV["HOME"]}/.vimbundles").exist?
        else
          Pathname.new("#{ENV["HOME"]}/.vim/bundle")
        end
+
+LOGFILE = Pathname.new("#{ENV['HOME']}/.vimbundle.logs")
 
 FileUtils.mkdir_p(BASE)
 
@@ -108,9 +117,25 @@ OptionParser.new do |opts|
   opts.banner = "Usage: hr vimbundle [options]"
 
   opts.on("-j", "--threads [NUM]", Integer, "Number of concurrent threads to use") do |j|
-    options[:jobs] = j
+    options[:jobs] = j or abort("choose a number of threads")
   end
 end.parse!
+
+if ARGV[0] == "diff"
+  if LOGFILE.exist?
+    LOGFILE.each_line do |line|
+      path, range = line.chomp.split("\t", 2)
+      Dir.chdir(path) do
+        puts "\n## #{File.basename(path)}\n\n"
+        system("git", "log", "--color", range)
+        puts
+      end
+    end
+    exit 0
+  else
+    abort "#{LOGFILE} does not exist"
+  end
+end
 
 dependencies = [
   Pathname.new(File.join(ENV["HOME"],".vimbundle")),
@@ -145,7 +170,7 @@ workers = n.map do |i|
 end
 
 printer = Thread.new do
-  File.open("#{ENV['HOME']}/.vimbundle.logs", "w") do |log|
+  File.open(LOGFILE, "w") do |log|
     loop do
       dep = done.pop
       break if dep == :done
