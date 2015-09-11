@@ -5,4 +5,6 @@
 --type-set=sass=.sass,.scss
 
 # Do not search these directories for quicker lookup
---ignore-dir=log,tags,tmp
+--ignore-dir=log
+--ignore-dir=tags
+--ignore-dir=tmp
