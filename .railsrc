@@ -1,0 +1,2 @@
+--database=postgresql
+--skip-test-unit
