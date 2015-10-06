@@ -45,3 +45,5 @@ vim-ruby/vim-ruby
 vim-scripts/bufexplorer.zip
 vim-scripts/bufkill.vim
 wgibbs/vim-irblack
+kana/vim-textobj-user
+nelstrom/vim-textobj-rubyblock
