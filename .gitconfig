@@ -45,3 +45,5 @@
 	algorithm = patience
 [include]
 	path = ~/.gitconfig.local
+[fetch]
+	prune = true
