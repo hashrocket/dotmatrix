@@ -32,7 +32,14 @@ export HISTIGNORE="%*"
 
 [ -z "$PS1" ] || stty -ixon
 
-[ -z "$PS1" ] || export PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;36m\]\w\[\033[00m\]\$(git_prompt_info '(%s)')$ "
+prefix=
+if [ -n "$SSH_CONNECTION" ]; then
+  prefix="\[\033[01;33m\]\u@\h"
+else
+  prefix="\[\033[01;32m\]\u@\h"
+fi
+
+[ -z "$PS1" ] || export PS1="$prefix\[\033[00m\]:\[\033[01;36m\]\w\[\033[00m\]\$(git_prompt_info '(%s)')$ "
 
 if [ -f '/usr/local/etc/bash_completion.d/git-completion.bash' ]; then
   source '/usr/local/etc/bash_completion.d/git-completion.bash'
