@@ -23,7 +23,7 @@ if [ -z "$1" ]; then
   {
     hr-help clone
     echo
-    echo "ERROR: please provide a a repo"
+    echo "ERROR: please provide a repo"
   } >&2
   exit 1
 fi
