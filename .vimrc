@@ -27,6 +27,13 @@ augroup vimrc
   autocmd GuiEnter * set columns=120 lines=70 number
 augroup END
 
+" copy to end of line
+map Y y$
+" copy to system clipboard
+map gy "*y
+" copy whole file to system clipboard
+nmap gY gg"*yG
+
 if filereadable(expand('~/.vimrc.local'))
   source ~/.vimrc.local
 endif
