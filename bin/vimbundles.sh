@@ -33,10 +33,10 @@ action_from() {
           git log --since $date --color=always >>/tmp/vimbundles.log
         else
           echo "Updating $repo"
-          git pull --rebase
+          git pull --depth=1 --rebase
         fi
       else
-        git clone https://github.com/"$repo".git
+        git clone --depth=1 https://github.com/"$repo".git
       fi
     done
   fi
