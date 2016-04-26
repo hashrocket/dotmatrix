@@ -79,7 +79,7 @@ class Dependency
   end
 
   def clone!
-    @original_ref = "0" * 40
+    @newly_cloned = true
     run_with_path(BASE, "git", "clone", "https://github.com/#@username/#@repo.git")
     @new_ref = run("git", "rev-parse", "HEAD")
   end
@@ -91,7 +91,7 @@ class Dependency
   end
 
   def diff
-    return if @original_ref == @new_ref
+    return if @newly_cloned or @original_ref == @new_ref
     "#{path}\t#@original_ref..#@new_ref"
   end
 
@@ -127,7 +127,7 @@ if ARGV[0] == "diff"
       path, range = line.chomp.split("\t", 2)
       Dir.chdir(path) do
         puts "\n## #{File.basename(path)}\n\n"
-        system("git", "log", "--color", range)
+        system("git", "--no-pager", "log", "--color", range)
         puts
       end
     end
