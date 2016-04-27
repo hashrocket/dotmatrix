@@ -111,7 +111,7 @@ end
 
 require 'optparse'
 
-options = {:jobs => 2}
+options = {:jobs => 4}
 
 OptionParser.new do |opts|
   opts.banner = "Usage: hr vimbundle [options]"
