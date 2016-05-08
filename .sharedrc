@@ -132,7 +132,7 @@ gref() {
 }
 
 alias gap='git add -p'
-alias gnap='git add -N . && gap && gref'
+alias gnap='git add -N --ignore-removal . && gap && gref'
 alias glp='git log -p'
 alias glg='git log --graph --oneline --decorate --color --all'
 alias gb='git branch'
