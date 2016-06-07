@@ -8,5 +8,5 @@ syntax include @SQL syntax/pgsql.vim
 " Restore buffer's current syntax
 let b:current_syntax = s:bcs
 
-" Match Ruby heredoc format (`<<` or `<<-` start tag, whitespace before end tag)
-syntax region rubyHereDocSQL matchgroup=Statement start=+<<-\?SQL+ end=+^\s*SQL$+ contains=@SQL
+" Match Ruby heredoc format (`<<`, `<<-`, or `<<~` start tag, whitespace before end tag)
+syntax region rubyHereDocSQL matchgroup=Statement start=+<<[-~]\?SQL+ end=+^\s*SQL$+ contains=@SQL
