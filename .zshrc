@@ -93,6 +93,7 @@ setopt INC_APPEND_HISTORY
 export PSQL_EDITOR='vim -c"setf sql"'
 
 # aliases
+alias l="ls -F -G -lah"
 alias ll="ls -l"
 alias la="ls -a"
 alias l.='ls -ld .[^.]*'
