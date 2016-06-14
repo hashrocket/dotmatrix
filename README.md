@@ -4,7 +4,7 @@ DOTMATRIX
 Dotmatrix is a collection of dotfiles used at Hashrocket to customize various
 development tools. This project is the culmination of many years worth of
 tinkering with our favorite tools to get them to behave just right. We think
-using dotmatrix makes working with these tools more pleasant and hope you will
+using Dotmatrix makes working with these tools more pleasant and hope you will
 too!
 
 What are dotfiles?
@@ -32,21 +32,21 @@ This script symlinks all dotfiles into your home directory.
 
 **Please note:** This will only install files that do not already exist in your
 $HOME directory. If you have, e.g. your own .bashrc file, you can move it to
-~/.bashrc.local, and dotmatrix will source it for you.
+~/.bashrc.local, and Dotmatrix will source it for you.
 
 Partial Installation
 --------------------
 
-Sometimes it's useful to only install part of dotmatrix. For partial
-installation, you can create a `FILES` file in the root of dotmatrix that
+Sometimes it's useful to only install part of Dotmatrix. For partial
+installation, you can create a `FILES` file in the root of Dotmatrix that
 contains a newline-delimited list of dotfiles to symlink and keep up to date
-with dotmatrix.
+with Dotmatrix.
 
-When `FILES` exists in the dotmatrix source directory, running `bin/install`
+When `FILES` exists in the Dotmatrix source directory, running `bin/install`
 will only symlink the dotfiles listed within `FILES`.
 
 If, for example, you only want the tmux configuration and sharedrc files, and
-want to ignore all of the rest of dotmatrix's dotfiles:
+want to ignore all of the rest of Dotmatrix's dotfiles:
 
     $ cd path/to/dotmatrix
     $ cat FILES
@@ -79,14 +79,24 @@ You need not include a trailing `.git`.
 Actively Maintained
 -------------------
 
-At Hashrocket we use dotmatrix on all of our development machines, then for
+At Hashrocket we use Dotmatrix on all of our development machines, then for
 many of us we get so familiar with the setup that we use it on our personal machines
-too. That means there's a lot of picky nerds using dotmatrix every day to make
+too. That means there's a lot of picky nerds using Dotmatrix every day to make
 their tools easy and fun to use.
 
 Update
 ------
 
-Keeping your dotmatrix up-to-date is easy. Just visit the dotmatrix directory
+Keeping your Dotmatrix up-to-date is easy. Just visit the Dotmatrix directory
 and run `bin/upgrade`. This will fetch the latest changes from GitHub and
 symlink any new files.
+
+About
+------
+
+[![Hashrocket logo](https://hashrocket.com/hashrocket_logo.svg)](https://hashrocket.com)
+
+Dotmatrix is supported by the team at [Hashrocket](https://hashrocket.com), a
+multidisciplinary design & development consultancy. If you'd like to [work with
+us](https://hashrocket.com/contact-us/hire-us) or [join our
+team](https://hashrocket.com/contact-us/jobs), don't hesitate to get in touch.
