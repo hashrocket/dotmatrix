@@ -48,3 +48,4 @@ wgibbs/vim-irblack
 kana/vim-textobj-user
 nelstrom/vim-textobj-rubyblock
 exu/pgsql.vim
+elixir-lang/vim-elixir
