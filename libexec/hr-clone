@@ -111,8 +111,16 @@ script_setup() {
   fi
 }
 
+setup_git_submodules() {
+  cd "$path"
+  git submodule init
+  git submodule update
+  cd ..
+}
+
 hclone() {
   clone_if_necessary || return 1
+  setup_git_submodules
   setup_git_hooks
   setup_bin_path
   script_setup
