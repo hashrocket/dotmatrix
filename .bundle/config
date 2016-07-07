@@ -1,0 +1,6 @@
+---
+BUNDLE_GEM__COC: 'false'
+BUNDLE_GEM__TEST: rspec
+BUNDLE_CONSOLE: pry
+BUNDLE_PATH: vendor/bundle
+BUNDLE_JOBS: '4'
