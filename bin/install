@@ -42,18 +42,19 @@ for dotfile in $(./bin/file_list.sh); do
 done
 
 # Symlink $HOME-relative files, preserving directory structure
-
-for file in $(find custom -type f -not -name '*README*'); do
-  path=${file/"custom"/$HOME}
-  name=$(basename $file)
-  if [ ! -L $path ]; then
-    dest=$(dirname $path)
-    link_notice $name "absent"
-    mkdir -p $dest
-    ln -nfs $PWD/$file $dest
-  else
-    skip_notice $name "exists"
-  fi
-done
+if [[ "$OSTYPE" == 'darwin'* ]]; then
+  for file in $(find custom -type f -not -name '*README*'); do
+    path=${file/"custom"/$HOME}
+    name=$(basename $file)
+    if [ ! -L $path ]; then
+      dest=$(dirname $path)
+      link_notice $name "absent"
+      mkdir -p $dest
+      ln -nfs $PWD/$file $dest
+    else
+      skip_notice $name "exists"
+    fi
+  done
+fi
 
 exit 0
