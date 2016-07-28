@@ -1,4 +1,2 @@
-["~/.irbrc", "~/.pryrc.local"].each do |file|
-  path = File.expand_path file
-  load path if File.exists?(path)
-end
+load File.expand_path("~/.clippy.rb") if File.exists?(File.expand_path("~/.clippy.rb"))
+load File.expand_path("~/.pryrc.local") if File.exists?(File.expand_path("~/.pryrc.local"))
