@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# Delegate to "real" command
+path="$(hr-clone "$@" | tail -1)"
+if [ ! "$?" = "0" ]; then
+  exit $?
+fi
+
+# Change directories to new repo
+if [ -n "$path" ]; then
+  echo "cd $path"
+fi

@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+#
+# Usage: hr unused
+# Summary: Detect unused steps in a cucumber suite
+# Help: Run from the root of a project with cucumber. It is most useful
+# in combination with vim's grepprg, so that you can navigate the
+# results quickly.
+
+if [ "$1" = "--complete" ]; then
+  echo -f
+  exit
+fi
+
+if [ ! -d './features' ]; then
+  echo "ERROR: No features folder detected"
+  echo "Are you in the root of a project with cucumber?"
+  exit 1
+fi
+
+dryfile='features/support/dry.rb'
+tmpfile='tmp/usage.txt'
+
+while getopts “:f” OPTION; do
+  if [ $OPTION = 'f' ]; then
+    rm -f $tmpfile
+  fi
+done
+
+if [ ! -f $tmpfile ]; then
+  echo 'require File.expand_path("../env", __FILE__)' > $dryfile
+  cucumber -r $dryfile -r features/step_definitions --dry-run --format usage > $tmpfile 2>/dev/null
+  rm $dryfile
+fi
+
+cat $tmpfile | awk '
+  BEGIN{FS=" # ";OFS=":"};
+  /NOT MATCHED/{ gsub(/ *\n?/,"",file); gsub(/  */," ",step); gsub(/\\ /, " ", step); print file,step;};
+  {file=$2;step=$1}
+'

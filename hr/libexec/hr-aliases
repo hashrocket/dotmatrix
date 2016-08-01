@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Usage: hr commands
+# Summary: List all hr shell aliases
+# Help: Simply lists aliases provided by hr
+
+set -e
+
+if [ "$1" = "--complete" ]; then
+  exit
+fi
+
+cat "${_HR_SHARE}/aliases"

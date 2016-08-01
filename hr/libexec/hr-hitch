@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# Usage: hr hitch
+#
+# Summary: Hitch plus iChat status
+#
+# Help: Automatically sets the iChat status message to the name of the current
+# pair's first names
+
+ichat_status_message_from_authors() {
+  local usernames awkprog names prog
+  # Extract current hitch github usernames
+  usernames="$(grep '^- ' ~/.hitchrc | sed 's/^- //' | paste -s -d '|' -)"
+  if [ -z "$usernames" ]; then
+    names=""
+  else
+    # Find first names for those usernames
+    awkprog='$1 ~ /'${usernames}'/{ print $2 }'
+    names="$(awk -F':\? +' "$awkprog" < ~/.hitch_pairs | tr "\\n" "|" | sed 's/\|$//g; s/\|/ \& /g')"
+  fi
+
+  # Detect which application we're using [iChat Messages]
+  application="Messages"
+  if ! osascript -e 'exists application "'${application}'"' &>/dev/null; then
+    application="iChat"
+    if ! osascript -e 'exists application "'${application}'"' &>/dev/null; then
+      return 2
+    fi
+  fi
+
+  # Update status message
+  prog='if application "'${application}'" is running then tell application "'${application}'" to set the status message to "'${names}'"'
+  osascript -e "$prog"
+}
+
+command hitch "$@" && ichat_status_message_from_authors

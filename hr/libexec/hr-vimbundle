@@ -1,0 +1,192 @@
+#!/usr/bin/env ruby
+#
+# Usage: hr vimbundle [options]
+#
+# Summary: Install or update all vim plugins defined in ~/.vimbundle
+#
+# Help: Running `hr vimbundle` will iterate through the plugins listed in the
+# ~/.vimbundle and ~/.vimbundle.local files. If the plugin isn't already in the
+# folder, it will be fetched. If it already exists, the latest will be fetched
+# from github.
+#
+# Entries in these manifest files should be in this format:
+# githubusername/reponame
+#
+# Example:
+#
+# tpope/vim-surround
+# tpope/vim-rails
+#
+# This would fetch both the vim-surround and the vim-rails plugins from the
+# corresponding repos on tpope's github account.
+#
+# Options include -j [--threads] to specify the number of concurrent jobs to
+# run. Defaults to 1.
+#
+# After running `hr vimbundle`, you can run `hr vimbundle diff` to see a list
+# of changes for each changed plugin.
+
+if ARGV[0] == "--complete"
+  puts "-j"
+  puts "diff"
+  exit 0
+end
+
+require 'pathname'
+require 'stringio'
+require 'fileutils'
+require 'thread'
+
+BASE = if Pathname.new("#{ENV["HOME"]}/.vimbundles").exist?
+         Pathname.new("#{ENV["HOME"]}/.vimbundles")
+       else
+         Pathname.new("#{ENV["HOME"]}/.vim/bundle")
+       end
+
+LOGFILE = Pathname.new("#{ENV['HOME']}/.vimbundle.logs")
+
+FileUtils.mkdir_p(BASE)
+
+class Dependency
+  def self.from_spec(spec)
+    new *spec.chomp.split("/",2)
+  end
+
+  attr_reader :repo
+
+  def initialize(username, repo)
+    @username, @repo = username, repo
+  end
+
+  def path
+    @path ||= BASE.join(repo)
+  end
+
+  def run_with_path(path, cmd, *args)
+    str = StringIO.new
+    IO.popen([cmd, *args, :chdir => path]) do |out|
+      str.write(out.read)
+    end
+    str.string.chomp
+  end
+
+  def run(cmd, *args)
+    run_with_path(path, cmd, *args)
+  end
+
+  def exist?
+    path.exist?
+  end
+
+  def clone!
+    @newly_cloned = true
+    run_with_path(BASE, "git", "clone", "https://github.com/#@username/#@repo.git")
+    @new_ref = run("git", "rev-parse", "HEAD")
+  end
+
+  def update!
+    @original_ref = run("git", "rev-parse", "HEAD")
+    run("git", "pull", "--rebase")
+    @new_ref = run("git", "rev-parse", "HEAD")
+  end
+
+  def diff
+    return if @newly_cloned or @original_ref == @new_ref
+    "#{path}\t#@original_ref..#@new_ref"
+  end
+
+  def clone_or_update!
+    if exist?
+      update!
+    else
+      clone!
+    end
+    diff
+  end
+
+  def announce(io=$stdout)
+    io.print "Updating #@username/#@repo\n"
+  end
+end
+
+require 'optparse'
+
+options = {:jobs => 4}
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: hr vimbundle [options]"
+
+  opts.on("-j", "--threads [NUM]", Integer, "Number of concurrent threads to use") do |j|
+    options[:jobs] = j or abort("choose a number of threads")
+  end
+end.parse!
+
+if ARGV[0] == "diff"
+  if LOGFILE.exist?
+    LOGFILE.each_line do |line|
+      path, range = line.chomp.split("\t", 2)
+      Dir.chdir(path) do
+        puts "\n## #{File.basename(path)}\n\n"
+        system("git", "--no-pager", "log", "--color", range)
+        puts
+      end
+    end
+    exit 0
+  else
+    abort "#{LOGFILE} does not exist"
+  end
+end
+
+dependencies = [
+  Pathname.new(File.join(ENV["HOME"],".vimbundle")),
+  Pathname.new(File.join(ENV["HOME"],".vimbundle.local"))
+].select(&:exist?).flat_map do |manifest|
+  manifest.readlines.map(&Dependency.method(:from_spec))
+end
+
+work = Queue.new
+done = Queue.new
+
+n = options[:jobs].times
+
+dependencies.each { |dep| work << dep }
+n.each { work << :done }
+
+workers = n.map do |i|
+  Thread.new do
+    dep = nil
+    begin
+      loop do
+        dep = work.pop
+        break if dep == :done
+        dep.announce
+        dep.clone_or_update!
+        done.push(dep)
+      end
+    rescue Exception => e
+      $stderr.print "Problem updating #{dep.repo}: #{e}\n" if dep
+    end
+  end
+end
+
+printer = Thread.new do
+  File.open(LOGFILE, "w") do |log|
+    loop do
+      dep = done.pop
+      break if dep == :done
+      if diff = dep.diff
+        log.puts diff
+      end
+    end
+  end
+end
+
+workers.each(&:join)
+done.push(:done)
+printer.join
+
+system "vim -c 'call pathogen#helptags()|q'"
+
+$stdout.puts "\nDone!"
+
+exit 0

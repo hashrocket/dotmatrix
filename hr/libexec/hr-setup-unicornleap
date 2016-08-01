@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Usage: hr setup-unicornleap
+#
+# Summary: Install unicornleap
+# Help: Install unicornleap
+
+brew tap hashrocket/formulas
+brew install unicornleap
+
+echo
+echo "You're all set!"

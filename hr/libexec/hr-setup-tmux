@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+# Usage: hr setup-tmux
+#
+# Summary: Install tmux, setup the pasteboard
+# Help: Install tmux, setup the pasteboard
+#
+# This command assumes you have homebrew (brew) setup.
+
+binary="reattach-to-user-namespace"
+
+verify_brew() {
+  if command -v brew >/dev/null ; then
+    echo "brew detected"
+  else
+    echo "ERROR: You do not have homebrew installed."
+    exit 1
+  fi
+}
+
+install_tmux() {
+  if command -v tmux >/dev/null ; then
+    echo "tmux detected"
+  else
+    echo "No tmux detected. Installing via homebrew..."
+    brew install tmux || exit 1
+  fi
+}
+
+remove_old_reattach_script() {
+  file="$HOME/bin/$binary"
+  if [ -f $file ] ; then
+    echo "Removing defunct $file..."
+    rm $file
+  fi
+}
+
+install_new_reattach_script() {
+  if brew list $binary &>/dev/null ; then
+    echo "$binary detected"
+  else
+    echo "Installing $binary"
+    brew update
+    brew install $binary || exit 1
+  fi
+}
+
+add_premble_to_tmux_conf() {
+  conf="$HOME/.tmux.conf.local"
+  touch $conf
+  if grep -q $binary $conf; then
+    echo "tmux conf already setup"
+  else
+    echo "Appending settings to local tmux conf..."
+    echo "set-option -g default-command \"$binary -l zsh\"" >> $conf
+  fi
+}
+
+verify_brew
+install_tmux
+remove_old_reattach_script
+install_new_reattach_script
+add_premble_to_tmux_conf
+
+echo
+echo "You're all set!"

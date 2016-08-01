@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+# Usage: hr heroku <command> <app> [<command_args>]
+#
+# Summary: A wrapper around the heroku command
+
+
+print_commands() {
+  local commands=(config console get logs rake remove restart set)
+  for command in ${commands[@]}; do
+    echo $command
+  done
+}
+
+if [ "$1" = "--complete" ]; then
+  if [ -n "$2" ]; then
+    exit 1
+  fi
+  print_commands
+  exit
+fi
+
+
+heroku_command='heroku'
+
+check_for_heroku() {
+  if ! which $heroku_command &> /dev/null; then
+    echo "You do not have heroku toolbelt installed."
+    return 1
+  fi
+  return 0
+}
+
+if ! check_for_heroku; then
+  return 2
+fi
+
+command=$1
+shift
+APP=$1
+shift
+
+if [ -z "$command" ]; then
+  echo "Please specify a subcomand:" >&2
+  print_commands >&2
+  exit 1
+fi
+
+
+hlogs() { $heroku_command logs -t --app $APP; }
+
+hrestart() { $heroku_command restart --app $APP; }
+
+hconsole() { $heroku_command run console --app $APP; }
+
+hrake() { $heroku_command run rake $@ --app $APP; }
+
+hconfig() { $heroku_command config $@ --app $APP; }
+
+hset() {
+  key=$1
+  value=$2
+  $heroku_command config:set $key=$value --app $APP;
+}
+
+hget() { $heroku_command config:get $1 --app $APP; }
+
+hremove() { $heroku_command config:unset $1 --app $APP; }
+
+h$command $@
