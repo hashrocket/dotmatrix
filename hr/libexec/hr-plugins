@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+# Usage: hr plugins
+# Summary: Manage hr plugins
+# Help: List, add, and remove hr plugins
+#
+# To list current plugins, run `hr plugins list`
+#
+# To add a new plugin, run `hr plugins add [name] [git-repo-url]`
+#
+# To remove a plugin, run `hr plugins rm [name]`
+
+set -e
+
+header() {
+  echo -e "\033[33m$1\033[0m"
+}
+
+if [ "$1" = "--complete" ]; then
+  echo 'add'
+  echo 'list'
+  echo 'rm'
+  exit 0
+fi
+
+cd $_HR_ROOT/plugins
+
+list_plugins() {
+  shopt -s nullglob
+
+  for plugin in "$PWD"/*/ ; do
+    (
+      remote="$plugin"
+      cd $plugin
+      name="$(basename $plugin)"
+      if [ -e ".git" ]; then
+        remote="$(git remote get-url origin)"
+      fi
+      echo -e "$name\t$remote"
+    )
+  done
+
+  shopt -u nullglob
+}
+
+add_plugin() {
+  git clone $2 $1
+}
+
+remove_plugin() {
+  rm -rf $1
+}
+
+case "$1" in
+  list )
+    list_plugins;;
+  add )
+    shift;
+    add_plugin $@;;
+  rm )
+    shift;
+    remove_plugin $@;;
+  * )
+    exec hr help plugins;;
+esac

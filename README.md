@@ -96,7 +96,7 @@ If you have have commands you'd like to add to `hr`, add them within a
 
 The anatomy of a plugin follows:
 
-    my_plugin/
+    <root>/
       libexec/
         hr-my-awesome-command
         hr-my-other-command
@@ -107,8 +107,9 @@ located at `hr-my-awesome-command`.
 Plugins are designed to be git repos. For example, if there were another
 hr plugin you wanted to add, you could add it like this:
 
-    cd path/to/dotmatrix/hr/plugins
-    git clone https://github.com/hashrocket/some-hr-plugin
+    hr plugins add my_plugin git://github.com/path/to/git/repo.git
+
+For more information, run `hr help plugins`
 
 Actively Maintained
 -------------------
