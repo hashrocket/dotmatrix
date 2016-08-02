@@ -13,9 +13,9 @@ if [ "$1" = "--complete" ]; then
   exec hr-commands
 fi
 
-cd $_HR_ROOT
-header "Updating hr"
-git pull --rebase
+cd $_HR_ROOT/..
+header "Updating dotmatrix"
+bin/upgrade
 
 shopt -s nullglob
 

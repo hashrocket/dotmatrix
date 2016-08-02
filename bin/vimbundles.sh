@@ -7,7 +7,6 @@ warn() {
 
 warn "$0 is deprecated and will be removed."
 warn "Please use hr's vimbundle command (it's faster and better)."
-warn "More info at http://github.com/hashrocket/hr"
 echo
 
 if [ ! -d "$HOME/.vimbundles" ]; then
