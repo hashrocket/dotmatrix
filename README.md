@@ -57,10 +57,10 @@ want to ignore all of the rest of Dotmatrix's dotfiles:
 Vim bundles
 -----------
 
-For Vim users, there's another script you might want to run, after you've run
+For Vim users, there's another command you might want to run, after you've run
 bin/install:
 
-	$ bin/vimbundles.sh
+	$ hr vimbundle
 
 This will install the set of Vim bundles we use.
 
@@ -75,6 +75,40 @@ following format:
 	github-user/repo-name
 
 You need not include a trailing `.git`.
+
+
+hr
+--
+
+`hr` is a command with lots of useful scripts as subcommands, based
+loosely on 37signals' sub.
+
+When you run `bin/install`, `hr` is install automatically. If you
+don't want it, simply remove the line from `~/.zshrc.local` or
+`~/.bashrc.local` that initializes it.
+
+To use, just run `hr`. Each subcommand is self-documenting.
+
+### hr plugins
+
+If you have have commands you'd like to add to `hr`, add them within a
+"plugin". Plugins are really just folders within hr's "plugins" folder.
+
+The anatomy of a plugin follows:
+
+    my_plugin/
+      libexec/
+        hr-my-awesome-command
+        hr-my-other-command
+
+With the above plugin, `hr my-awesome-command` would run the script
+located at `hr-my-awesome-command`.
+
+Plugins are designed to be git repos. For example, if there were another
+hr plugin you wanted to add, you could add it like this:
+
+    cd path/to/dotmatrix/hr/plugins
+    git clone https://github.com/hashrocket/some-hr-plugin
 
 Actively Maintained
 -------------------
