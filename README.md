@@ -84,7 +84,7 @@ hr
 loosely on 37signals' sub.
 
 When you run `bin/install`, `hr` is install automatically. If you
-don't want it, simply remove the line from `~/.zshrc.local` or
+don't want it, simply comment out the line from `~/.zshrc.local` or
 `~/.bashrc.local` that initializes it.
 
 To use, just run `hr`. Each subcommand is self-documenting.
