@@ -30,13 +30,11 @@ hcd() {
   cd "$SOURCE_DIR/$1"
 }
 
-git() {
-  if command -v hub >/dev/null; then
+if command -v hub >/dev/null; then
+  git() {
     command hub "$@"
-  else
-    command git "$@"
-  fi
-}
+  }
+fi
 
 hitch() {
   command hitch "$@"
