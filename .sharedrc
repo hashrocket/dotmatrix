@@ -32,12 +32,6 @@ if command -v hub >/dev/null; then
   }
 fi
 
-hitch() {
-  command hitch "$@"
-  if [[ -s "$HOME/.hitch_export_authors" ]] ; then source "$HOME/.hitch_export_authors" ; fi
-}
-alias unhitch='hitch -u'
-
 twiki () {
   rake db:migrate && rake db:migrate:redo && rake db:test:prepare
 }
