@@ -96,7 +96,6 @@ export PSQL_EDITOR='vim -c"setf sql"'
 alias l="ls -F -G -lah"
 alias ll="ls -l"
 alias la="ls -a"
-alias l.='ls -ld .[^.]*'
 alias lsd='ls -ld *(-/DN)'
 alias md='mkdir -p'
 alias rd='rmdir'
@@ -106,6 +105,10 @@ alias groutes='rake routes | grep $@'
 
 # set cd autocompletion to commonly visited directories
 cdpath=(~ ~/src $DEV_DIR $SOURCE_DIR)
+
+l.() {
+  ls -ld "${1:-$PWD}"/.[^.]*
+}
 
 # rvm-install added line:
 if [[ -s "$HOME/.rvm/scripts/rvm" ]] ; then source "$HOME/.rvm/scripts/rvm" ; fi
