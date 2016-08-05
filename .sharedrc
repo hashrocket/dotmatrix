@@ -1,7 +1,11 @@
 # vim:set ft=sh sw=2 sts=2:
 
-[ -e "$HASHROCKET_DIR" ] || HASHROCKET_DIR="$HOME/hashrocket"
-export HASHROCKET_DIR
+[ -e "$SOURCE_DIR" ] || SOURCE_DIR="$HOME/hashrocket"
+export SOURCE_DIR
+
+# DEPRECATED: Use more generic SOURCE_DIR. HASHROCKET_DIR persists as a
+# legacy artifact, and for 3rd-party scripts.
+export HASHROCKET_DIR=$SOURCE_DIR
 
 # Paths for prepending
 for dir in /usr/local/bin "$HOME/bin" .git/safe/../../bin; do
@@ -23,7 +27,7 @@ for dir in /usr/local/sbin /opt/local/sbin /usr/X11/bin; do
 done
 
 hcd() {
-  cd "$HASHROCKET_DIR/$1"
+  cd "$SOURCE_DIR/$1"
 }
 
 git() {
@@ -46,11 +50,11 @@ if [ -n "$BASH_VERSION" ]; then
   {
     local cur projects
 
-    [ -r "$HASHROCKET_DIR" ] || return 0
+    [ -r "$SOURCE_DIR" ] || return 0
 
     eval 'COMPREPLY=()'
     cur=${COMP_WORDS[COMP_CWORD]}
-    projects=$(\ls "$HASHROCKET_DIR")
+    projects=$(\ls "$SOURCE_DIR")
 
     if [ $COMP_CWORD -eq 1 ]; then
       eval 'COMPREPLY=( $(compgen -o filenames -W "$projects" $cur) )'
@@ -60,7 +64,7 @@ if [ -n "$BASH_VERSION" ]; then
   }
   complete -F _hcd hcd hclone
 elif [ -n "$ZSH_VERSION" ]; then
-  compctl -/ -S '' -W "$HASHROCKET_DIR" hcd
+  compctl -/ -S '' -W "$SOURCE_DIR" hcd
 fi
 
 twiki () {

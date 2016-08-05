@@ -24,7 +24,7 @@ if [ "$1" = "--complete" ]; then
   tmux list-sessions 2>/dev/null | sed -e 's/:.*//'
 
   # List potential directories
-  find $HASHROCKET_DIR -not -name '.*' -maxdepth 1 -mindepth 1 -type d | while read dir; do
+  find $SOURCE_DIR -not -name '.*' -maxdepth 1 -mindepth 1 -type d | while read dir; do
     echo "$(basename $dir)"
   done
 
@@ -37,7 +37,7 @@ if [ -n "$TMUX" ]; then
 fi
 
 project-directory() {
-  local dir="$HASHROCKET_DIR/$1"
+  local dir="$SOURCE_DIR/$1"
   if [ -n "$1" -a -d $dir ]; then
     echo $dir
   else

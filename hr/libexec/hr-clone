@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 # Usage: hr clone [-f] <repo>
 #
-# Summary: Clone down an HR project into $HASHROCKET_DIR
+# Summary: Clone down an HR project into $SOURCE_DIR
 #
-# Help: Clone down an HR project into $HASHROCKET_DIR. If you provide
+# Help: Clone down an HR project into $SOURCE_DIR. If you provide
 # the "-f" flag, the repository will be redownloaded.
 #
-# Note: This command requires $HASHROCKET_DIR to be set.
+# Note: This command requires $SOURCE_DIR to be set.
 
-if [ -z "$HASHROCKET_DIR" ]; then
-  echo "Error: \$HASHROCKET_DIR not set" >&2
+if [ -z "$SOURCE_DIR" ]; then
+  echo "Error: \$SOURCE_DIR not set" >&2
   exit 1
 fi
 
@@ -30,11 +30,11 @@ fi
 
 if [ "x-f" = "x$1" ]; then
   shift
-  rm -rf "$HASHROCKET_DIR/`basename $1 .git`"
+  rm -rf "$SOURCE_DIR/`basename $1 .git`"
 fi
 
 basename="`basename $1 .git`"
-path="$HASHROCKET_DIR/$basename"
+path="$SOURCE_DIR/$basename"
 new=
 url=
 

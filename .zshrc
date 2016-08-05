@@ -105,7 +105,7 @@ alias ..='cd ..'
 alias groutes='rake routes | grep $@'
 
 # set cd autocompletion to commonly visited directories
-cdpath=(~ ~/src $DEV_DIR $HASHROCKET_DIR)
+cdpath=(~ ~/src $DEV_DIR $SOURCE_DIR)
 
 # rvm-install added line:
 if [[ -s "$HOME/.rvm/scripts/rvm" ]] ; then source "$HOME/.rvm/scripts/rvm" ; fi
