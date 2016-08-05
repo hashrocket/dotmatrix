@@ -103,9 +103,6 @@ alias cd..='cd ..'
 alias ..='cd ..'
 alias groutes='rake routes | grep $@'
 
-# set cd autocompletion to commonly visited directories
-cdpath=(~ ~/src $DEV_DIR $SOURCE_DIR)
-
 l.() {
   ls -ld "${1:-$PWD}"/.[^.]*
 }
@@ -123,6 +120,9 @@ compctl -g '*.feature' -W features cuke
 # import local zsh customizations, if present
 zrcl="$HOME/.zshrc.local"
 [[ ! -a $zrcl ]] || source $zrcl
+
+# set cd autocompletion to commonly visited directories
+cdpath=(~ ~/src $DEV_DIR $SOURCE_DIR)
 
 # remove duplicates in $PATH
 typeset -aU path
