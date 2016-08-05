@@ -26,10 +26,6 @@ for dir in /usr/local/sbin /opt/local/sbin /usr/X11/bin; do
   esac
 done
 
-hcd() {
-  cd "$SOURCE_DIR/$1"
-}
-
 if command -v hub >/dev/null; then
   git() {
     command hub "$@"
@@ -41,29 +37,6 @@ hitch() {
   if [[ -s "$HOME/.hitch_export_authors" ]] ; then source "$HOME/.hitch_export_authors" ; fi
 }
 alias unhitch='hitch -u'
-
-# Tab completion
-if [ -n "$BASH_VERSION" ]; then
-  _hcd()
-  {
-    local cur projects
-
-    [ -r "$SOURCE_DIR" ] || return 0
-
-    eval 'COMPREPLY=()'
-    cur=${COMP_WORDS[COMP_CWORD]}
-    projects=$(\ls "$SOURCE_DIR")
-
-    if [ $COMP_CWORD -eq 1 ]; then
-      eval 'COMPREPLY=( $(compgen -o filenames -W "$projects" $cur) )'
-    fi
-
-    return 0
-  }
-  complete -F _hcd hcd hclone
-elif [ -n "$ZSH_VERSION" ]; then
-  compctl -/ -S '' -W "$SOURCE_DIR" hcd
-fi
 
 twiki () {
   rake db:migrate && rake db:migrate:redo && rake db:test:prepare
