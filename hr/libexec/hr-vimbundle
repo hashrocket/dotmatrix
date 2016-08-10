@@ -141,7 +141,7 @@ dependencies = [
   Pathname.new(File.join(ENV["HOME"],".vimbundle")),
   Pathname.new(File.join(ENV["HOME"],".vimbundle.local"))
 ].select(&:exist?).flat_map do |manifest|
-  manifest.readlines.map(&Dependency.method(:from_spec))
+  manifest.readlines.map(&:chomp).reject(&:empty?).map(&Dependency.method(:from_spec))
 end
 
 work = Queue.new
