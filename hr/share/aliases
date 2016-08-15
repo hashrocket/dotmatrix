@@ -1,6 +1,5 @@
 alias atomically="hr atomically"
 alias hcd="hr cd"
-alias h="hr heroku"
 alias hclone="hr clone"
 alias mux="hr mux"
 alias freethousand="hr freethousand"
