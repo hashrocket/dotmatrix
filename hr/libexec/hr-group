@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby
+#
+# Usage: hr group
+#
+# Summary: Print a table under a grouped heading
+#
+# Help:  Given a flat table of information, group by the first "column" and print beneath it as a heading
+#
+
+require 'optparse'
+require 'ostruct'
+
+options = OpenStruct.new
+options.field_separator = /,|:|\t/
+options.output_field_separator = "\n"
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: hr vimbundle [options]"
+
+  opts.on("-f", "--field-separator [C]", String, "") do |c|
+    options.output_field_separator = c or abort("choose a character for output_field_separator")
+  end
+
+  opts.on("-o", "--output-field-separator [C]", String, "") do |c|
+    options.output_field_separator = c or abort("choose a character for output_field_separator")
+  end
+end.parse!
+
+all = []
+ARGF.each_line do |line|
+  all << line.chomp.split(options.field_separator, 2)
+end
+
+all.group_by(&:first).each do |heading, grouped|
+  puts heading
+  puts grouped.flat_map { |(_, *rest)| rest }.join(options.output_field_separator)
+  puts
+end
