@@ -7,6 +7,7 @@
 	co = checkout
 	cp = cherry-pick
 	put = push origin HEAD
+	find = !sh -c 'git ls-files | grep --color=always -i "$@" | less -FRSX' -
 	fixup = commit --fixup
 	squash = commit --squash
 	doff = reset HEAD^
