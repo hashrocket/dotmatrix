@@ -1,4 +1,5 @@
 [alias]
+	aliases=!git config -l | grep '^alias' | cut -c 7- | sort
 	aa = add -A .
 	b  = branch
 	st = status
