@@ -39,6 +39,15 @@ $ bin/install
 
 This script symlinks all dotfiles into your home directory.
 
+### Hashrocket Workstation
+
+Dotmatrix comes with gitconfig for our Hashrocket Workstations that can be
+installed like so:
+
+```
+$ bin/install --workstation
+```
+
 ## Safe by Default
 
 When you install Dotmatrix like this, only files that do not already exist in

@@ -15,17 +15,19 @@ else
 fi
 
 # Copy *.local files
-for dotfile in .*.local ; do
-  dotmatrix_path=$PWD/$dotfile
-  path="$HOME/$dotfile"
+if [ "$1" = "--workstation" ]; then
+  for dotfile in .*.local ; do
+    dotmatrix_path=$PWD/$dotfile
+    path="$HOME/$dotfile"
 
-  if [ ! -e $path ]; then
-    copy_notice $dotfile "absent"
-    cp $dotmatrix_path $path
-  else
-    skip_notice $dotfile "exists"
-  fi
-done
+    if [ ! -e $path ]; then
+      copy_notice $dotfile "absent"
+      cp $dotmatrix_path $path
+    else
+      skip_notice $dotfile "exists"
+    fi
+  done
+fi
 
 for dotfile in $(./bin/file_list.sh); do
   dotmatrix_path="$PWD/$dotfile"

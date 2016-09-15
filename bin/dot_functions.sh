@@ -16,7 +16,6 @@ create_notice() {
   print_padded "Creating $1" "$2" $green
 }
 
-
 skip_notice() {
   print_padded "${yellow}Skipping${normal} $1" "$2" $yellow
 }
