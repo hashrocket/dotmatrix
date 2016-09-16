@@ -6,5 +6,13 @@ source $(dirname $0)/dot_functions.sh
 directory_warning
 dirty_warning
 
+old_sha=$(git rev-parse HEAD)
 git pull --rebase
+new_sha=$(git rev-parse HEAD)
+
 ./bin/install
+
+if [ "$old_sha" != "$new_sha" ]; then
+  echo -e "\nNew commits:"
+  git log $old_sha..$new_sha --oneline
+fi
