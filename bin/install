@@ -59,7 +59,7 @@ if [[ "$OSTYPE" == 'darwin'* ]]; then
   done
 fi
 
-if [ -e "$HOME/.gitconfig.local" ]; then
+if [ ! -e "$HOME/.gitconfig.local" ]; then
   echo -e "\nNo .gitconfig.local found - if you want the workstation version run this:"
   echo -e "  $ cp .gitconfig.local ~/"
   echo -e "Reminder: pass the --workstation flag to copy this file automatically.\n"
