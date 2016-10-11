@@ -3,6 +3,7 @@
 	aa = add -A .
 	b  = branch
 	st = status
+	cheddar = commit --amend -CHEAD
 	ci = commit
 	co = checkout
 	cp = cherry-pick
