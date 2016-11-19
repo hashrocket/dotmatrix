@@ -3,6 +3,7 @@ if $VIM_PLUGINS != 'NO'
   if exists('g:loaded_pathogen')
     execute pathogen#infect('~/.vimbundles/{}', '~/.vim/bundle/{}')
   endif
+  runtime! ftplugin/man.vim
 endif
 
 syntax on
