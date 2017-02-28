@@ -27,6 +27,7 @@
 	ui = auto
 [core]
 	excludesfile = ~/.cvsignore
+	excludesfile = ~/.gitignore_global
 	editor = vim
 	whitespace = warn
 [help]
