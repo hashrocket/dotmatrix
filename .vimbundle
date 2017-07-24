@@ -40,6 +40,7 @@ tpope/vim-sleuth
 tpope/vim-speeddating
 tpope/vim-surround
 tpope/vim-unimpaired
+tpope/vim-vinegar
 tpope/vim-vividchalk
 vim-ruby/vim-ruby
 vim-scripts/bufexplorer.zip
