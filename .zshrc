@@ -126,3 +126,5 @@ cdpath=(~ ~/src $DEV_DIR $SOURCE_DIR)
 
 # remove duplicates in $PATH
 typeset -aU path
+
+[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
