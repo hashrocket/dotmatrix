@@ -3,6 +3,7 @@
 path="$(command hr-cd "$1")"
 
 if [ -d "$path" ]; then
+  echo PGDATABASE=`basename $path`"_development" > "$TMPFILE"
   echo "cd $path"
 else
   echo "No such directory: $path" >&2
