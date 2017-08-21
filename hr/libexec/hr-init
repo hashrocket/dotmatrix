@@ -56,12 +56,17 @@ ${wrapper_function:-hr}() {
     shift
   fi
 
+  export TMPFILE=/tmp/hr-export-source
+
   case "\$command" in
   ${commands[*]})
     eval \`hr "sh-\$command" "\$@"\`;;
   *)
     command hr "\$command" "\$@";;
   esac
+
+  export \`cat \$TMPFILE 2> /dev/null\` > /dev/null
+  rm -f $TMPFILE
 }
 EOS
 
