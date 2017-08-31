@@ -1,2 +1,2 @@
 #!/usr/bin/env ruby
-puts 'Deprecated. Please use :PlugInstall from within vim.'
+puts 'DEPRECATED. Please use :PlugInstall and :PlugUpdate from within vim.'
