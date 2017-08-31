@@ -78,28 +78,28 @@ $ cat FILES
 $ bin/install # Only installs .tmux.conf and .sharedrc
 ```
 
-## Vim bundles
+## Vim Plugins
 
 For Vim users, there's another command you might want to run, after you've run
-`bin/install`:
+`bin/install` from inside Vim:
 
 ```
-$ hr vimbundle
+:PlugInstall
 ```
 
-This will install the set of Vim bundles we use.
+This will install the set of Vim plugins we use.
 
 After you've done `./bin/install`, you'll have a `.vimbundle` file and this is a
-manifest of sorts that the `vimbundles.sh` script will use to install various
-vim plugins. If you have other plugins that you like that aren't on this list,
-you can put them in a `~/.vimbundle.local` and that will be installed
-secondarily.
+manifest of sorts that [Vim Plug](https://github.com/junegunn/vim-plug) script
+will use to install various vim plugins. If you have other plugins that you like
+that aren't on this list, you can put them in a `~/.vimbundle.local` and that
+will be installed secondarily.
 
 The `~/.vimbundle.local` file should include one plugin per line, each having
 the following format:
 
 ```
-github-user/repo-name
+Plug 'github-user/repo-name'
 ```
 
 You need not include a trailing `.git`.
