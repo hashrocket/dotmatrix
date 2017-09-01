@@ -87,6 +87,12 @@ For Vim users, there's another command you might want to run, after you've run
 :PlugInstall
 ```
 
+Or from the command line:
+
+```sh
+vim -c 'PlugInstall | qa'
+```
+
 This will install the set of Vim plugins we use.
 
 After you've done `./bin/install`, you'll have a `.vimbundle` file and this is a
@@ -103,6 +109,14 @@ Plug 'github-user/repo-name'
 ```
 
 You need not include a trailing `.git`.
+
+If you are upgrading from a previous version of Dotmatrix that used Pathogen
+make sure to update your .vimbundle.local to the above format. You can do that
+easily with the following command:
+
+```sh
+sed -ie "s/\(.*\)/Plug '\1'/" .vimbundle.local
+```
 
 ## hr
 
