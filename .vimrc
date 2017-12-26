@@ -9,6 +9,7 @@ syntax on
 filetype plugin indent on
 
 set visualbell
+set t_vb=
 
 set wildmenu
 set wildmode=list:longest,full
