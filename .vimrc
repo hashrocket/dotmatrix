@@ -8,6 +8,9 @@ endif
 syntax on
 filetype plugin indent on
 
+set ignorecase
+set smartcase
+
 set visualbell
 
 set wildmenu
