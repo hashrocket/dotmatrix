@@ -41,6 +41,31 @@ augroup END
     nnoremap <silent> <leader>pe :ALEPreviousWrap<CR>
   " }}}
 
+  " NeoFormat: {{{
+    " shows the output from prettier - useful for syntax errors
+    nnoremap <leader>pt :!prettier %<CR>
+
+    " ONLY PRETTIER (don't run any other formatters for these file types)
+    let g:neoformat_enabled_javascript = ['prettier']
+    let g:neoformat_enabled_css = ['prettier']
+    let g:neoformat_enabled_scss = ['prettier']
+    let g:neoformat_enabled_json = ['prettier']
+
+    " default settings for prettier on javascript
+    let g:neoformat_javascript_prettier = {
+      \ 'exe': 'prettier',
+      \ 'args': ['--stdin', '--print-width 80', '--single-quote', '--trailing-comma es5'],
+      \ 'stdin': 1,
+      \ }
+
+    " OPT-IN - to run neoformat when saving certain files copy the following
+    " into your .vimrc.local:
+    "
+    " augroup NeoformatAutoFormat
+    "   autocmd!
+    "   autocmd BufWritePre *.{js,jsx,css,scss,json,ex,exs} Neoformat
+    " augroup END
+  " }}}
 " }}}
 
 if filereadable(expand('~/.vimrc.local'))
