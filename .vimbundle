@@ -65,6 +65,10 @@ Plug 'elixir-lang/vim-elixir'
 Plug 'mxw/vim-jsx'
 Plug 'sbdchd/neoformat'
 
+" staticly check code and highlight errors (async syntastic replacement)
+Plug 'w0rp/ale'
+
+
 if filereadable(expand('~/.vimbundle.local'))
   source ~/.vimbundle.local
 endif
