@@ -21,6 +21,7 @@
 	reset-authors = commit --amend --reset-author -CHEAD
 	rmbranch = "!f(){ git branch -d ${1} && git push origin --delete ${1}; };f"
         snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
+	recent = for-each-ref --sort=-committerdate --count=10 --format='%(refname:short)' refs/heads/ # https://twitter.com/djm_/status/961289486721339392
 [branch]
 	autosetuprebase = always
 [color]
