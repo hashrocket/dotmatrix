@@ -30,6 +30,19 @@ augroup vimrc
   autocmd GuiEnter * set columns=120 lines=70 number
 augroup END
 
+" Plugin Configuration: {{{
+
+  " ALE: {{{
+    let g:ale_sign_error = 'X'
+    let g:ale_sign_warning = '!'
+    highlight link ALEWarningSign ErrorMsg
+    highlight link ALEErrorSign WarningMsg
+    nnoremap <silent> <leader>ne :ALENextWrap<CR>
+    nnoremap <silent> <leader>pe :ALEPreviousWrap<CR>
+  " }}}
+
+" }}}
+
 if filereadable(expand('~/.vimrc.local'))
   source ~/.vimrc.local
 endif
