@@ -122,6 +122,7 @@ alias gra='git rebase --abort'
 alias gco='git checkout'
 alias reset-authors='git commit --amend --reset-author -C HEAD'
 alias vi='vim'
+alias grim='git rebase -i master'
 
 if [ "$(uname)" = Darwin -a "$(command -v vim)" = /usr/bin/vim ]; then
   bettervim="/Applications/MacVim.app/Contents/MacOS/Vim"
