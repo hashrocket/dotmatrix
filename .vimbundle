@@ -62,7 +62,6 @@ Plug 'nelstrom/vim-textobj-rubyblock'
 Plug 'exu/pgsql.vim'
 Plug 'elixir-lang/vim-elixir'
 Plug 'mxw/vim-jsx'
-Plug 'sbdchd/neoformat'
 Plug 'hashrocket/vim-hashrocket'
 
 " staticly check code and highlight errors (async syntastic replacement)
