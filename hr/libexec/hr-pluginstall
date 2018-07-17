@@ -1,2 +1,5 @@
 #!/usr/bin/env bash
+# Usage: hr pluginstall
+# Summary: Install/Update vim plugins from `vimbundle`
+# Help: Just run `hr plugininstall`
 vim -c ':PlugInstall | PlugUpdate | qa'
