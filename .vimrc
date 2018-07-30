@@ -12,6 +12,7 @@ set ignorecase
 set smartcase
 
 set visualbell
+set t_vb=
 
 set wildmenu
 set wildmode=list:longest,full
