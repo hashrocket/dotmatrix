@@ -1,0 +1,93 @@
+#!/bin/bash
+# Usage: coauthor [devs]
+# Summary: Assign coauthors for commiting to git repo
+# Help:
+# Example file format in $HOME/.coauthorrc:
+#
+# GIT_USER_NAME=Hashrocket Workstation
+# GIT_USER_EMAIL=dev@hashrocket.com
+
+# mattpolito=Matt Polito <matt.polito@hashrocket.com>
+# dillonhafer=Dillon Hafer <dillon.hafer@hashrocket.com>
+
+projectDir=${PWD##*/}
+authorsFile="$HOME/.coauthorrc"
+rcfile="$HOME/.coauthor.$projectDir"
+coauthorDeclaration="Co-authored-by:"
+autoCompleteList=()
+gitUserName=""
+gitUserEmail=""
+
+if [ ! -f "$authorsFile" ]; then
+  echo "Could not find configuration file at $authorsFile:"
+  echo -e "$(hr help coauthor)"
+  exit 1
+fi
+
+# Create file
+touch $rcfile
+
+# If no args, display current file
+if (( $# == 0 )); then
+  echo "Current co-authors:"
+  grep $coauthorDeclaration $rcfile
+  exit 0
+fi
+
+# Parse authors file
+while IFS= read line
+do
+  if [[ $line != GIT_USER_* ]]; then
+    name=$(echo $line | cut -d'=' -f 1)
+    autoCompleteList+=("$name")
+    declare "devs_$line"
+  fi
+
+  if [[ $line == GIT_USER_EMAIL* ]]; then
+    gitUserEmail=$(echo $line | cut -d'=' -f 2)
+  fi
+
+  if [[ $line == GIT_USER_NAME* ]]; then
+    gitUserName=$(echo $line | cut -d'=' -f 2)
+  fi
+done <"$authorsFile"
+
+arrayGet() {
+  local array=$1 index=$2
+  local i="${array}_$index"
+  printf '%s' "${!i}"
+}
+
+# 1. Autocomplete
+if [ "$1" = "--complete" ]; then
+  for dev in ${autoCompleteList[@]}; do
+    echo "$dev"
+  done
+  exit 0
+fi
+
+# 2. Ensure git user name
+if [ "$gitUserName" == "" ]; then
+  echo "Please provide a git user name in $authorsFile"
+  echo -e "$(hr help coauthor)"
+  exit 1
+fi
+
+# 3. Ensure git user email
+if [ "$gitUserEmail" == "" ]; then
+  echo "Please provide a git user email in $authorsFile"
+  echo -e "$(hr help coauthor)"
+  exit 1
+fi
+
+# Populate co author file
+echo -e "\n" > $rcfile
+for dev in "$@"; do
+  by=$(arrayGet "devs" "$dev")
+  echo "$coauthorDeclaration $by" >> $rcfile
+done
+
+# Configure git
+git config user.name "$gitUserName"
+git config user.email "$gitUserEmail"
+git config commit.template $rcfile
