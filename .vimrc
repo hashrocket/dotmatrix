@@ -10,6 +10,7 @@ filetype plugin indent on
 
 set ignorecase
 set smartcase
+set number
 
 set visualbell
 
