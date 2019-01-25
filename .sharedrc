@@ -8,6 +8,7 @@ export SOURCE_DIR
 export HASHROCKET_DIR=$SOURCE_DIR
 
 # Paths for prepending
+#
 for dir in /usr/local/bin "$HOME/bin" .git/safe/../../bin; do
   case "$PATH:" in
     *:"$dir":*) PATH="`echo "$PATH"|sed -e "s#:$dir##"`" ;;
@@ -19,6 +20,7 @@ for dir in /usr/local/bin "$HOME/bin" .git/safe/../../bin; do
 done
 
 # Paths for appending
+#
 for dir in /usr/local/sbin /opt/local/sbin /usr/X11/bin; do
   case ":$PATH:" in
     *:"$dir":*) ;;
@@ -26,21 +28,45 @@ for dir in /usr/local/sbin /opt/local/sbin /usr/X11/bin; do
   esac
 done
 
+# Ruby/Rails specific aliases
+#
+alias groutes='rake routes | grep $@'
+alias rerun-cucumber="tmux showb | grep cucumber | awk '{print \$2}' | xargs cucumber"
+alias rerun-rspec="tmux showb | grep rspec | awk '{print \$2}' | xargs rspec"
+alias sc='rails console'
+alias sdbc='rails dbconsole -p'
+alias ss='rails server'
+
+# Ruby/Rails functions
+#
+twiki () {
+  rake db:migrate && rake db:migrate:redo && rake db:test:prepare
+}
+
+# File management aliases
+#
+alias ..='cd ..'
+alias cd..='cd ..'
+alias l="ls -F -G -lah"
+alias la="ls -a"
+alias ll='ls -l'
+alias lsd='ls -ld *(-/DN)'
+alias md='mkdir -p'
+alias rd='rmdir'
+
+# File management functions
+#
+l.() {
+  ls -ld "${1:-$PWD}"/.[^.]*
+}
+
+# Git functions
+#
 if command -v hub >/dev/null; then
   git() {
     command hub "$@"
   }
 fi
-
-twiki () {
-  rake db:migrate && rake db:migrate:redo && rake db:test:prepare
-}
-
-alias sc='rails console'
-alias ss='rails server'
-alias sdbc='rails dbconsole -p'
-
-alias ll='ls -l'
 
 # git_prompt_info accepts 0 or 1 arguments (i.e., format string)
 # returns text to add to bash PS1 prompt (includes branch name)
@@ -100,29 +126,34 @@ gref() {
   command git --no-pager diff --cached --stat | command grep "|\s*0$" | awk '{system("command git reset " $1)}'
 }
 
+# Git aliases
+#
 alias gap='git add -p'
-alias gnap='git add -N --ignore-removal . && gap && gref'
-alias glp='git log -p'
-alias glg='git log --graph --oneline --decorate --color --all'
 alias gb='git branch'
 alias gc='git commit -v'
 alias gca='git commit -a -v'
 alias gcl='git clean -f -d'
+alias gco='git checkout'
 alias gd='git diff'
 alias gdc='git diff --cached'
 alias gdh='git diff HEAD'
 alias gl='git pull'
+alias glg='git log --graph --oneline --decorate --color --all'
 alias glod='git log --oneline --decorate'
+alias glp='git log -p'
+alias gnap='git add -N --ignore-removal . && gap && gref'
 alias gp='git push'
 alias gpr='git pull --rebase'
-alias gst='git status'
 alias gr='git rebase'
-alias grc='git rebase --continue'
 alias gra='git rebase --abort'
-alias gco='git checkout'
-alias reset-authors='git commit --amend --reset-author -C HEAD'
-alias vi='vim'
+alias grc='git rebase --continue'
 alias grim='git rebase -i master'
+alias gst='git status'
+alias reset-authors='git commit --amend --reset-author -C HEAD'
+
+# Aliases
+#
+alias vi='vim'
 
 if [ "$(uname)" = Darwin -a "$(command -v vim)" = /usr/bin/vim ]; then
   bettervim="/Applications/MacVim.app/Contents/MacOS/Vim"

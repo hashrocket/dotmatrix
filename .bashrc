@@ -45,4 +45,9 @@ if [ -f '/usr/local/etc/bash_completion.d/git-completion.bash' ]; then
   source '/usr/local/etc/bash_completion.d/git-completion.bash'
 fi
 
+# Aliases
+# * Additional aliases are found in `.sharedrc`
+#
+alias reload='source ~/.bash_profile; echo -e "\n\u2699  \033[0;33mBASH config reloaded\033[0m \u2699"'
+
 [ ! -f "$HOME/.bashrc.local" ] || . "$HOME/.bashrc.local"

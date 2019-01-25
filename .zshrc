@@ -92,20 +92,10 @@ setopt INC_APPEND_HISTORY
 (( ${+EDITOR}  )) || export EDITOR='vim'
 export PSQL_EDITOR='vim -c"setf sql"'
 
-# aliases
-alias l="ls -F -G -lah"
-alias ll="ls -l"
-alias la="ls -a"
-alias lsd='ls -ld *(-/DN)'
-alias md='mkdir -p'
-alias rd='rmdir'
-alias cd..='cd ..'
-alias ..='cd ..'
-alias groutes='rake routes | grep $@'
-
-l.() {
-  ls -ld "${1:-$PWD}"/.[^.]*
-}
+# Aliases
+# * Additional aliases are found in `.sharedrc`
+#
+alias reload='source ~/.zshrc; echo -e "\n\u2699  \e[33mZSH config reloaded\e[0m \u2699"'
 
 # rvm-install added line:
 if [[ -s "$HOME/.rvm/scripts/rvm" ]] ; then source "$HOME/.rvm/scripts/rvm" ; fi
