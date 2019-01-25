@@ -1,4 +1,0 @@
-# vim:set ft=sh sw=2 sts=2:
-
-echo "DEPRECATION: .hashrc has been moved to .sharedrc - update your dotfiles accordingly."
-source "$HOME/.sharedrc"
