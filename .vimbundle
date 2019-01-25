@@ -9,23 +9,28 @@ end
 
 call plug#begin('~/.vim/bundle')
 
-
 " Make sure you use single quotes
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'adamlowe/vim-slurper'
-Plug 'jbranchaud/vim-bdubs'
+Plug 'elixir-lang/vim-elixir'
 Plug 'ervandew/supertab'
+Plug 'exu/pgsql.vim'
 Plug 'godlygeek/tabular'
 Plug 'gregsexton/gitv'
+Plug 'hashrocket/vim-hashrocket'
 Plug 'heartsentwined/vim-emblem'
+Plug 'jbranchaud/vim-bdubs'
 Plug 'jgdavey/tslime.vim'
 Plug 'jgdavey/vim-blockle'
 Plug 'jgdavey/vim-railscasts'
 Plug 'jgdavey/vim-turbux'
 Plug 'jgdavey/vim-weefactor'
+Plug 'kana/vim-textobj-user'
 Plug 'kchmck/vim-coffee-script'
 Plug 'leshill/vim-json'
 Plug 'mileszs/ack.vim'
+Plug 'mxw/vim-jsx'
+Plug 'nelstrom/vim-textobj-rubyblock'
 Plug 'pangloss/vim-javascript'
 Plug 'rondale-sc/vim-spacejam'
 Plug 'slim-template/vim-slim'
@@ -57,16 +62,9 @@ Plug 'vim-ruby/vim-ruby'
 Plug 'vim-scripts/bufexplorer.zip'
 Plug 'vim-scripts/bufkill.vim'
 Plug 'wgibbs/vim-irblack'
-Plug 'kana/vim-textobj-user'
-Plug 'nelstrom/vim-textobj-rubyblock'
-Plug 'exu/pgsql.vim'
-Plug 'elixir-lang/vim-elixir'
-Plug 'mxw/vim-jsx'
-Plug 'hashrocket/vim-hashrocket'
 
 " staticly check code and highlight errors (async syntastic replacement)
 Plug 'w0rp/ale'
-
 
 if filereadable(expand('~/.vimbundle.local'))
   source ~/.vimbundle.local
