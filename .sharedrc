@@ -30,6 +30,7 @@ done
 
 # Ruby/Rails specific aliases
 #
+alias be='bundle exec'
 alias groutes='rake routes | grep $@'
 alias rerun-cucumber="tmux showb | grep cucumber | awk '{print \$2}' | xargs cucumber"
 alias rerun-rspec="tmux showb | grep rspec | awk '{print \$2}' | xargs rspec"
