@@ -35,6 +35,7 @@ alias groutes='rake routes | grep $@'
 alias rerun-cucumber="tmux showb | grep cucumber | awk '{print \$2}' | xargs cucumber"
 alias rerun-rspec="tmux showb | grep rspec | awk '{print \$2}' | xargs rspec"
 alias sc='rails console'
+alias scs='rails console --sandbox'
 alias sdbc='rails dbconsole -p'
 alias ss='rails server'
 
