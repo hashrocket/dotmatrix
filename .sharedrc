@@ -154,6 +154,17 @@ alias grim='git rebase -i master'
 alias gst='git status'
 alias reset-authors='git commit --amend --reset-author -C HEAD'
 
+# Docker aliases
+#
+alias dcu="docker-compose up"
+alias dcud="docker-compose up -d"
+alias dcd="docker-compose down"
+alias dcs="docker-compose stop"
+alias dcp="docker-compose ps"
+alias dcl="docker-compose logs -f"
+alias dcr="docker-compose run"
+alias dce="docker-compose exec"
+
 # Aliases
 #
 alias vi='vim'
