@@ -1,7 +1,16 @@
 #!/bin/bash
 # Usage: coauthor [devs]
+#
 # Summary: Assign coauthors for commiting to git repo
+#
 # Help:
+#   --complete     Display list of authors to autocomplete
+#   --unset        Remove coauthors
+#
+# Add authors: `hr coauthor dillonhafer mattpolito`
+#
+# Remove authors: `hr coauthor --unset`
+#
 # Example file format in $HOME/.coauthorrc:
 #
 # GIT_USER_NAME=Hashrocket Workstation
@@ -24,11 +33,18 @@ if [ ! -f "$authorsFile" ]; then
   exit 1
 fi
 
-# Create file
-touch $rcfile
+if [ "$1" = "--unset" ]; then
+  rm $rcfile
+  exit 0
+fi
 
 # If no args, display current file
 if (( $# == 0 )); then
+  if [ ! -f "$rcfile" ]; then
+    echo -e "\n\033[1mCo-authors not currently defined for this repository\033[0m"
+    exit 0
+  fi
+
   echo "Current co-authors:"
   grep $coauthorDeclaration $rcfile
   exit 0
