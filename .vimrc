@@ -60,6 +60,8 @@ nnoremap <leader>pt :!prettier %<CR>
 
 " }}}
 
+let g:turbux_command_prefix = 'bundle exec'
+
 if filereadable(expand('~/.vimrc.local'))
   source ~/.vimrc.local
 endif
