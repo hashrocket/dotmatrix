@@ -128,6 +128,23 @@ gref() {
   command git --no-pager diff --cached --stat | command grep "|\s*0$" | awk '{system("command git reset " $1)}'
 }
 
+# git fix up commits
+gfix() {
+  if (($# < 1)); then
+    log_error "Usage:\n";
+    echo "  gfix <git-sha>";
+    return 0;
+  fi
+
+  git_sha=$1;
+  git cat-file -t "${git_sha}"
+  if [[ $? -eq 0 ]]; then
+    git commit --fixup ${git_sha} && git stash && git rebase -i --autosquash ${git_sha}~1 && git stash pop
+  else
+    log_error "Invalid git commit sha: '${git_sha}'";
+  fi
+}
+
 # Git aliases
 #
 alias gap='git add -p'
