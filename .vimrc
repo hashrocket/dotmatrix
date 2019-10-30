@@ -45,14 +45,14 @@ nnoremap <leader>pt :!prettier %<CR>
     nnoremap <silent> <leader>pe :ALEPreviousWrap<CR>
 
     let g:ale_fixers = {
+          \   'bash': ['shfmt'],
+          \   'elixir': ['mix_format'],
           \   'javascript': ['prettier'],
           \   'javascript.jsx': ['prettier'],
           \   'json': ['prettier'],
-          \   'scss': ['prettier'],
           \   'ruby': ['rubocop'],
-          \   'bash': ['shfmt'],
+          \   'scss': ['prettier'],
           \   'zsh': ['shfmt'],
-          \   'elixir': ['mix_format'],
           \}
 
     let g:ale_fix_on_save = 1
