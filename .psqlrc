@@ -3,3 +3,4 @@
 \x auto
 \set QUIET 0
 \timing
+\set HISTFILE ~/.psql_history-:DBNAME
