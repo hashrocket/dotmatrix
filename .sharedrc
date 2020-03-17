@@ -45,6 +45,26 @@ twiki () {
   rake db:migrate && rake db:migrate:redo && rake db:test:prepare
 }
 
+sshhr() {
+  if (($# < 1)); then
+    echo -e "\033[31m[ERROR] \033[0m=> Usage:";
+    echo "  $0 <host> [port1] [port2] ...";
+    return 0;
+  fi
+
+  host=$1;
+  shift;
+
+  ports=("5900" "$@");
+  fwd_ports=""
+  for port in "$ports[@]"; do
+    fwd_ports="-L ${port}:localhost:${port} ${fwd_ports}"
+  done
+
+  eval "ssh ${fwd_ports}${host}";
+}
+
+
 # File management aliases
 #
 alias ..='cd ..'
