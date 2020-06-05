@@ -31,6 +31,11 @@ augroup vimrc
   autocmd GuiEnter * set columns=120 lines=70 number
 augroup END
 
+augroup filetype_vim
+  autocmd!
+  autocmd FileType vim setlocal foldmethod=marker
+augroup END
+
 " shows the output from prettier - useful for syntax errors
 nnoremap <leader>pt :!prettier %<CR>
 
