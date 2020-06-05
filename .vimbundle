@@ -9,59 +9,205 @@ end
 
 call plug#begin('~/.vim/bundle')
 
-" Make sure you use single quotes
-Plug 'AndrewRadev/splitjoin.vim'
-Plug 'adamlowe/vim-slurper'
+" {{{ Language Support Plugins
+Plug 'vim-ruby/vim-ruby'
 Plug 'elixir-lang/vim-elixir'
-Plug 'ervandew/supertab'
 Plug 'exu/pgsql.vim'
-Plug 'godlygeek/tabular'
-Plug 'gregsexton/gitv'
-Plug 'hashrocket/vim-hashrocket'
 Plug 'heartsentwined/vim-emblem'
-Plug 'jbranchaud/vim-bdubs'
-Plug 'jgdavey/tslime.vim'
-Plug 'jgdavey/vim-blockle'
-Plug 'jgdavey/vim-railscasts'
-Plug 'jgdavey/vim-turbux'
-Plug 'jgdavey/vim-weefactor'
-Plug 'kana/vim-textobj-user'
-Plug 'kchmck/vim-coffee-script'
-Plug 'leshill/vim-json'
-Plug 'mileszs/ack.vim'
-Plug 'mxw/vim-jsx'
-Plug 'nelstrom/vim-textobj-rubyblock'
 Plug 'pangloss/vim-javascript'
-Plug 'rondale-sc/vim-spacejam'
 Plug 'slim-template/vim-slim'
-Plug 'therubymug/vim-pyte'
-Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-bundler'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-cucumber'
-Plug 'tpope/vim-endwise'
-Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-git'
 Plug 'tpope/vim-haml'
 Plug 'tpope/vim-markdown'
-Plug 'tpope/vim-projectionist'
-Plug 'tpope/vim-ragtag'
-Plug 'tpope/vim-rails'
-Plug 'tpope/vim-rake'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-rsi'
-Plug 'tpope/vim-sensible'
-Plug 'tpope/vim-sleuth'
-Plug 'tpope/vim-speeddating'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-vinegar'
-Plug 'tpope/vim-vividchalk'
-Plug 'vim-ruby/vim-ruby'
-Plug 'vim-scripts/bufexplorer.zip'
-Plug 'vim-scripts/bufkill.vim'
+Plug 'leshill/vim-json'
+Plug 'MaxMEllon/vim-jsx-pretty'
+" }}}
+
+" {{{ Themes
+Plug 'jgdavey/vim-railscasts'
+Plug 'therubymug/vim-pyte'
 Plug 'wgibbs/vim-irblack'
+Plug 'tpope/vim-vividchalk'
+" }}}
+
+" {{{ GIT Plugins
+" No longer maintained by this person
+Plug 'gregsexton/gitv'
+" Git plugin so awesome it should be illegal
+" Everyone should really learn how to use this better.
+Plug 'tpope/vim-fugitive'
+" Fairly active, but with no README
+Plug 'tpope/vim-git'
+" }}}
+
+" Primary function
+" gS - split a one liner into multiple lines
+" gJ - do the opposite
+Plug 'AndrewRadev/splitjoin.vim'
+
+" Used with pivotal stories for a bulk import
+ Plug 'adamlowe/vim-slurper'
+
+" Support tab completion
+" TODO: is there a better tab completion plugin?
+Plug 'ervandew/supertab'
+
+" Allows you to easily line things up like so:
+" a = 1
+" back = 3
+"
+" Becomes
+" a    = 1
+" back = 3
+"
+" Which is a pattern that disgusts me. So I will be removing this to an
+" 'optional' load file that you can un-comment in case you're working with
+" people who prefer their code to look awful.
+Plug 'godlygeek/tabular'
+
+" Buffer deletion in vim.
+" This could be useful if you have a long running instance of vim and you were
+" looking to start work on eg a different branch. However, I don't know that I
+" would ever remeber to use it...
+" Tentative removal
+Plug 'jbranchaud/vim-bdubs'
+Plug 'vim-scripts/bufkill.vim'
+
+" General helpers and abbreviations such as
+" bpry => require 'pry'; binding.pry;
+" As well as extensions to projections
+Plug 'hashrocket/vim-hashrocket'
+
+" This is the plugin responsible for allowing us to do <leader>t to
+" run our rspec tests from the test file.  I need to look into the internals.
+" Either way, a definite keep.
+Plug 'jgdavey/tslime.vim'
+Plug 'jgdavey/vim-turbux'
+
+" This is the block toggle for ruby block styles
+" Worth keeping around
+Plug 'jgdavey/vim-blockle'
+
+Plug 'jgdavey/vim-weefactor'
+
+" This is a plugin to allow user defined text objects, which is really friggin
+Plug 'kana/vim-textobj-user'
+
+" Treats ruby blocks like text objects
+" Depends on kana/vim-textobj-user
+Plug 'nelstrom/vim-textobj-rubyblock'
+
+" You should be using Rg
+Plug 'mileszs/ack.vim'
+
+" Auto-remove whitespace on write
+Plug 'rondale-sc/vim-spacejam'
+
+" Provides powerful utilities for Abbreviation, Substitution and Coercion
+" (changing the type of casing for variables)
+Plug 'tpope/vim-abolish'
+
+" Adds support for bundler and gemfile highlighting
+" as well as some basic functionality
+Plug 'tpope/vim-bundler'
+
+" This is where gc and gcc come from
+Plug 'tpope/vim-commentary'
+
+" Syntax highlighting and editing commands for cucumber files
+" should go with things that I don't normally use
+Plug 'tpope/vim-cucumber'
+
+" Adds support for ending structures
+" Example: blocks in ruby code like do/end
+Plug 'tpope/vim-endwise'
+
+" Provides vim sugar for common commands such as mv and write
+" :Delete: Delete a buffer and the file on disk simultaneously.
+" :Unlink: Like :Delete, but keeps the now empty buffer.
+" :Move: Rename a buffer and the file on disk simultaneously.
+" :Rename: Like :Move, but relative to the current file's containing directory.
+" :Chmod: Change the permissions of the current file.
+" :Mkdir: Create a directory, defaulting to the parent of the current file.
+" :Cfind: Run find and load the results into the quickfix list.
+" :Clocate: Run locate and load the results into the quickfix list.
+" :Lfind/:Llocate: Like above, but use the location list.
+" :Wall: Write every open window. Handy for kicking off tools like guard.
+" :SudoWrite: Write a privileged file with sudo.
+" :SudoEdit: Edit a privileged file with sudo.
+" File type detection for sudo -e is based on original file name.
+" New files created with a shebang line are automatically made executable.
+Plug 'tpope/vim-eunuch'
+
+" This is where projections come from
+" The entire idea of them is to make editing things within a well defined
+" directory structure much easier, I use them sometimes, and generally they
+" are quite useful when defined for a rails app, but they sometimes are not
+" functional due to idiosyncrisies of the project that you are in. This is
+" quite frustrating and keeps me from using them as opposed to FZF.
+Plug 'tpope/vim-projectionist'
+
+" Works with vim-surround
+" Gives you completions for the different types of erb tags and does surround
+" things.
+Plug 'tpope/vim-ragtag'
+
+" This is a big plugin for working with rails apps. It gives you `gf` to go to
+" files that your cursor is on ( such as a partial ) and it also has some
+" functionality that I was not familiar with like :Extract over a selection to
+" create a partial from the selected content. This could be incredibly useful
+" on the odd occasion.
+Plug 'tpope/vim-rails'
+
+" Let's you use projectionist type commands not in a rails app?
+Plug 'tpope/vim-rake'
+
+" This plugin allows others to create repeatable plugin actions, which is what
+" `.` does.
+Plug 'tpope/vim-repeat'
+
+" Gives you some common readline shortcuts.
+" https://readline.kablamo.org/emacs.html
+Plug 'tpope/vim-rsi'
+
+" This doesn't seem strictly necessary.
+" It's a collection of settings for vim that are considered reasonable by the
+" author.
+Plug 'tpope/vim-sensible'
+
+" This does some automatic indent setting magic. However, I have noticed on a
+" number of occasions that it's not what I want it to be. So perhaps this is a
+" good place to start figuring that out.
+Plug 'tpope/vim-sleuth'
+
+" This lets you use <C-a>/<C-x> (inc/dec) on dates, which is pretty cool if
+" you're futzing with them in a way that I am almost never futzing with
+" them...
+Plug 'tpope/vim-speeddating'
+
+" This lets you surround things with other things and I love it.
+" Example: ysiw + { will surround with {}
+" To surround tightly use the closing form, otherwise will have a space
+" inside.
+Plug 'tpope/vim-surround'
+
+" Provides aliases for things like quickfix traversal
+" [q
+" [f
+Plug 'tpope/vim-unimpaired'
+
+" This helps make netrw much more powerful, and there are some things in here
+" that I really ought to have known.
+" In particular:
+" Press '.' and you get :* path/to/file where * is the cursor
+" Press '!' and you get the same thing as above but with a preceeding '!'
+" Press Ctrl+^ and you will go back to wherever you were last
+" Press ~ to go to $HOME
+Plug 'tpope/vim-vinegar'
+
+" Allows you to explore your buffers
+" This is kind of obviated by the use of FZF from junegunn
+" Personally I prefer FZF
+Plug 'vim-scripts/bufexplorer.zip'
 
 " staticly check code and highlight errors (async syntastic replacement)
 Plug 'w0rp/ale'
