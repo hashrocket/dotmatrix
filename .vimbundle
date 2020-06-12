@@ -58,17 +58,11 @@ Plug 'ervandew/supertab'
 " Becomes
 " a    = 1
 " back = 3
-"
-" Which is a pattern that disgusts me. So I will be removing this to an
-" 'optional' load file that you can un-comment in case you're working with
-" people who prefer their code to look awful.
 Plug 'godlygeek/tabular'
 
 " Buffer deletion in vim.
 " This could be useful if you have a long running instance of vim and you were
-" looking to start work on eg a different branch. However, I don't know that I
-" would ever remeber to use it...
-" Tentative removal
+" looking to start work on eg a different branch.
 Plug 'jbranchaud/vim-bdubs'
 Plug 'vim-scripts/bufkill.vim'
 
@@ -78,25 +72,29 @@ Plug 'vim-scripts/bufkill.vim'
 Plug 'hashrocket/vim-hashrocket'
 
 " This is the plugin responsible for allowing us to do <leader>t to
-" run our rspec tests from the test file.  I need to look into the internals.
-" Either way, a definite keep.
+" run our rspec tests from the test file.
+" <leader>t
+" <leader>T
+" These are the two most used mappings that I'm aware of.
 Plug 'jgdavey/tslime.vim'
 Plug 'jgdavey/vim-turbux'
 
 " This is the block toggle for ruby block styles
-" Worth keeping around
 Plug 'jgdavey/vim-blockle'
 
 Plug 'jgdavey/vim-weefactor'
 
-" This is a plugin to allow user defined text objects, which is really friggin
+" This is a plugin to allow user defined text objects
+" This is a dependency of a few tpope plugins further down.
 Plug 'kana/vim-textobj-user'
 
 " Treats ruby blocks like text objects
 " Depends on kana/vim-textobj-user
 Plug 'nelstrom/vim-textobj-rubyblock'
 
-" You should be using Rg
+" TODO: in addition to evaluating supertab, this could be replace with Rg
+" Rg is a ripgrep based plugin for doing mostly the same thing as ack.vim, but
+" much faster.
 Plug 'mileszs/ack.vim'
 
 " Auto-remove whitespace on write
@@ -110,11 +108,11 @@ Plug 'tpope/vim-abolish'
 " as well as some basic functionality
 Plug 'tpope/vim-bundler'
 
-" This is where gc and gcc come from
+" This is where gc and gcc come from for commenting out the current
+" line/selection
 Plug 'tpope/vim-commentary'
 
 " Syntax highlighting and editing commands for cucumber files
-" should go with things that I don't normally use
 Plug 'tpope/vim-cucumber'
 
 " Adds support for ending structures
@@ -142,8 +140,7 @@ Plug 'tpope/vim-eunuch'
 " The entire idea of them is to make editing things within a well defined
 " directory structure much easier, I use them sometimes, and generally they
 " are quite useful when defined for a rails app, but they sometimes are not
-" functional due to idiosyncrisies of the project that you are in. This is
-" quite frustrating and keeps me from using them as opposed to FZF.
+" functional due to idiosyncrisies of the project that you are editing.
 Plug 'tpope/vim-projectionist'
 
 " Works with vim-surround
@@ -161,15 +158,14 @@ Plug 'tpope/vim-rails'
 " Let's you use projectionist type commands not in a rails app?
 Plug 'tpope/vim-rake'
 
-" This plugin allows others to create repeatable plugin actions, which is what
-" `.` does.
+" This plugin allows others to create repeatable plugin actions using
+" `.`.
 Plug 'tpope/vim-repeat'
 
 " Gives you some common readline shortcuts.
 " https://readline.kablamo.org/emacs.html
 Plug 'tpope/vim-rsi'
 
-" This doesn't seem strictly necessary.
 " It's a collection of settings for vim that are considered reasonable by the
 " author.
 Plug 'tpope/vim-sensible'
@@ -179,13 +175,11 @@ Plug 'tpope/vim-sensible'
 " good place to start figuring that out.
 Plug 'tpope/vim-sleuth'
 
-" This lets you use <C-a>/<C-x> (inc/dec) on dates, which is pretty cool if
-" you're futzing with them in a way that I am almost never futzing with
-" them...
+" This lets you use <C-a>/<C-x> (inc/dec) on dates
 Plug 'tpope/vim-speeddating'
 
-" This lets you surround things with other things and I love it.
-" Example: ysiw + { will surround with {}
+" This lets you surround things with other things
+" Example: ysiw + { will surround the word under the cursor with {}
 " To surround tightly use the closing form, otherwise will have a space
 " inside.
 Plug 'tpope/vim-surround'
@@ -205,8 +199,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
 
 " Allows you to explore your buffers
-" This is kind of obviated by the use of FZF from junegunn
-" Personally I prefer FZF
+" An alternative is to use :Buffers from FZF
 Plug 'vim-scripts/bufexplorer.zip'
 
 " staticly check code and highlight errors (async syntastic replacement)
