@@ -58,7 +58,7 @@ alias rd='rmdir'
 
 # File management functions
 #
-l.() {
+function l {
   ls -ld "${1:-$PWD}"/.[^.]*
 }
 
