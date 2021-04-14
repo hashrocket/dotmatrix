@@ -20,10 +20,10 @@ Plug 'gregsexton/gitv'
 Plug 'hashrocket/vim-hashrocket'
 Plug 'heartsentwined/vim-emblem'
 Plug 'jbranchaud/vim-bdubs'
-Plug 'jgdavey/tslime.vim'
+Plug 'jgdavey/tslime.vim', { 'branch': 'main' }
 Plug 'jgdavey/vim-blockle'
 Plug 'jgdavey/vim-railscasts'
-Plug 'jgdavey/vim-turbux'
+Plug 'jgdavey/vim-turbux', { 'branch': 'main' }
 Plug 'jgdavey/vim-weefactor'
 Plug 'kana/vim-textobj-user'
 Plug 'kchmck/vim-coffee-script'
