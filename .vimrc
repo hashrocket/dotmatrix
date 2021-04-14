@@ -26,8 +26,6 @@ set guifont=Monaco:h16
 set guioptions-=T guioptions-=e guioptions-=L guioptions-=r
 set shell=bash
 
-Plug 'elzr/vim-json'
-
 set conceallevel=0
 let g:vim_json_syntax_conceal = 0
 
