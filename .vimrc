@@ -26,6 +26,9 @@ set guifont=Monaco:h16
 set guioptions-=T guioptions-=e guioptions-=L guioptions-=r
 set shell=bash
 
+set conceallevel=0
+let g:vim_json_syntax_conceal = 0
+
 augroup vimrc
   autocmd!
   autocmd GuiEnter * set columns=120 lines=70 number
