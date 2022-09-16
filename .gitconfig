@@ -44,6 +44,7 @@
 	driver = bundle
 [push]
 	default = tracking
+	autoSetupRemote = true
 [rebase]
 	autosquash = true
 [diff]
