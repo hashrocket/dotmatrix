@@ -63,6 +63,20 @@ nnoremap <leader>pt :!prettier %<CR>
 
 " }}}
 
+" Allow different drivers to quickly re-source their personal configurations
+" for ease of navigation and code manipulation
+fu! Driver(name)
+  let fname='~/.vimrc.' . a:name
+  if filereadable(expand(fname))
+    exec "source " . fname
+  else
+    echomsg "Cannot read configuration " . fname . ", please ensure that you have your developer config present on this machine."
+  endif
+endfu
+
+:command! -nargs=1 Driver :call Driver(<q-args>)
+
+" this may no longer be required.
 if filereadable(expand('~/.vimrc.local'))
   source ~/.vimrc.local
 endif
