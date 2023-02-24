@@ -1,6 +1,0 @@
-alias atomically="hr atomically"
-alias hcd="hr cd"
-alias hclone="hr clone"
-alias mux="hr mux"
-alias freethousand="hr freethousand"
-alias coauthor="hr coauthor"
